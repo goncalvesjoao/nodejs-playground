@@ -1,11 +1,5 @@
 import * as http from 'http';
-import {
-  ApiWebApp,
-  AssetsWebApp,
-  CorsWebApp,
-  PreviewWebApp,
-  RootWebApp,
-} from '@/web-apps';
+import { Api, Assets, Cors, Preview, Root } from '@/mods';
 import { DEFAULT_SERVER_PORT } from '@/constants';
 
 export class WebServer {
@@ -18,13 +12,13 @@ export class WebServer {
   constructor(readonly serverPort: string = DEFAULT_SERVER_PORT) {
     this.server = http.createServer(
       (req: http.IncomingMessage, res: http.ServerResponse) => {
-        const webAppsRack = new CorsWebApp(
-          new ApiWebApp(new PreviewWebApp(new AssetsWebApp(new RootWebApp()))),
+        const serverModules = new Cors(
+          new Api(new Preview(new Assets(new Root()))),
         );
 
         const url = new URL(req.url ?? '', this.url);
 
-        webAppsRack
+        serverModules
           .run({
             body(): Promise<string> {
               let body = '';

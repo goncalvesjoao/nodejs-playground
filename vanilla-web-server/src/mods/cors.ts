@@ -1,11 +1,11 @@
-import type { WebApp, WebAppEnvType, WebAppOutputType } from '@/types';
+import type { ServerMod, ServerModEnvType, ServerModOutputType } from '@/types';
 
-export class CorsWebApp implements WebApp {
-  constructor(public nextApp: WebApp) {}
+export class Cors implements ServerMod {
+  constructor(private nextMod: ServerMod) {}
 
-  async run(env: WebAppEnvType): Promise<WebAppOutputType> {
+  async run(env: ServerModEnvType): Promise<ServerModOutputType> {
     if (env.method !== 'OPTIONS') {
-      return await this.nextApp.run(env);
+      return await this.nextMod.run(env);
     }
 
     return {

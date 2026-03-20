@@ -1,23 +1,24 @@
 import fs from 'fs/promises';
 import path from 'node:path';
-import { resourcesDirPath } from '@/utils';
-import type { WebApp, WebAppEnvType, WebAppOutputType } from '@/types';
+import { rootDirPath } from '@/utils';
+import type { ServerMod, ServerModEnvType, ServerModOutputType } from '@/types';
+import { RESOURCES_DIR_NAME } from '@/constants';
 
 const BASE_PATH = '/assets';
 
-export class AssetsWebApp implements WebApp {
-  protected nextApp: WebApp;
+export class Assets implements ServerMod {
+  constructor(private nextMod: ServerMod) {}
 
-  constructor(nextApp: WebApp) {
-    this.nextApp = nextApp;
-  }
-
-  async run(env: WebAppEnvType): Promise<WebAppOutputType> {
+  async run(env: ServerModEnvType): Promise<ServerModOutputType> {
     if (!env.pathname.startsWith(BASE_PATH) || env.method !== 'GET') {
-      return this.nextApp.run(env);
+      return this.nextMod.run(env);
     }
 
-    const assetAbsolutePath = resourcesDirPath(`.${env.pathname}`);
+    const assetAbsolutePath = path.join(
+      rootDirPath,
+      RESOURCES_DIR_NAME,
+      `.${env.pathname}`,
+    );
 
     const fileExists = await fs
       .stat(assetAbsolutePath)

@@ -1,17 +1,13 @@
-import type { WebApp, WebAppEnvType, WebAppOutputType } from '@/types';
+import type { ServerMod, ServerModEnvType, ServerModOutputType } from '@/types';
 
 const BASE_PATH = '/api';
 
-export class ApiWebApp implements WebApp {
-  protected nextApp: WebApp;
+export class Api implements ServerMod {
+  constructor(private nextMod: ServerMod) {}
 
-  constructor(nextApp: WebApp) {
-    this.nextApp = nextApp;
-  }
-
-  async run(env: WebAppEnvType): Promise<WebAppOutputType> {
+  async run(env: ServerModEnvType): Promise<ServerModOutputType> {
     if (!env.pathname.startsWith(BASE_PATH)) {
-      return this.nextApp.run(env);
+      return this.nextMod.run(env);
     }
 
     if (env.pathname === BASE_PATH || env.pathname === `${BASE_PATH}/`) {
