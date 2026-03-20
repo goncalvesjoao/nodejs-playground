@@ -1,6 +1,8 @@
 import * as http from 'http';
+import type { ServerModInterface } from '@/types';
 import { Api, Assets, Cors, Preview, Root } from '@/server-mods';
 import { DEFAULT_SERVER_PORT } from '@/constants';
+import { ServerMod } from '@/server-mod';
 
 export class WebServer {
   protected server: http.Server;
@@ -12,13 +14,22 @@ export class WebServer {
   constructor(readonly serverPort: string = DEFAULT_SERVER_PORT) {
     this.server = http.createServer(
       (req: http.IncomingMessage, res: http.ServerResponse) => {
-        const serverModules = new Cors(
-          new Api(new Preview(new Assets(new Root()))),
-        );
+        const serverModules: (typeof ServerMod)[] = [
+          Cors,
+          Api,
+          Preview,
+          Assets,
+        ];
+        const serverApp: ServerModInterface =
+          serverModules.reduceRight<ServerModInterface>(
+            (parentServerMod, ServerModule) =>
+              new ServerModule(parentServerMod),
+            new Root(),
+          );
 
         const url = new URL(req.url ?? '', this.url);
 
-        serverModules
+        serverApp
           .run({
             body(): Promise<string> {
               let body = '';

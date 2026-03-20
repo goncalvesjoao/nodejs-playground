@@ -1,14 +1,9 @@
-import type {
-  ServerModInterface,
-  ServerModEnvType,
-  ServerModOutputType,
-} from '@/types';
+import { ServerMod } from '@/server-mod';
+import type { ServerModEnvType, ServerModOutputType } from '@/types';
 
 const BASE_PATH = '/preview';
 
-export class Preview implements ServerModInterface {
-  constructor(private nextMod: ServerModInterface) {}
-
+export class Preview extends ServerMod {
   async run(env: ServerModEnvType): Promise<ServerModOutputType> {
     if (!env.pathname.startsWith(BASE_PATH) || env.method !== 'GET') {
       return this.nextMod.run(env);

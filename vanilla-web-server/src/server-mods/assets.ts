@@ -1,18 +1,13 @@
 import fs from 'fs/promises';
 import path from 'node:path';
 import { rootDirPath } from '@/utils';
-import type {
-  ServerModInterface,
-  ServerModEnvType,
-  ServerModOutputType,
-} from '@/types';
+import type { ServerModEnvType, ServerModOutputType } from '@/types';
 import { RESOURCES_DIR_NAME } from '@/constants';
+import { ServerMod } from '@/server-mod';
 
 const BASE_PATH = '/assets';
 
-export class Assets implements ServerModInterface {
-  constructor(private nextMod: ServerModInterface) {}
-
+export class Assets extends ServerMod {
   async run(env: ServerModEnvType): Promise<ServerModOutputType> {
     if (!env.pathname.startsWith(BASE_PATH) || env.method !== 'GET') {
       return this.nextMod.run(env);

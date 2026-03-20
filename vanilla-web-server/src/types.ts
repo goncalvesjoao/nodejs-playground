@@ -15,6 +15,10 @@ export type ServerModOutputType = {
   body?: any;
 };
 
+// export type ServerModHandlerType = (
+//   env: ServerModEnvType,
+// ) => Promise<ServerModOutputType>;
+
 export interface ServerModInterface {
   run(env: ServerModEnvType): Promise<ServerModOutputType>;
 }
