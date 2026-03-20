@@ -28,6 +28,10 @@
     "prettier": "3.8.1",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0",
-    "typescript-eslint": "^8.57.1"
+    "typescript-eslint": "^8.57.1",
+    "@types/figlet": "^1.7.0"
+  },
+  "dependencies": {
+    "figlet": "^1.11.0"
   }
 }

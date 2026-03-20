@@ -10,7 +10,7 @@ import { RESOURCES_DIR_NAME } from '@/constants';
 
 export class Root implements ServerModInterface {
   async run(env: ServerModEnvType): Promise<ServerModOutputType> {
-    if (env.method !== 'GET') {
+    if (env.method !== 'GET' || env.pathname !== '/') {
       return {
         statusCode: 404,
         headers: { 'Content-Type': 'text/plain' },

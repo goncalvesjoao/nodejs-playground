@@ -13,8 +13,8 @@ void describe('WebServer', () => {
     const responseText = await response.text();
 
     assert.ok(
-      responseText.includes('<h1>Hello World!</h1>'),
-      'Response should include "Hello World!"',
+      responseText.includes('<h1>Home Page</h1>'),
+      'Response should include "Home Page"',
     );
   });
 });
