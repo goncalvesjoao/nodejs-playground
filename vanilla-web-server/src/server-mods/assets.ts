@@ -27,8 +27,10 @@ export class Assets extends ServerMod {
     if (!fileExists) {
       return {
         statusCode: 404,
-        headers: { 'Content-Type': 'text/plain' },
-        body: 'Not Found',
+        headers: { 'Content-Type': 'text/html' },
+        body: await fs.readFile(
+          path.join(rootDirPath, RESOURCES_DIR_NAME, 'not_found.html'),
+        ),
       };
     }
 
