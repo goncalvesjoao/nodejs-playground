@@ -1,17 +1,20 @@
 import { after, before, describe, test } from 'node:test';
-import assert from "node:assert/strict";
+import assert from 'node:assert/strict';
 import { WebServer } from '@/web-server';
 
 const webServer = new WebServer();
 
-describe('WebServer', async () => {
+void describe('WebServer', () => {
   before(() => webServer.listen());
   after(() => webServer.close());
 
-  test('GET /', async (t) => {
+  void test('GET /', async () => {
     const response = await fetch(`${webServer.url}/`);
     const responseText = await response.text();
 
-    assert.ok(responseText.includes('<h1>Hello World!</h1>'), 'Response should include "Hello World!"');
+    assert.ok(
+      responseText.includes('<h1>Hello World!</h1>'),
+      'Response should include "Hello World!"',
+    );
   });
 });
