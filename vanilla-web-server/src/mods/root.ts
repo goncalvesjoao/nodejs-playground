@@ -1,10 +1,14 @@
 import path from 'path';
-import type { ServerMod, ServerModEnvType, ServerModOutputType } from '@/types';
+import type {
+  ServerModInterface,
+  ServerModEnvType,
+  ServerModOutputType,
+} from '@/types';
 import { rootDirPath } from '@/utils';
 import fs from 'fs/promises';
 import { RESOURCES_DIR_NAME } from '@/constants';
 
-export class Root implements ServerMod {
+export class Root implements ServerModInterface {
   async run(env: ServerModEnvType): Promise<ServerModOutputType> {
     if (env.method !== 'GET') {
       return {

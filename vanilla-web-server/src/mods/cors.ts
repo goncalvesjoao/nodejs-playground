@@ -1,6 +1,10 @@
-import type { ServerMod, ServerModEnvType, ServerModOutputType } from '@/types';
+import type {
+  ServerModInterface,
+  ServerModEnvType,
+  ServerModOutputType,
+} from '@/types';
 
-export class Cors implements ServerMod {
+export class Cors implements ServerModInterface {
   constructor(private nextMod: ServerMod) {}
 
   async run(env: ServerModEnvType): Promise<ServerModOutputType> {
