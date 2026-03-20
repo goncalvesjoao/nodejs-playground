@@ -1,5 +1,5 @@
 import * as http from 'http';
-import { Api, Assets, Cors, Preview, Root } from '@/mods';
+import { Api, Assets, Cors, Preview, Root } from '@/server-mods';
 import { DEFAULT_SERVER_PORT } from '@/constants';
 
 export class WebServer {
