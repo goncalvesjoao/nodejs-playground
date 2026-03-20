@@ -5,7 +5,7 @@ import type {
 } from '@/types';
 
 export class Cors implements ServerModInterface {
-  constructor(private nextMod: ServerMod) {}
+  constructor(private nextMod: ServerModInterface) {}
 
   async run(env: ServerModEnvType): Promise<ServerModOutputType> {
     if (env.method !== 'OPTIONS') {
