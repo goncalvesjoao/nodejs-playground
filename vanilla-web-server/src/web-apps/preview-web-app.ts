@@ -1,12 +1,9 @@
-import type { WebAppEnvType, WebAppOutputType } from '@/types';
-import { WebApp } from '@/web-app';
+import type { WebApp, WebAppEnvType, WebAppOutputType } from '@/types';
 
 const BASE_PATH = '/preview';
 
-export class PreviewWebApp extends WebApp {
-  constructor(public nextApp: WebApp) {
-    super();
-  }
+export class PreviewWebApp implements WebApp {
+  constructor(public nextApp: WebApp) {}
 
   async run(env: WebAppEnvType): Promise<WebAppOutputType> {
     if (!env.pathname.startsWith(BASE_PATH) || env.method !== 'GET') {

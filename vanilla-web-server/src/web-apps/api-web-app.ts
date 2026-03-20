@@ -1,14 +1,11 @@
-import type { WebAppEnvType, WebAppOutputType } from '@/types';
-import { WebApp } from '@/web-app';
+import type { WebApp, WebAppEnvType, WebAppOutputType } from '@/types';
 
 const BASE_PATH = '/api';
 
-export class ApiWebApp extends WebApp {
+export class ApiWebApp implements WebApp {
   protected nextApp: WebApp;
 
   constructor(nextApp: WebApp) {
-    super();
-
     this.nextApp = nextApp;
   }
 

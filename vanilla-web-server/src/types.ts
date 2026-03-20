@@ -14,3 +14,7 @@ export type WebAppOutputType = {
   headers?: OutgoingHttpHeaders;
   body: any;
 };
+
+export interface WebApp {
+  run(env: WebAppEnvType): Promise<WebAppOutputType>;
+}

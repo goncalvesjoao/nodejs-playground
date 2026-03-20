@@ -1,10 +1,7 @@
-import type { WebAppEnvType, WebAppOutputType } from '@/types';
-import { WebApp } from '@/web-app';
+import type { WebApp, WebAppEnvType, WebAppOutputType } from '@/types';
 
-export class CorsWebApp extends WebApp {
-  constructor(public nextApp: WebApp) {
-    super();
-  }
+export class CorsWebApp implements WebApp {
+  constructor(public nextApp: WebApp) {}
 
   async run(env: WebAppEnvType): Promise<WebAppOutputType> {
     if (env.method !== 'OPTIONS') {

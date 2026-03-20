@@ -1,17 +1,14 @@
+import fs from 'fs/promises';
 import path from 'node:path';
 import { resourcesDirPath } from '@/utils';
-import type { WebAppEnvType, WebAppOutputType } from '@/types';
-import { WebApp } from '@/web-app';
-import fs from 'fs/promises';
+import type { WebApp, WebAppEnvType, WebAppOutputType } from '@/types';
 
 const BASE_PATH = '/assets';
 
-export class AssetsWebApp extends WebApp {
+export class AssetsWebApp implements WebApp {
   protected nextApp: WebApp;
 
   constructor(nextApp: WebApp) {
-    super();
-
     this.nextApp = nextApp;
   }
 

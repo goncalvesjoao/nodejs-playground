@@ -1,13 +1,8 @@
 import { resourcesDirPath } from '@/utils';
-import type { WebAppEnvType, WebAppOutputType } from '@/types';
-import { WebApp } from '@/web-app';
+import type { WebApp, WebAppEnvType, WebAppOutputType } from '@/types';
 import fs from 'fs/promises';
 
-export class RootWebApp extends WebApp {
-  constructor() {
-    super();
-  }
-
+export class RootWebApp implements WebApp {
   async run(env: WebAppEnvType): Promise<WebAppOutputType> {
     if (env.method !== 'GET') {
       return {
