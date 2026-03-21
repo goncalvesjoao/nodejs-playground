@@ -15,7 +15,7 @@ const defaultRequest = {
   pathname: '/assets',
   searchParams: {},
   headers: {},
-  body: () => Promise.resolve(''),
+  body: () => Promise.resolve(Buffer.from('')),
 };
 
 void describe('AssetsHandler', () => {

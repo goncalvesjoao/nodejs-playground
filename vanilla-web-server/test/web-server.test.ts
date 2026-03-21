@@ -20,7 +20,7 @@ void describe('WebServer', () => {
     await fetch(`${webServer.url}/posts?timestamp=123`, {
       method: 'POST',
       headers: { Authorization: 'Bearer <token>' },
-      body: JSON.stringify({ key: 'value' }),
+      body: `I'm not a teapot`,
     });
 
     assert.strictEqual(handlerRun.mock.calls.length, 1);
@@ -32,8 +32,8 @@ void describe('WebServer', () => {
     assert.strictEqual(receivedRequest.searchParams['timestamp'], '123');
     assert.strictEqual(receivedRequest.headers.authorization, 'Bearer <token>');
 
-    const bodyText = await receivedRequest.body();
-    assert.strictEqual(bodyText, JSON.stringify({ key: 'value' }));
+    const bodyText = (await receivedRequest.body()).toString();
+    assert.strictEqual(bodyText, `I'm not a teapot`);
   });
 
   void test('returns an HTTP response based on handler#run output', async (t) => {

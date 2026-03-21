@@ -16,7 +16,7 @@ const defaultRequest = {
   pathname: '/admin',
   searchParams: {},
   headers: {},
-  body: () => Promise.resolve(''),
+  body: () => Promise.resolve(Buffer.from('')),
 };
 
 void describe('AdminHandler', () => {

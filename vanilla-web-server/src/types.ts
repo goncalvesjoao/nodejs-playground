@@ -1,7 +1,7 @@
 import type { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 
 export type ServerAppRequestType = {
-  body: () => Promise<string>;
+  body: () => Promise<Buffer>;
   headers: IncomingHttpHeaders;
   method: string;
   pathname: string;

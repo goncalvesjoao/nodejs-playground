@@ -15,7 +15,7 @@ const defaultRequest = {
   pathname: '/countries',
   searchParams: {},
   headers: {},
-  body: () => Promise.resolve(''),
+  body: () => Promise.resolve(Buffer.from('')),
 };
 
 void describe('CountriesApiHandler', () => {

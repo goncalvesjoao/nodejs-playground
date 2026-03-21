@@ -32,14 +32,14 @@ export class WebServer {
       (req: http.IncomingMessage, res: http.ServerResponse) => {
         const url = new URL(req.url ?? '', this.url);
 
-        const bodyPromise = new Promise<string>((resolve, reject) => {
-          let bodyText = '';
+        const bodyPromise = new Promise<Buffer>((resolve, reject) => {
+          const chunks: Buffer[] = [];
 
           req.on('data', (chunk: Buffer) => {
-            bodyText += chunk.toString();
+            chunks.push(chunk);
           });
 
-          req.on('end', () => resolve(bodyText));
+          req.on('end', () => resolve(Buffer.concat(chunks)));
           req.on('error', reject);
         });
 
@@ -47,7 +47,7 @@ export class WebServer {
 
         app
           .run({
-            body(): Promise<string> {
+            body(): Promise<Buffer> {
               return bodyPromise;
             },
             headers: req.headers,
