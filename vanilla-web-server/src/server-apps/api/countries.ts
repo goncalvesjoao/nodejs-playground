@@ -3,10 +3,11 @@ import type {
   ServerAppInterface,
   ServerAppResponseType,
 } from '@/types';
+import CountryList from 'country-list';
 
-const BASE_PATH = /\/api\/?(.*)/;
+const BASE_PATH = /\/countries\/?(.*)/;
 
-export class Api implements ServerAppInterface {
+export class Countries implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
@@ -17,17 +18,17 @@ export class Api implements ServerAppInterface {
     }
 
     if (match[1] === '') {
+      const results: CountryList.Country[] = CountryList.getData();
+
       return {
         statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: 'Welcome to the API!' }),
+        body: { results },
       };
     }
 
     return {
       statusCode: 501,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: 'Not Implemented' }),
+      body: { message: 'Not Implemented' },
     };
   }
 }

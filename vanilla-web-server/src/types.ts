@@ -10,8 +10,8 @@ export type ServerAppRequestType = {
 
 export type ServerAppResponseType = {
   statusCode: number;
-  headers: OutgoingHttpHeaders;
-  body: any;
+  headers?: OutgoingHttpHeaders;
+  body?: any;
 };
 
 export interface ServerAppInterface {

@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/figlet": "^1.7.0",
+    "@types/country-list": "^2.1.4",
     "@types/node": "^24.0.0",
     "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
@@ -28,10 +30,10 @@
     "prettier": "3.8.1",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0",
-    "typescript-eslint": "^8.57.1",
-    "@types/figlet": "^1.7.0"
+    "typescript-eslint": "^8.57.1"
   },
   "dependencies": {
+    "country-list": "^2.4.1",
     "figlet": "^1.11.0"
   }
 }
