@@ -2,6 +2,11 @@ import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
 import { ServerAppInterface } from '@/types';
 
+export class Logger {
+  log(..._args: unknown[]) {}
+  error(..._args: unknown[]) {}
+}
+
 export class WebServer {
   protected server: http.Server;
 
@@ -12,6 +17,7 @@ export class WebServer {
   constructor(
     protected app: ServerAppInterface,
     readonly serverPort: number = DEFAULT_SERVER_PORT,
+    private logger: Logger = new Logger(),
   ) {
     this.server = http.createServer(
       (req: http.IncomingMessage, res: http.ServerResponse) => {
@@ -43,7 +49,7 @@ export class WebServer {
             res.end(body);
           })
           .catch((error) => {
-            console.error('Error handling request', error);
+            this.logger.error('Error handling request', error);
 
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ message: 'Internal Server Error' }));
@@ -57,8 +63,8 @@ export class WebServer {
       this.server.once('error', reject);
       this.server.listen(this.serverPort, () => {
         this.server.off('error', reject);
-        console.log(`\nListening at ${this.url}`);
-        console.log(`\nPress Ctrl+C to stop.`);
+        this.logger.log(`\nListening at ${this.url}`);
+        this.logger.log(`\nPress Ctrl+C to stop.`);
         resolve();
       });
     });
@@ -74,7 +80,7 @@ export class WebServer {
           return;
         }
 
-        console.log('Server stopped.');
+        this.logger.log('Server stopped.');
         resolve();
       });
     });
