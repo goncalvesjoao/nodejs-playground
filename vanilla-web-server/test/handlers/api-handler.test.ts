@@ -1,9 +1,9 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ApiHandler } from '@/handlers';
-import { ServerAppRequestType } from '@/types';
+import { ServerModRequestType } from '@/types';
 
-const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
+const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({
     status: 418,
     headers: {},
@@ -21,7 +21,7 @@ const defaultRequest = {
 
 void describe('ApiHandler', () => {
   void test('invokes the handler using JsonMiddleware', async () => {
-    const handlerRun = mock.fn(async (_req: ServerAppRequestType) =>
+    const handlerRun = mock.fn(async (_req: ServerModRequestType) =>
       Promise.resolve({
         status: 200,
         headers: {},
@@ -29,7 +29,7 @@ void describe('ApiHandler', () => {
       }),
     );
 
-    const apiHandler = new ApiHandler({ run: nextServerAppRun });
+    const apiHandler = new ApiHandler({ run: nextServerModRun });
 
     apiHandler.handler = { run: handlerRun };
 
@@ -50,11 +50,11 @@ void describe('ApiHandler', () => {
     });
   });
 
-  void test('invokes nextServerApp when a request other than /api is made', async () => {
-    const apiHandler = new ApiHandler({ run: nextServerAppRun });
+  void test('invokes nextServerMod when a request other than /api is made', async () => {
+    const apiHandler = new ApiHandler({ run: nextServerModRun });
 
     await apiHandler.run({ ...defaultRequest, pathname: '/unknown' });
 
-    assert.equal(nextServerAppRun.mock.calls.length, 1);
+    assert.equal(nextServerModRun.mock.calls.length, 1);
   });
 });

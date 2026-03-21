@@ -1,26 +1,26 @@
 import type {
-  ServerAppRequestType,
-  ServerAppInterface,
-  ServerAppResponseType,
+  ServerModRequestType,
+  ServerModInterface,
+  ServerModResponseType,
 } from '@/types';
 import CountryList from 'country-list';
 
 const BASE_PATH = /\/countries\/?(.*)/;
 
-export class CountriesApiHandler implements ServerAppInterface {
-  constructor(protected nextServerApp: ServerAppInterface) {}
+export class CountriesApiHandler implements ServerModInterface {
+  constructor(protected nextServerMod: ServerModInterface) {}
 
-  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     const id = req.pathname.match(BASE_PATH)?.[1];
 
     if (id === '' && req.method === 'GET') {
       return this.findAll();
     }
 
-    return this.nextServerApp.run(req);
+    return this.nextServerMod.run(req);
   }
 
-  findAll(): ServerAppResponseType {
+  findAll(): ServerModResponseType {
     const results: CountryList.Country[] = CountryList.getData();
 
     return { status: 200, body: { results } };

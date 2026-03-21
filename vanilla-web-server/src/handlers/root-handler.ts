@@ -1,12 +1,12 @@
 import type {
-  ServerAppInterface,
-  ServerAppRequestType,
-  ServerAppResponseType,
+  ServerModInterface,
+  ServerModRequestType,
+  ServerModResponseType,
 } from '@/types';
 import { readPublicFile } from '@/utils';
 
-export class RootHandler implements ServerAppInterface {
-  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+export class RootHandler implements ServerModInterface {
+  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (req.method === 'GET' && (req.pathname === '/' || req.pathname === '')) {
       return {
         status: 200,

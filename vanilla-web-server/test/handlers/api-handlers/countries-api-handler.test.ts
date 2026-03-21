@@ -1,14 +1,14 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CountriesApiHandler } from '@/handlers/api-handlers';
-import { ServerAppRequestType } from '@/types';
+import { ServerModRequestType } from '@/types';
 import CountryList from 'country-list';
 
-const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
+const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const countriesApiHandler = new CountriesApiHandler({ run: nextServerAppRun });
+const countriesApiHandler = new CountriesApiHandler({ run: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -30,9 +30,9 @@ void describe('CountriesApiHandler', () => {
     });
   });
 
-  void test('invokes nextServerApp when a request is not supported', async () => {
+  void test('invokes nextServerMod when a request is not supported', async () => {
     await countriesApiHandler.run({ ...defaultRequest, method: 'OPTIONS' });
 
-    assert.equal(nextServerAppRun.mock.calls.length, 1);
+    assert.equal(nextServerModRun.mock.calls.length, 1);
   });
 });

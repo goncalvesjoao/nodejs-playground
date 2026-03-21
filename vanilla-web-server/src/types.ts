@@ -1,6 +1,6 @@
 import type { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 
-export type ServerAppRequestType = {
+export type ServerModRequestType = {
   body: () => Promise<Buffer>;
   headers: IncomingHttpHeaders;
   method: string;
@@ -8,12 +8,12 @@ export type ServerAppRequestType = {
   searchParams: Record<string, string>;
 };
 
-export type ServerAppResponseType = {
+export type ServerModResponseType = {
   status: number;
   headers?: OutgoingHttpHeaders;
   body?: any;
 };
 
-export interface ServerAppInterface {
-  run(req: ServerAppRequestType): Promise<ServerAppResponseType>;
+export interface ServerModInterface {
+  run(req: ServerModRequestType): Promise<ServerModResponseType>;
 }

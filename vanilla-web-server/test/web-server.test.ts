@@ -1,9 +1,9 @@
 import { describe, test, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import { WebServer } from '@/web-server';
-import type { ServerAppRequestType } from '@/types';
+import type { ServerModRequestType } from '@/types';
 
-const handlerRun = mock.fn(async (_req: ServerAppRequestType) =>
+const handlerRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
@@ -37,7 +37,7 @@ void describe('WebServer', () => {
   });
 
   void test('returns an HTTP response based on handler#run output', async (t) => {
-    handlerRun.mock.mockImplementationOnce(async (_req: ServerAppRequestType) =>
+    handlerRun.mock.mockImplementationOnce(async (_req: ServerModRequestType) =>
       Promise.resolve({
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -66,7 +66,7 @@ void describe('WebServer', () => {
   });
 
   void test('returns an Internal Server Error when handler#run throws an error', async (t) => {
-    handlerRun.mock.mockImplementationOnce(async (_req: ServerAppRequestType) =>
+    handlerRun.mock.mockImplementationOnce(async (_req: ServerModRequestType) =>
       Promise.reject(new Error('Something went wrong')),
     );
 

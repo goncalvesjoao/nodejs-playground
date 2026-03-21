@@ -1,13 +1,13 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CorsMiddleware } from '@/middlewares';
-import { ServerAppRequestType } from '@/types';
+import { ServerModRequestType } from '@/types';
 
-const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
+const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const corsMiddleware = new CorsMiddleware({ run: nextServerAppRun });
+const corsMiddleware = new CorsMiddleware({ run: nextServerModRun });
 
 const defaultRequest = {
   pathname: '/unknown',
@@ -23,16 +23,16 @@ void describe('CorsMiddleware', () => {
       method: 'OPTIONS',
     });
 
-    assert.equal(nextServerAppRun.mock.calls.length, 0);
+    assert.equal(nextServerModRun.mock.calls.length, 0);
 
     assert.equal(response.status, 204);
     assert.equal((response.headers || {})['Access-Control-Allow-Origin'], '*');
     assert.equal(response.body, null);
   });
 
-  void test('invokes nextServerApp when OPTIONS request is not made', async () => {
+  void test('invokes nextServerMod when OPTIONS request is not made', async () => {
     await corsMiddleware.run({ ...defaultRequest, method: 'POST' });
 
-    assert.equal(nextServerAppRun.mock.calls.length, 1);
+    assert.equal(nextServerModRun.mock.calls.length, 1);
   });
 });

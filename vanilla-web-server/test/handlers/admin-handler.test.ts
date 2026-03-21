@@ -1,9 +1,9 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { AdminHandler } from '@/handlers';
-import { ServerAppRequestType } from '@/types';
+import { ServerModRequestType } from '@/types';
 
-const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
+const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({
     status: 418,
     headers: {},
@@ -21,7 +21,7 @@ const defaultRequest = {
 
 void describe('AdminHandler', () => {
   void test('invokes the handler using HtmlMiddleware', async () => {
-    const handlerRun = mock.fn(async (_req: ServerAppRequestType) =>
+    const handlerRun = mock.fn(async (_req: ServerModRequestType) =>
       Promise.resolve({
         status: 200,
         headers: {},
@@ -29,7 +29,7 @@ void describe('AdminHandler', () => {
       }),
     );
 
-    const adminHandler = new AdminHandler({ run: nextServerAppRun });
+    const adminHandler = new AdminHandler({ run: nextServerModRun });
 
     adminHandler.handler = { run: handlerRun };
 
@@ -48,11 +48,11 @@ void describe('AdminHandler', () => {
     assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
   });
 
-  void test('invokes nextServerApp when a request other than /admin is made', async () => {
-    const adminHandler = new AdminHandler({ run: nextServerAppRun });
+  void test('invokes nextServerMod when a request other than /admin is made', async () => {
+    const adminHandler = new AdminHandler({ run: nextServerModRun });
 
     await adminHandler.run({ ...defaultRequest, pathname: '/unknown' });
 
-    assert.equal(nextServerAppRun.mock.calls.length, 1);
+    assert.equal(nextServerModRun.mock.calls.length, 1);
   });
 });

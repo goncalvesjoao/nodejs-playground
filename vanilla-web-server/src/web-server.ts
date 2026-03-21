@@ -1,6 +1,6 @@
 import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
-import { ServerAppInterface } from '@/types';
+import { ServerModInterface } from '@/types';
 import {
   ApiHandler,
   AssetsHandler,
@@ -19,7 +19,7 @@ const handler = new ApiHandler(
 );
 
 export class WebServer {
-  handler: ServerAppInterface = handler;
+  handler: ServerModInterface = handler;
   logger: Logger = new Logger();
   server: http.Server;
 

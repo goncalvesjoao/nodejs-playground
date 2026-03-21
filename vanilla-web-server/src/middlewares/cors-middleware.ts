@@ -1,15 +1,15 @@
 import type {
-  ServerAppRequestType,
-  ServerAppInterface,
-  ServerAppResponseType,
+  ServerModRequestType,
+  ServerModInterface,
+  ServerModResponseType,
 } from '@/types';
 
-export class CorsMiddleware implements ServerAppInterface {
-  constructor(protected nextServerApp: ServerAppInterface) {}
+export class CorsMiddleware implements ServerModInterface {
+  constructor(protected nextServerMod: ServerModInterface) {}
 
-  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (req.method !== 'OPTIONS') {
-      return await this.nextServerApp.run(req);
+      return await this.nextServerMod.run(req);
     }
 
     return {

@@ -1,13 +1,13 @@
 import type {
-  ServerAppRequestType,
-  ServerAppInterface,
-  ServerAppResponseType,
+  ServerModRequestType,
+  ServerModInterface,
+  ServerModResponseType,
 } from '@/types';
 
-export class JsonMiddleware implements ServerAppInterface {
-  constructor(protected nextServerApp: ServerAppInterface) {}
+export class JsonMiddleware implements ServerModInterface {
+  constructor(protected nextServerMod: ServerModInterface) {}
 
-  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     //     const bodyPromise = new Promise<string>((resolve, reject) => {
     //   let bodyText = '';
 
@@ -19,7 +19,7 @@ export class JsonMiddleware implements ServerAppInterface {
     //   req.on('error', reject);
     // });
 
-    const response = await this.nextServerApp.run({
+    const response = await this.nextServerMod.run({
       ...req,
       // body(): Promise<string> {
       //   return bodyPromise;

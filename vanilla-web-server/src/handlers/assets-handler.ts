@@ -2,20 +2,20 @@ import fs from 'fs/promises';
 import path from 'node:path';
 import { readPublicFile, rootDirPath } from '@/utils';
 import type {
-  ServerAppRequestType,
-  ServerAppInterface,
-  ServerAppResponseType,
+  ServerModRequestType,
+  ServerModInterface,
+  ServerModResponseType,
 } from '@/types';
 import { PUBLIC_DIR_NAME } from '@/constants';
 
 const BASE_PATH = '/assets';
 
-export class AssetsHandler implements ServerAppInterface {
-  constructor(protected nextServerApp: ServerAppInterface) {}
+export class AssetsHandler implements ServerModInterface {
+  constructor(protected nextServerMod: ServerModInterface) {}
 
-  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.pathname.startsWith(BASE_PATH) || req.method !== 'GET') {
-      return this.nextServerApp.run(req);
+      return this.nextServerMod.run(req);
     }
 
     const assetAbsolutePath = path.join(
@@ -30,7 +30,7 @@ export class AssetsHandler implements ServerAppInterface {
       .catch(() => false);
 
     if (!fileExists) {
-      return this.nextServerApp.run(req);
+      return this.nextServerMod.run(req);
     }
 
     return {
