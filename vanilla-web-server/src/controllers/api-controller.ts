@@ -3,15 +3,17 @@ import type {
   ServerModInterface,
   ServerModResponseType,
 } from '@/types';
-import { RootApiController, CountriesApiController } from '@/controllers/api-controllers';
-import { JsonMiddleware } from '@/middlewares';
+import {
+  RootApiController,
+  CountriesApiController,
+} from '@/controllers/api-controllers';
 
 const BASE_PATH = '/api';
 
-const handler = new CountriesApiController(new RootApiController());
-
 export class ApiController implements ServerModInterface {
-  handler: ServerModInterface = handler;
+  serverMod: ServerModInterface = new CountriesApiController(
+    new RootApiController(),
+  );
 
   constructor(protected nextServerMod: ServerModInterface) {}
 
@@ -20,9 +22,7 @@ export class ApiController implements ServerModInterface {
       return this.nextServerMod.run(req);
     }
 
-    const app = new JsonMiddleware(this.handler);
-
-    return app.run({
+    return this.serverMod.run({
       ...req,
       pathname: req.pathname.replace(BASE_PATH, ''),
     });

@@ -20,8 +20,8 @@ const defaultRequest = {
 };
 
 void describe('ApiController', () => {
-  void test('invokes the handler using JsonMiddleware', async () => {
-    const handlerRun = mock.fn(async (_req: ServerModRequestType) =>
+  void test('invokes #serverMod.run with a request without the "/api" prefix', async () => {
+    const mockedRun = mock.fn(async (_req: ServerModRequestType) =>
       Promise.resolve({
         status: 200,
         headers: {},
@@ -31,15 +31,15 @@ void describe('ApiController', () => {
 
     const apiController = new ApiController({ run: nextServerModRun });
 
-    apiController.handler = { run: handlerRun };
+    apiController.serverMod = { run: mockedRun };
 
     const response = await apiController.run({
       ...defaultRequest,
       pathname: '/api/unknown',
     });
 
-    assert.strictEqual(handlerRun.mock.calls.length, 1);
-    const firstCallArgs = handlerRun.mock.calls[0].arguments;
+    assert.strictEqual(mockedRun.mock.calls.length, 1);
+    const firstCallArgs = mockedRun.mock.calls[0].arguments;
     const receivedRequest = firstCallArgs[0];
     assert.strictEqual(receivedRequest.pathname, '/unknown');
 

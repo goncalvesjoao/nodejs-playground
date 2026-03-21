@@ -4,14 +4,11 @@ import type {
   ServerModResponseType,
 } from '@/types';
 import { RootAdminController } from '@/controllers/admin-controllers';
-import { HtmlMiddleware } from '@/middlewares';
 
 const BASE_PATH = '/admin';
 
-const handler = new RootAdminController();
-
 export class AdminController implements ServerModInterface {
-  handler: ServerModInterface = handler;
+  serverMod: ServerModInterface = new RootAdminController();
 
   constructor(protected nextServerMod: ServerModInterface) {}
 
@@ -20,9 +17,7 @@ export class AdminController implements ServerModInterface {
       return this.nextServerMod.run(req);
     }
 
-    const app = new HtmlMiddleware(this.handler);
-
-    return app.run({
+    return this.serverMod.run({
       ...req,
       pathname: req.pathname.replace(BASE_PATH, ''),
     });
