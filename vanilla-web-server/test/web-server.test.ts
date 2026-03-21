@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import { WebServer } from '@/web-server';
 import type { ServerAppRequestType } from '@/types';
 
+const serverAppRun = mock.fn(async (_req: ServerAppRequestType) =>
+  Promise.resolve({ statusCode: 204, headers: {}, body: '' }),
+);
+
 void describe('WebServer', () => {
   void test('invokes serverApp#run with a well formed request', async (t) => {
-    const mockedRun = mock.fn(async (_request: ServerAppRequestType) =>
-      Promise.resolve({ statusCode: 200, headers: {}, body: '' }),
-    );
-
-    const webServer = new WebServer({ run: mockedRun }, 3001);
+    const webServer = new WebServer({ run: serverAppRun }, 3001);
 
     t.after(() => webServer.close());
 
@@ -21,8 +21,8 @@ void describe('WebServer', () => {
       body: JSON.stringify({ key: 'value' }),
     });
 
-    assert.strictEqual(mockedRun.mock.calls.length, 1);
-    const firstCallArgs = mockedRun.mock.calls[0].arguments;
+    assert.strictEqual(serverAppRun.mock.calls.length, 1);
+    const firstCallArgs = serverAppRun.mock.calls[0].arguments;
     const receivedRequest = firstCallArgs[0];
 
     assert.strictEqual(receivedRequest.method, 'POST');
@@ -35,17 +35,16 @@ void describe('WebServer', () => {
   });
 
   void test('returns an HTTP response based on serverApp#run output', async (t) => {
-    const mockedRun = mock.fn(async (_request: ServerAppRequestType) =>
-      Promise.resolve({
-        statusCode: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ error: 'Bad Request' }),
-      }),
+    serverAppRun.mock.mockImplementationOnce(
+      async (_req: ServerAppRequestType) =>
+        Promise.resolve({
+          statusCode: 400,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Bad Request' }),
+        }),
     );
 
-    const webServer = new WebServer({ run: mockedRun }, 3001);
+    const webServer = new WebServer({ run: serverAppRun }, 3001);
 
     t.after(() => webServer.close());
 
