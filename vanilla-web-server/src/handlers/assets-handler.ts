@@ -30,13 +30,7 @@ export class AssetsHandler implements ServerAppInterface {
       .catch(() => false);
 
     if (!fileExists) {
-      return {
-        status: 404,
-        headers: { 'Content-Type': 'text/html' },
-        body: await fs.readFile(
-          path.join(rootDirPath, PUBLIC_DIR_NAME, 'not_found.html'),
-        ),
-      };
+      return this.nextServerApp.run(req);
     }
 
     const body = await fs.readFile(assetAbsolutePath);

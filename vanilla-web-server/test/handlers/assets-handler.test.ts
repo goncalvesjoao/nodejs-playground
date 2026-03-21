@@ -40,17 +40,20 @@ void describe('AssetsHandler', () => {
     );
   });
 
-  void test('returns a 404 response when an unknown asset is requested', async () => {
-    const response = await assetsHandler.run({
+  void test('invokes nextServerApp when an unknown asset is requested', async () => {
+    nextServerAppRun.mock.resetCalls();
+
+    await assetsHandler.run({
       ...defaultRequest,
       pathname: '/assets/unknown',
     });
 
-    assert.equal(response.status, 404);
-    assert.ok(String(response.body).includes('<h1>404 Page Not Found</h1>'));
+    assert.equal(nextServerAppRun.mock.calls.length, 1);
   });
 
   void test('invokes nextServerApp when a request other than /assets is made', async () => {
+    nextServerAppRun.mock.resetCalls();
+
     await assetsHandler.run({ ...defaultRequest, pathname: '/unknown' });
 
     assert.equal(nextServerAppRun.mock.calls.length, 1);
