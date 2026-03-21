@@ -25,7 +25,7 @@ void describe('AdminHandler', () => {
       Promise.resolve({
         status: 200,
         headers: {},
-        body: '<h1>Admin Dashboard</h1>',
+        body: '<h1>Admin Home Page</h1>',
       }),
     );
 
@@ -45,7 +45,7 @@ void describe('AdminHandler', () => {
 
     assert.equal(response.status, 200);
     assert.equal((response.headers || {})['Content-Type'], 'text/html');
-    assert.ok(String(response.body).includes('<h1>Admin Dashboard</h1>'));
+    assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
   });
 
   void test('invokes nextServerApp when a request other than /admin is made', async () => {

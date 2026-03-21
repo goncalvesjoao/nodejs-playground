@@ -8,7 +8,7 @@ import { readPublicFile, renderView } from '@/utils';
 export class RootAdminHandler implements ServerAppInterface {
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
     if (req.method === 'GET' && (req.pathname === '/' || req.pathname === '')) {
-      const data = { title: 'Admin Dashboard' };
+      const data = { title: 'Admin Home Page' };
 
       return {
         status: 200,

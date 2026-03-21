@@ -89,6 +89,6 @@
 //     const responseText = await response.text();
 
 //     assert.equal(response.status, 200, 'Response status should be 200');
-//     assert.ok(responseText.includes('<h1>Admin Dashboard</h1>'));
+//     assert.ok(responseText.includes('<h1>Admin Home Page</h1>'));
 //   });
 // });
