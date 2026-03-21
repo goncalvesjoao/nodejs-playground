@@ -27,7 +27,7 @@ void describe('Api server app', () => {
     });
   });
 
-  void test('returns a 501 response when an unrecognized API endpoint is requested', async () => {
+  void test('returns a 501 response when an unrecognized /api endpoint is requested', async () => {
     const response = await api.run({
       ...defaultRequest,
       pathname: '/api/unknown',
