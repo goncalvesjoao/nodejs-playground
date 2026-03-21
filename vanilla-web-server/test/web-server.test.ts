@@ -4,7 +4,7 @@ import { WebServer } from '@/web-server';
 import type { ServerAppRequestType } from '@/types';
 
 const serverAppRun = mock.fn(async (_req: ServerAppRequestType) =>
-  Promise.resolve({ statusCode: 204, headers: {}, body: '' }),
+  Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 void describe('WebServer', () => {
