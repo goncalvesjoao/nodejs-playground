@@ -1,13 +1,13 @@
-# nodejs-playground
+# vanilla web server
 
-Minimal Node.js HTTP server playground using TypeScript and the built-in `http.createServer` API.
+Example on how to organize a vanilla `node:http` server by individual files or namespaces.
 
 ## Scripts
 
 - `npm run dev` starts the server directly from TypeScript using `tsx`
 - `npm run build` compiles the server into `dist/`
 - `npm start` runs the compiled server
-- `npm test` runs the simple server test with Node's built-in test runner
+- `npm test` runs all tests
 
 ## Getting started
 
