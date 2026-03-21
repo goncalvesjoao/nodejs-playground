@@ -1,3 +1,4 @@
+import fs from 'fs/promises';
 import path from 'path';
 import type {
   ServerAppInterface,
@@ -5,19 +6,14 @@ import type {
   ServerAppResponseType,
 } from '@/types';
 import { rootDirPath } from '@/utils';
-import fs from 'fs/promises';
 import { RESOURCES_DIR_NAME } from '@/constants';
 
 export class Root implements ServerAppInterface {
+  constructor(protected nextServerApp: ServerAppInterface) {}
+
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
     if (req.method !== 'GET' || req.pathname !== '/') {
-      return {
-        statusCode: 404,
-        headers: { 'Content-Type': 'text/plain' },
-        body: await fs.readFile(
-          path.join(rootDirPath, RESOURCES_DIR_NAME, 'not_found.html'),
-        ),
-      };
+      return this.nextServerApp.run(req);
     }
 
     const body = await fs.readFile(

@@ -53,14 +53,14 @@ void describe('WebServer', () => {
     );
   });
 
-  void test('GET /api/unknown - should return a 404 JSON response', async () => {
+  void test('GET /api/unknown - should return a 501 JSON response', async () => {
     const response = await fetch(`${webServer.url}/api/unknown`);
     const responseText = await response.text();
 
-    assert.equal(response.status, 404, 'Response status should be 404');
+    assert.equal(response.status, 501, 'Response status should be 501');
     assert.deepEqual(
       JSON.parse(responseText),
-      { message: 'Not Found' },
+      { message: 'Not Implemented' },
       'API response should match',
     );
   });

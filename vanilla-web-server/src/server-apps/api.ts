@@ -4,17 +4,19 @@ import type {
   ServerAppResponseType,
 } from '@/types';
 
-const BASE_PATH = '/api';
+const BASE_PATH = /\/api\/?(.*)/;
 
 export class Api implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
-    if (!req.pathname.startsWith(BASE_PATH)) {
+    const match = req.pathname.match(BASE_PATH);
+
+    if (!match) {
       return this.nextServerApp.run(req);
     }
 
-    if (req.pathname === BASE_PATH || req.pathname === `${BASE_PATH}/`) {
+    if (match[1] === '') {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
@@ -23,9 +25,9 @@ export class Api implements ServerAppInterface {
     }
 
     return {
-      statusCode: 404,
+      statusCode: 501,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: 'Not Found' }),
+      body: JSON.stringify({ message: 'Not Implemented' }),
     };
   }
 }

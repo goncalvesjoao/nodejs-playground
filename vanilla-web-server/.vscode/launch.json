@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Current Node Test File",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "program": "${file}",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--import", "tsx", "--test"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "smartStep": true
+    }
+  ]
+}
