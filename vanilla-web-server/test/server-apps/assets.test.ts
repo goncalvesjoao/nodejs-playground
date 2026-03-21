@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import { Assets } from '@/server-apps';
 import { ServerAppRequestType } from '@/types';
 import path from 'node:path';
-import { RESOURCES_DIR_NAME } from '@/constants';
+import { PUBLIC_DIR_NAME } from '@/constants';
 import { rootDirPath } from '@/utils';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
@@ -29,7 +29,7 @@ void describe('Assets server app', () => {
     });
 
     const expectedBody = await fs.readFile(
-      path.join(rootDirPath, RESOURCES_DIR_NAME, 'assets', 'chippy.jpg'),
+      path.join(rootDirPath, PUBLIC_DIR_NAME, 'assets', 'chippy.jpg'),
     );
 
     assert.equal(response.statusCode, 200);

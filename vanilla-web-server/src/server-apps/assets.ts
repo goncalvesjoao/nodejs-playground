@@ -6,7 +6,7 @@ import type {
   ServerAppInterface,
   ServerAppResponseType,
 } from '@/types';
-import { RESOURCES_DIR_NAME } from '@/constants';
+import { PUBLIC_DIR_NAME } from '@/constants';
 
 const BASE_PATH = '/assets';
 
@@ -20,7 +20,7 @@ export class Assets implements ServerAppInterface {
 
     const assetAbsolutePath = path.join(
       rootDirPath,
-      RESOURCES_DIR_NAME,
+      PUBLIC_DIR_NAME,
       `.${req.pathname}`,
     );
 
@@ -34,7 +34,7 @@ export class Assets implements ServerAppInterface {
         statusCode: 404,
         headers: { 'Content-Type': 'text/html' },
         body: await fs.readFile(
-          path.join(rootDirPath, RESOURCES_DIR_NAME, 'not_found.html'),
+          path.join(rootDirPath, PUBLIC_DIR_NAME, 'not_found.html'),
         ),
       };
     }
