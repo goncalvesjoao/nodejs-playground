@@ -1,13 +1,13 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Ascii } from '@/server-apps';
+import { AsciiHandler } from '@/handlers';
 import { ServerAppRequestType } from '@/types';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
   Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const ascii = new Ascii({ run: nextServerAppRun });
+const asciiHandler = new AsciiHandler({ run: nextServerAppRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -19,7 +19,7 @@ const defaultRequest = {
 
 void describe('Ascii server app', () => {
   void test('returns an ASCII version of the requested asset', async () => {
-    const response = await ascii.run({
+    const response = await asciiHandler.run({
       ...defaultRequest,
       pathname: '/ascii/123',
     });
@@ -32,7 +32,7 @@ void describe('Ascii server app', () => {
   });
 
   void test('invokes nextServerApp when a request other than /ascii is made', async () => {
-    await ascii.run({ ...defaultRequest, pathname: '/unknown' });
+    await asciiHandler.run({ ...defaultRequest, pathname: '/unknown' });
 
     assert.equal(nextServerAppRun.mock.calls.length, 1);
   });

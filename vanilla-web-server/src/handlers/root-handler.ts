@@ -8,7 +8,7 @@ import type {
 import { rootDirPath } from '@/utils';
 import { PUBLIC_DIR_NAME } from '@/constants';
 
-export class Root implements ServerAppInterface {
+export class RootHandler implements ServerAppInterface {
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
     if (req.method !== 'GET' || req.pathname !== '/') {
       return {

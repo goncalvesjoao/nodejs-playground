@@ -10,7 +10,7 @@ import { PUBLIC_DIR_NAME } from '@/constants';
 
 const BASE_PATH = '/assets';
 
-export class Assets implements ServerAppInterface {
+export class AssetsHandler implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {

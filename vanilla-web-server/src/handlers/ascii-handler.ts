@@ -7,7 +7,7 @@ import type {
 
 const BASE_PATH = /\/ascii\/?(.*)/;
 
-export class Ascii implements ServerAppInterface {
+export class AsciiHandler implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {

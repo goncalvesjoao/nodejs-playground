@@ -1,8 +1,8 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Root } from '@/server-apps';
+import { RootHandler } from '@/handlers';
 
-const root = new Root();
+const rootHandler = new RootHandler();
 
 const defaultRequest = {
   method: 'GET',
@@ -14,7 +14,7 @@ const defaultRequest = {
 
 void describe('Root server app', () => {
   void test('returns Home Page HTML when root path is requested', async () => {
-    const response = await root.run({ ...defaultRequest });
+    const response = await rootHandler.run({ ...defaultRequest });
 
     assert.equal(response.statusCode, 200);
     assert.ok(
@@ -24,7 +24,7 @@ void describe('Root server app', () => {
   });
 
   void test('returns a 404 HTML page when a request other than the root is made', async () => {
-    const response = await root.run({
+    const response = await rootHandler.run({
       ...defaultRequest,
       pathname: '/unknown',
     });

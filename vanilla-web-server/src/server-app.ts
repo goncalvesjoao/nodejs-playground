@@ -1,4 +1,11 @@
-import { Api, Assets, Ascii, Root } from '@/server-apps';
+import {
+  ApiHandler,
+  AssetsHandler,
+  AsciiHandler,
+  RootHandler,
+} from '@/handlers';
 import { Cors } from '@/middleware';
 
-export const serverApp = new Cors(new Api(new Ascii(new Assets(new Root()))));
+export const serverApp = new Cors(
+  new ApiHandler(new AsciiHandler(new AssetsHandler(new RootHandler()))),
+);

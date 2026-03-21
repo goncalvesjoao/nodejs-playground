@@ -4,7 +4,7 @@ import type {
   ServerAppResponseType,
 } from '@/types';
 
-export class Root implements ServerAppInterface {
+export class RootApiHandler implements ServerAppInterface {
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
     if (req.pathname === '' || req.pathname === '/') {
       return Promise.resolve({

@@ -7,7 +7,7 @@ import CountryList from 'country-list';
 
 const BASE_PATH = /\/countries\/?(.*)/;
 
-export class Countries implements ServerAppInterface {
+export class CountriesApiHandler implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {

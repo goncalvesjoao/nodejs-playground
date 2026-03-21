@@ -3,13 +3,12 @@ import type {
   ServerAppInterface,
   ServerAppResponseType,
 } from '@/types';
-import { Countries } from '@/server-apps/api/countries';
-import { Root } from '@/server-apps/api/root';
+import { RootApiHandler, CountriesApiHandler } from '@/handlers/api-handlers';
 import { JsonParser } from '@/middleware/json-parser';
 
 const BASE_PATH = '/api';
 
-export class Api implements ServerAppInterface {
+export class ApiHandler implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
@@ -17,7 +16,9 @@ export class Api implements ServerAppInterface {
       return this.nextServerApp.run(req);
     }
 
-    const serverApp = new JsonParser(new Countries(new Root()));
+    const serverApp = new JsonParser(
+      new CountriesApiHandler(new RootApiHandler()),
+    );
 
     return serverApp.run({
       ...req,

@@ -1,7 +1,7 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'fs/promises';
-import { Assets } from '@/server-apps';
+import { AssetsHandler } from '@/handlers';
 import { ServerAppRequestType } from '@/types';
 import path from 'node:path';
 import { PUBLIC_DIR_NAME } from '@/constants';
@@ -11,7 +11,7 @@ const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
   Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const assets = new Assets({ run: nextServerAppRun });
+const assetsHandler = new AssetsHandler({ run: nextServerAppRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -23,7 +23,7 @@ const defaultRequest = {
 
 void describe('Assets server app', () => {
   void test('returns an asset from the disk, matching the requested path', async () => {
-    const response = await assets.run({
+    const response = await assetsHandler.run({
       ...defaultRequest,
       pathname: '/assets/chippy.jpg',
     });
@@ -41,7 +41,7 @@ void describe('Assets server app', () => {
   });
 
   void test('returns a 404 response when an unknown asset is requested', async () => {
-    const response = await assets.run({
+    const response = await assetsHandler.run({
       ...defaultRequest,
       pathname: '/assets/unknown',
     });
@@ -51,7 +51,7 @@ void describe('Assets server app', () => {
   });
 
   void test('invokes nextServerApp when a request other than /assets is made', async () => {
-    await assets.run({ ...defaultRequest, pathname: '/unknown' });
+    await assetsHandler.run({ ...defaultRequest, pathname: '/unknown' });
 
     assert.equal(nextServerAppRun.mock.calls.length, 1);
   });
