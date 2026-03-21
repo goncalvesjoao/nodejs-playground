@@ -61,4 +61,31 @@ void describe('WebServer', () => {
     const bodyText = await response.text();
     assert.strictEqual(bodyText, JSON.stringify({ error: 'Bad Request' }));
   });
+
+  void test('returns an Internal Server Error when serverApp#run throws an error', async (t) => {
+    serverAppRun.mock.mockImplementationOnce(
+      async (_req: ServerAppRequestType) =>
+        Promise.reject(new Error('Something went wrong')),
+    );
+
+    const webServer = new WebServer({ run: serverAppRun }, 3001);
+
+    t.after(() => webServer.close());
+
+    void webServer.listen();
+
+    const response = await fetch(`${webServer.url}/posts`);
+
+    assert.strictEqual(response.status, 500);
+    assert.strictEqual(
+      response.headers.get('Content-Type'),
+      'application/json',
+    );
+
+    const bodyText = await response.text();
+    assert.strictEqual(
+      bodyText,
+      JSON.stringify({ message: 'Internal Server Error' }),
+    );
+  });
 });
