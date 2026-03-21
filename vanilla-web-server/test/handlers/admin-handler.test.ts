@@ -18,17 +18,11 @@ const defaultRequest = {
 };
 
 void describe('AdminHandler', () => {
-  void test('returns an ASCII version of the requested asset', async () => {
-    const response = await adminHandler.run({
-      ...defaultRequest,
-      pathname: '/admin/123',
-    });
+  void test('returns Admin Home Page HTML when root path is requested', async () => {
+    const response = await adminHandler.run({ ...defaultRequest });
 
-    assert.equal(response.status, 200, 'Response status should be 200');
-    assert.ok(
-      String(response.body).includes('| |/ __/ ___) |'),
-      'Response should include an ASCII representation of "123"',
-    );
+    assert.equal(response.status, 200);
+    assert.ok(String(response.body).includes('<h1>Admin Dashboard</h1>'));
   });
 
   void test('invokes nextServerApp when a request other than /admin is made', async () => {

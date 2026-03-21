@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'node:path';
-import { rootDirPath } from '@/utils';
+import { readPublicFile, rootDirPath } from '@/utils';
 import type {
   ServerAppRequestType,
   ServerAppInterface,
@@ -35,8 +35,8 @@ export class AssetsHandler implements ServerAppInterface {
 
     return {
       status: 200,
-      headers: { 'Content-Type': contentTypeFromFileName(assetAbsolutePath) },
-      body: await fs.readFile(assetAbsolutePath),
+      headers: { 'Content-Type': contentTypeFromFileName(req.pathname) },
+      body: await readPublicFile(req.pathname),
     };
   }
 }

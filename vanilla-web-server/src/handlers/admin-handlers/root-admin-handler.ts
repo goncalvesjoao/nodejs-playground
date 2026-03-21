@@ -1,23 +1,22 @@
 import type {
-  ServerAppInterface,
   ServerAppRequestType,
+  ServerAppInterface,
   ServerAppResponseType,
 } from '@/types';
-import { readPublicFile } from '@/utils';
+import { readPublicFile, renderView } from '@/utils';
 
-export class RootHandler implements ServerAppInterface {
+export class RootAdminHandler implements ServerAppInterface {
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
     if (req.method === 'GET' && (req.pathname === '/' || req.pathname === '')) {
-      return {
-        status: 200,
-        headers: { 'Content-Type': 'text/html' },
-        body: await readPublicFile('index.html'),
-      };
+      const body = await renderView('admin/index.html', {
+        title: 'Admin Dashboard',
+      });
+
+      return Promise.resolve({ status: 200, body });
     }
 
     return {
       status: 404,
-      headers: { 'Content-Type': 'text/html' },
       body: await readPublicFile('not_found.html'),
     };
   }

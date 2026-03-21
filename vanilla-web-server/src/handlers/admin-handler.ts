@@ -1,26 +1,26 @@
-import figlet from 'figlet';
 import type {
   ServerAppRequestType,
   ServerAppInterface,
   ServerAppResponseType,
 } from '@/types';
+import { RootAdminHandler } from '@/handlers/admin-handlers';
+import { HtmlMiddleware } from '@/middlewares';
 
-const BASE_PATH = /\/admin\/?(.*)/;
+const BASE_PATH = '/admin';
 
 export class AdminHandler implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
-    const match = req.pathname.match(BASE_PATH);
-
-    if (!match || req.method !== 'GET') {
+    if (!req.pathname.startsWith(BASE_PATH)) {
       return this.nextServerApp.run(req);
     }
 
-    return Promise.resolve({
-      status: 200,
-      headers: { 'Content-Type': 'text/plain' },
-      body: figlet.textSync(match[1] || 'Hello World!'),
+    const handler = new HtmlMiddleware(new RootAdminHandler());
+
+    return handler.run({
+      ...req,
+      pathname: req.pathname.replace(BASE_PATH, ''),
     });
   }
 }

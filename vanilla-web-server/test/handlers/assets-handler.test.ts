@@ -1,11 +1,8 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'fs/promises';
 import { AssetsHandler } from '@/handlers';
 import { ServerAppRequestType } from '@/types';
-import path from 'node:path';
-import { PUBLIC_DIR_NAME } from '@/constants';
-import { rootDirPath } from '@/utils';
+import { readPublicFile } from '@/utils';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
@@ -28,9 +25,7 @@ void describe('AssetsHandler', () => {
       pathname: '/assets/chippy.jpg',
     });
 
-    const expectedBody = await fs.readFile(
-      path.join(rootDirPath, PUBLIC_DIR_NAME, 'assets', 'chippy.jpg'),
-    );
+    const expectedBody = await readPublicFile('assets/chippy.jpg');
 
     assert.equal(response.status, 200);
 
