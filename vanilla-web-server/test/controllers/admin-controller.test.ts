@@ -44,7 +44,6 @@ void describe('AdminController', () => {
     assert.strictEqual(receivedRequest.pathname, '/unknown');
 
     assert.equal(response.status, 200);
-    assert.equal((response.headers || {})['Content-Type'], 'text/html');
     assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
   });
 

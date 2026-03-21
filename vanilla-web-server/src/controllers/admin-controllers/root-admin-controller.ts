@@ -18,7 +18,7 @@ export class RootAdminController implements ServerModInterface {
 
     return {
       status: 404,
-      body: await readPublicFile('not_found.html'),
+      body: await readPublicFile('not_found.html', 'utf-8'),
     };
   }
 }

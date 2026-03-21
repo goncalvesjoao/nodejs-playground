@@ -44,10 +44,7 @@ void describe('ApiController', () => {
     assert.strictEqual(receivedRequest.pathname, '/unknown');
 
     assert.equal(response.status, 200);
-    assert.equal((response.headers || {})['Content-Type'], 'application/json');
-    assert.deepEqual(JSON.parse(String(response.body)), {
-      message: `I'm not a teapot`,
-    });
+    assert.deepEqual(response.body, { message: `I'm not a teapot` });
   });
 
   void test('invokes nextServerMod when a request other than /api is made', async () => {

@@ -4,10 +4,12 @@ import {
   AdminController,
   RootController,
 } from '@/controllers';
-import { CorsMiddleware } from '@/middlewares';
+import { ContentMiddleware, CorsMiddleware } from '@/middlewares';
 
-export const app = new CorsMiddleware(
-  new ApiController(
-    new AdminController(new AssetsController(new RootController())),
+export const app = new ContentMiddleware(
+  new CorsMiddleware(
+    new ApiController(
+      new AdminController(new AssetsController(new RootController())),
+    ),
   ),
 );

@@ -17,10 +17,7 @@ void describe('RootController', () => {
     const response = await rootController.run({ ...defaultRequest });
 
     assert.equal(response.status, 200);
-    assert.ok(
-      String(response.body).includes('<h1>Home Page</h1>'),
-      'Response should include "Home Page"',
-    );
+    assert.ok(String(response.body).includes('<h1>Home Page</h1>'));
   });
 
   void test('returns a 404 HTML page when a request other than the root is made', async () => {

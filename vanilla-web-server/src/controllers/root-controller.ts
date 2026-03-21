@@ -10,15 +10,13 @@ export class RootController implements ServerModInterface {
     if (req.method === 'GET' && (req.pathname === '/' || req.pathname === '')) {
       return {
         status: 200,
-        headers: { 'Content-Type': 'text/html' },
-        body: await readPublicFile('index.html'),
+        body: await readPublicFile('index.html', 'utf-8'),
       };
     }
 
     return {
       status: 404,
-      headers: { 'Content-Type': 'text/html' },
-      body: await readPublicFile('not_found.html'),
+      body: await readPublicFile('not_found.html', 'utf-8'),
     };
   }
 }
