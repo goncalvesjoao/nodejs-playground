@@ -8,6 +8,7 @@ Example on how to organize a vanilla `node:http` server by individual files or n
 - `npm run build` compiles the server into `dist/`
 - `npm start` runs the compiled server
 - `npm test` runs all tests
+- `npm test -- test/web-server.test.ts` runs a specific test file
 
 ## Getting started
 
