@@ -1,9 +1,9 @@
 // import { after, before, describe, test } from 'node:test';
 // import assert from 'node:assert/strict';
 // import { WebServer } from '@/web-server';
-// import { serverApp } from '@/server-app';
+// import { handler } from '@/handler';
 
-// const webServer = new WebServer(serverApp);
+// const webServer = new WebServer(handler);
 
 // void describe('WebServer e2e', () => {
 //   before(() => webServer.listen());

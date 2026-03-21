@@ -4,7 +4,7 @@ import type {
   ServerAppResponseType,
 } from '@/types';
 import { RootApiHandler, CountriesApiHandler } from '@/handlers/api-handlers';
-import { JsonMiddleware } from '@/middleware';
+import { JsonMiddleware } from '@/middlewares';
 
 const BASE_PATH = '/api';
 

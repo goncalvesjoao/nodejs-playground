@@ -4,7 +4,7 @@ import {
   AsciiHandler,
   RootHandler,
 } from '@/handlers';
-import { CorsMiddleware } from '@/middleware';
+import { CorsMiddleware } from '@/middlewares';
 
 export const handler = new CorsMiddleware(
   new ApiHandler(new AsciiHandler(new AssetsHandler(new RootHandler()))),
