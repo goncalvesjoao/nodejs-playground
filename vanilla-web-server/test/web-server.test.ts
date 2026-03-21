@@ -4,7 +4,7 @@ import { WebServer } from '@/web-server';
 import type { ServerAppRequestType } from '@/types';
 
 void describe('WebServer', () => {
-  void test('should invoke serverApp#run with a well formed request', async (t) => {
+  void test('invokes serverApp#run with a well formed request', async (t) => {
     const mockedRun = mock.fn(async (_request: ServerAppRequestType) =>
       Promise.resolve({ statusCode: 200, headers: {}, body: '' }),
     );
@@ -32,5 +32,34 @@ void describe('WebServer', () => {
 
     const bodyText = await receivedRequest.body();
     assert.strictEqual(bodyText, JSON.stringify({ key: 'value' }));
+  });
+
+  void test('returns an HTTP response based on serverApp#run output', async (t) => {
+    const mockedRun = mock.fn(async (_request: ServerAppRequestType) =>
+      Promise.resolve({
+        statusCode: 400,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ error: 'Bad Request' }),
+      }),
+    );
+
+    const webServer = new WebServer({ run: mockedRun }, 3001);
+
+    t.after(() => webServer.close());
+
+    void webServer.listen();
+
+    const response = await fetch(`${webServer.url}/posts`);
+
+    assert.strictEqual(response.status, 400);
+    assert.strictEqual(
+      response.headers.get('Content-Type'),
+      'application/json',
+    );
+
+    const bodyText = await response.text();
+    assert.strictEqual(bodyText, JSON.stringify({ error: 'Bad Request' }));
   });
 });
