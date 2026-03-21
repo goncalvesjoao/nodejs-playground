@@ -17,18 +17,12 @@ export class CountriesApiHandler implements ServerAppInterface {
       return this.nextServerApp.run(req);
     }
 
-    if (match[1] === '') {
+    if (match[1] === '' && req.method === 'GET') {
       const results: CountryList.Country[] = CountryList.getData();
 
-      return {
-        status: 200,
-        body: { results },
-      };
+      return { status: 200, body: { results } };
     }
 
-    return {
-      status: 501,
-      body: { message: 'Not Implemented' },
-    };
+    return this.nextServerApp.run(req);
   }
 }
