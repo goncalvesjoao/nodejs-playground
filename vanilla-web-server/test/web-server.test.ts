@@ -4,7 +4,7 @@ import { WebServer } from '@/web-server';
 import type { ServerAppRequestType } from '@/types';
 
 void describe('WebServer', () => {
-  void test('evoke serverApp#run will a well formed request', async (t) => {
+  void test('should invoke serverApp#run with a well formed request', async (t) => {
     const mockedRun = mock.fn(async (_request: ServerAppRequestType) =>
       Promise.resolve({ statusCode: 200, headers: {}, body: '' }),
     );
@@ -13,7 +13,7 @@ void describe('WebServer', () => {
 
     t.after(() => webServer.close());
 
-    webServer.listen();
+    void webServer.listen();
 
     await fetch(`${webServer.url}/posts?timestamp=123`, {
       method: 'POST',
@@ -30,7 +30,7 @@ void describe('WebServer', () => {
     assert.strictEqual(receivedRequest.searchParams.get('timestamp'), '123');
     assert.strictEqual(receivedRequest.headers.authorization, 'Bearer <token>');
 
-    // const bodyText = await receivedRequest.body();
-    // assert.strictEqual(bodyText, JSON.stringify({ key: 'value' }));
+    const bodyText = await receivedRequest.body();
+    assert.strictEqual(bodyText, JSON.stringify({ key: 'value' }));
   });
 });

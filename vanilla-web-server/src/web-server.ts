@@ -16,24 +16,22 @@ export class WebServer {
     this.server = http.createServer(
       (req: http.IncomingMessage, res: http.ServerResponse) => {
         const url = new URL(req.url ?? '', this.url);
-        let bodyText: string | undefined = undefined;
+
+        const bodyPromise = new Promise<string>((resolve, reject) => {
+          let bodyText = '';
+
+          req.on('data', (chunk: Buffer) => {
+            bodyText += chunk.toString();
+          });
+
+          req.on('end', () => resolve(bodyText));
+          req.on('error', reject);
+        });
 
         this.app
           .run({
             body(): Promise<string> {
-              if (bodyText !== undefined) {
-                return Promise.resolve(bodyText);
-              }
-
-              bodyText = '';
-
-              req.on('data', (chunk: Buffer) => {
-                bodyText += chunk.toString();
-              });
-
-              return new Promise((resolve) => {
-                req.on('end', () => resolve(bodyText ?? ''));
-              });
+              return bodyPromise;
             },
             headers: req.headers,
             method: req.method ?? 'GET',
@@ -54,16 +52,31 @@ export class WebServer {
     );
   }
 
-  listen() {
-    this.server.listen(this.serverPort, () => {
-      console.log(`\nListening at ${this.url}`);
-      console.log(`\nPress Ctrl+C to stop.`);
+  listen(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.server.once('error', reject);
+      this.server.listen(this.serverPort, () => {
+        this.server.off('error', reject);
+        console.log(`\nListening at ${this.url}`);
+        console.log(`\nPress Ctrl+C to stop.`);
+        resolve();
+      });
     });
   }
 
-  close() {
-    this.server.close(() => {
-      console.log('Server stopped.');
+  close(): Promise<void> {
+    this.server.closeAllConnections();
+
+    return new Promise((resolve, reject) => {
+      this.server.close((error) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
+        console.log('Server stopped.');
+        resolve();
+      });
     });
   }
 }

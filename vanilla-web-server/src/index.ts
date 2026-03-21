@@ -1,10 +1,10 @@
 import { WebServer } from '@/web-server';
 import { serverApp } from '@/server-app';
 
-function main() {
+async function main() {
   const webServer = new WebServer(serverApp);
 
-  webServer.listen();
+  await webServer.listen();
 }
 
-main();
+void main();
