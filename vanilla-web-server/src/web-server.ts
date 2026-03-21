@@ -14,8 +14,8 @@ export class Logger {
   error(..._args: unknown[]) {}
 }
 
-const handler = new CorsMiddleware(
-  new ApiHandler(new AdminHandler(new AssetsHandler(new RootHandler()))),
+const handler = new ApiHandler(
+  new AdminHandler(new AssetsHandler(new RootHandler())),
 );
 
 export class WebServer {
@@ -43,7 +43,9 @@ export class WebServer {
           req.on('error', reject);
         });
 
-        this.handler
+        const app = new CorsMiddleware(this.handler);
+
+        app
           .run({
             body(): Promise<string> {
               return bodyPromise;

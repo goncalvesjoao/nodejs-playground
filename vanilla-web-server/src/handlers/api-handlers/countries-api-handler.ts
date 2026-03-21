@@ -11,18 +11,18 @@ export class CountriesApiHandler implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
-    const match = req.pathname.match(BASE_PATH);
+    const id = req.pathname.match(BASE_PATH)?.[1];
 
-    if (!match) {
-      return this.nextServerApp.run(req);
-    }
-
-    if (match[1] === '' && req.method === 'GET') {
-      const results: CountryList.Country[] = CountryList.getData();
-
-      return { status: 200, body: { results } };
+    if (id === '' && req.method === 'GET') {
+      return this.findAll();
     }
 
     return this.nextServerApp.run(req);
+  }
+
+  findAll(): ServerAppResponseType {
+    const results: CountryList.Country[] = CountryList.getData();
+
+    return { status: 200, body: { results } };
   }
 }

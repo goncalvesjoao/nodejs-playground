@@ -8,7 +8,11 @@ import { HtmlMiddleware } from '@/middlewares';
 
 const BASE_PATH = '/admin';
 
+const handler = new RootAdminHandler();
+
 export class AdminHandler implements ServerAppInterface {
+  handler: ServerAppInterface = handler;
+
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
@@ -16,9 +20,9 @@ export class AdminHandler implements ServerAppInterface {
       return this.nextServerApp.run(req);
     }
 
-    const handler = new HtmlMiddleware(new RootAdminHandler());
+    const app = new HtmlMiddleware(this.handler);
 
-    return handler.run({
+    return app.run({
       ...req,
       pathname: req.pathname.replace(BASE_PATH, ''),
     });
