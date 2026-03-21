@@ -1,5 +1,5 @@
 import * as http from 'http';
-import { Api, Assets, Cors, Ascii, Root } from '@/server-mods';
+import { Api, Assets, Cors, Ascii, Root } from '@/server-apps';
 import { DEFAULT_SERVER_PORT } from '@/constants';
 
 export class WebServer {
@@ -14,11 +14,11 @@ export class WebServer {
       (req: http.IncomingMessage, res: http.ServerResponse) => {
         const url = new URL(req.url ?? '', this.url);
 
-        const firstServerMod = new Cors(
+        const firstServerApp = new Cors(
           new Api(new Ascii(new Assets(new Root()))),
         );
 
-        firstServerMod
+        firstServerApp
           .run({
             body(): Promise<string> {
               let body = '';

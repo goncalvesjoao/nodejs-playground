@@ -1,10 +1,10 @@
-import { ServerMod } from '@/server-mod';
-import type { ServerModEnvType, ServerModOutputType } from '@/types';
+import { ServerApp } from '@/server-app';
+import type { ServerAppEnvType, ServerAppOutputType } from '@/types';
 
 const BASE_PATH = '/api';
 
-export class Api extends ServerMod {
-  async run(env: ServerModEnvType): Promise<ServerModOutputType> {
+export class Api extends ServerApp {
+  async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
     if (!env.pathname.startsWith(BASE_PATH)) {
       return this.nextMod.run(env);
     }

@@ -1,14 +1,14 @@
 import fs from 'fs/promises';
 import path from 'node:path';
 import { rootDirPath } from '@/utils';
-import type { ServerModEnvType, ServerModOutputType } from '@/types';
+import type { ServerAppEnvType, ServerAppOutputType } from '@/types';
 import { RESOURCES_DIR_NAME } from '@/constants';
-import { ServerMod } from '@/server-mod';
+import { ServerApp } from '@/server-app';
 
 const BASE_PATH = '/assets';
 
-export class Assets extends ServerMod {
-  async run(env: ServerModEnvType): Promise<ServerModOutputType> {
+export class Assets extends ServerApp {
+  async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
     if (!env.pathname.startsWith(BASE_PATH) || env.method !== 'GET') {
       return this.nextMod.run(env);
     }

@@ -1,11 +1,11 @@
 import figlet from 'figlet';
-import { ServerMod } from '@/server-mod';
-import type { ServerModEnvType, ServerModOutputType } from '@/types';
+import { ServerApp } from '@/server-app';
+import type { ServerAppEnvType, ServerAppOutputType } from '@/types';
 
 const BASE_PATH = /\/ascii\/?(.*)/;
 
-export class Ascii extends ServerMod {
-  async run(env: ServerModEnvType): Promise<ServerModOutputType> {
+export class Ascii extends ServerApp {
+  async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
     const match = env.pathname.match(BASE_PATH);
 
     if (!match || env.method !== 'GET') {

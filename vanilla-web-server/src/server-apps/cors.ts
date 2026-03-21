@@ -1,8 +1,8 @@
-import { ServerMod } from '@/server-mod';
-import type { ServerModEnvType, ServerModOutputType } from '@/types';
+import { ServerApp } from '@/server-app';
+import type { ServerAppEnvType, ServerAppOutputType } from '@/types';
 
-export class Cors extends ServerMod {
-  async run(env: ServerModEnvType): Promise<ServerModOutputType> {
+export class Cors extends ServerApp {
+  async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
     if (env.method !== 'OPTIONS') {
       return await this.nextMod.run(env);
     }
