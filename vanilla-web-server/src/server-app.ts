@@ -3,8 +3,9 @@ import path from 'path';
 import { Api, Assets, Cors, Ascii, Root } from '@/server-apps';
 import { rootDirPath } from '@/utils';
 import { RESOURCES_DIR_NAME } from '@/constants';
+import { ServerAppInterface } from '@/types';
 
-export const serverApp = new Cors(
+export const serverApp: ServerAppInterface = new Cors(
   new Api(
     new Ascii(
       new Assets(

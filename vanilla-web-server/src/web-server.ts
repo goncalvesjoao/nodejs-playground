@@ -1,6 +1,6 @@
 import * as http from 'http';
-import { serverApp } from '@/server-app';
 import { DEFAULT_SERVER_PORT } from '@/constants';
+import { ServerAppInterface } from '@/types';
 
 export class WebServer {
   protected server: http.Server;
@@ -9,22 +9,30 @@ export class WebServer {
     return `http://localhost:${this.serverPort}`;
   }
 
-  constructor(readonly serverPort: string = DEFAULT_SERVER_PORT) {
+  constructor(
+    protected app: ServerAppInterface,
+    readonly serverPort: number = DEFAULT_SERVER_PORT,
+  ) {
     this.server = http.createServer(
       (req: http.IncomingMessage, res: http.ServerResponse) => {
         const url = new URL(req.url ?? '', this.url);
+        let bodyText: string | undefined = undefined;
 
-        serverApp
+        this.app
           .run({
             body(): Promise<string> {
-              let body = '';
+              if (bodyText !== undefined) {
+                return Promise.resolve(bodyText);
+              }
+
+              bodyText = '';
 
               req.on('data', (chunk: Buffer) => {
-                body += chunk.toString();
+                bodyText += chunk.toString();
               });
 
               return new Promise((resolve) => {
-                req.on('end', () => resolve(body));
+                req.on('end', () => resolve(bodyText ?? ''));
               });
             },
             headers: req.headers,
