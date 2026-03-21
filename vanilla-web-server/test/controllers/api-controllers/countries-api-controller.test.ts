@@ -1,6 +1,6 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { CountriesApiHandler } from '@/handlers/api-handlers';
+import { CountriesApiController } from '@/controllers/api-controllers';
 import { ServerModRequestType } from '@/types';
 import CountryList from 'country-list';
 
@@ -8,7 +8,7 @@ const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const countriesApiHandler = new CountriesApiHandler({ run: nextServerModRun });
+const countriesApiController = new CountriesApiController({ run: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -18,9 +18,9 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('CountriesApiHandler', () => {
+void describe('CountriesApiController', () => {
   void test('returns a list of countries when a /countries request is made', async () => {
-    const response = await countriesApiHandler.run({
+    const response = await countriesApiController.run({
       ...defaultRequest,
     });
 
@@ -31,7 +31,7 @@ void describe('CountriesApiHandler', () => {
   });
 
   void test('invokes nextServerMod when a request is not supported', async () => {
-    await countriesApiHandler.run({ ...defaultRequest, method: 'OPTIONS' });
+    await countriesApiController.run({ ...defaultRequest, method: 'OPTIONS' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

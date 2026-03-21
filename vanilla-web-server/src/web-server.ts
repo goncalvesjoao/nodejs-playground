@@ -2,11 +2,11 @@ import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
 import { ServerModInterface } from '@/types';
 import {
-  ApiHandler,
-  AssetsHandler,
-  AdminHandler,
-  RootHandler,
-} from '@/handlers';
+  ApiController,
+  AssetsController,
+  AdminController,
+  RootController,
+} from '@/controllers';
 import { CorsMiddleware } from '@/middlewares';
 
 export class Logger {
@@ -14,8 +14,8 @@ export class Logger {
   error(..._args: unknown[]) {}
 }
 
-const handler = new ApiHandler(
-  new AdminHandler(new AssetsHandler(new RootHandler())),
+const handler = new ApiController(
+  new AdminController(new AssetsController(new RootController())),
 );
 
 export class WebServer {

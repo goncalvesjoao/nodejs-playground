@@ -1,6 +1,6 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ApiHandler } from '@/handlers';
+import { ApiController } from '@/controllers';
 import { ServerModRequestType } from '@/types';
 
 const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
@@ -19,7 +19,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('ApiHandler', () => {
+void describe('ApiController', () => {
   void test('invokes the handler using JsonMiddleware', async () => {
     const handlerRun = mock.fn(async (_req: ServerModRequestType) =>
       Promise.resolve({
@@ -29,11 +29,11 @@ void describe('ApiHandler', () => {
       }),
     );
 
-    const apiHandler = new ApiHandler({ run: nextServerModRun });
+    const apiController = new ApiController({ run: nextServerModRun });
 
-    apiHandler.handler = { run: handlerRun };
+    apiController.handler = { run: handlerRun };
 
-    const response = await apiHandler.run({
+    const response = await apiController.run({
       ...defaultRequest,
       pathname: '/api/unknown',
     });
@@ -51,9 +51,9 @@ void describe('ApiHandler', () => {
   });
 
   void test('invokes nextServerMod when a request other than /api is made', async () => {
-    const apiHandler = new ApiHandler({ run: nextServerModRun });
+    const apiController = new ApiController({ run: nextServerModRun });
 
-    await apiHandler.run({ ...defaultRequest, pathname: '/unknown' });
+    await apiController.run({ ...defaultRequest, pathname: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

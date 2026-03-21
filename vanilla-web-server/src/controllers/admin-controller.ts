@@ -3,14 +3,14 @@ import type {
   ServerModInterface,
   ServerModResponseType,
 } from '@/types';
-import { RootAdminHandler } from '@/handlers/admin-handlers';
+import { RootAdminController } from '@/controllers/admin-controllers';
 import { HtmlMiddleware } from '@/middlewares';
 
 const BASE_PATH = '/admin';
 
-const handler = new RootAdminHandler();
+const handler = new RootAdminController();
 
-export class AdminHandler implements ServerModInterface {
+export class AdminController implements ServerModInterface {
   handler: ServerModInterface = handler;
 
   constructor(protected nextServerMod: ServerModInterface) {}

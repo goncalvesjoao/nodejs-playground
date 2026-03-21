@@ -1,6 +1,6 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { AssetsHandler } from '@/handlers';
+import { AssetsController } from '@/controllers';
 import { ServerModRequestType } from '@/types';
 import { readPublicFile } from '@/utils';
 
@@ -8,7 +8,7 @@ const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const assetsHandler = new AssetsHandler({ run: nextServerModRun });
+const assetsController = new AssetsController({ run: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -18,9 +18,9 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('AssetsHandler', () => {
+void describe('AssetsController', () => {
   void test('returns an asset from the disk, matching the requested path', async () => {
-    const response = await assetsHandler.run({
+    const response = await assetsController.run({
       ...defaultRequest,
       pathname: '/assets/chippy.jpg',
     });
@@ -38,7 +38,7 @@ void describe('AssetsHandler', () => {
   void test('invokes nextServerMod when an unknown asset is requested', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await assetsHandler.run({
+    await assetsController.run({
       ...defaultRequest,
       pathname: '/assets/unknown',
     });
@@ -49,7 +49,7 @@ void describe('AssetsHandler', () => {
   void test('invokes nextServerMod when a request other than /assets is made', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await assetsHandler.run({ ...defaultRequest, pathname: '/unknown' });
+    await assetsController.run({ ...defaultRequest, pathname: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

@@ -3,14 +3,14 @@ import type {
   ServerModInterface,
   ServerModResponseType,
 } from '@/types';
-import { RootApiHandler, CountriesApiHandler } from '@/handlers/api-handlers';
+import { RootApiController, CountriesApiController } from '@/controllers/api-controllers';
 import { JsonMiddleware } from '@/middlewares';
 
 const BASE_PATH = '/api';
 
-const handler = new CountriesApiHandler(new RootApiHandler());
+const handler = new CountriesApiController(new RootApiController());
 
-export class ApiHandler implements ServerModInterface {
+export class ApiController implements ServerModInterface {
   handler: ServerModInterface = handler;
 
   constructor(protected nextServerMod: ServerModInterface) {}

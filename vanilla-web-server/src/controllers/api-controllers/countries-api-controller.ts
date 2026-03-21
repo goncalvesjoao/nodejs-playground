@@ -7,7 +7,7 @@ import CountryList from 'country-list';
 
 const BASE_PATH = /\/countries\/?(.*)/;
 
-export class CountriesApiHandler implements ServerModInterface {
+export class CountriesApiController implements ServerModInterface {
   constructor(protected nextServerMod: ServerModInterface) {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {

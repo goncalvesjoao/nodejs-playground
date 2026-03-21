@@ -4,7 +4,7 @@ import type {
   ServerModResponseType,
 } from '@/types';
 
-export class RootApiHandler implements ServerModInterface {
+export class RootApiController implements ServerModInterface {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (req.method === 'GET' && (req.pathname === '/' || req.pathname === '')) {
       return Promise.resolve({

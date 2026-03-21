@@ -1,8 +1,8 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { RootAdminHandler } from '@/handlers/admin-handlers';
+import { RootAdminController } from '@/controllers/admin-controllers';
 
-const rootAdminHandler = new RootAdminHandler();
+const rootAdminController = new RootAdminController();
 
 const defaultRequest = {
   method: 'GET',
@@ -12,16 +12,16 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('RootAdminHandler', () => {
+void describe('RootAdminController', () => {
   void test('returns a Admin Home Page when a root request is made', async () => {
-    const response = await rootAdminHandler.run({ ...defaultRequest });
+    const response = await rootAdminController.run({ ...defaultRequest });
 
     assert.equal(response.status, 200);
     assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
   });
 
   void test('returns a 404 response when an unrecognized endpoint is requested', async () => {
-    const response = await rootAdminHandler.run({
+    const response = await rootAdminController.run({
       ...defaultRequest,
       pathname: '/unknown',
     });

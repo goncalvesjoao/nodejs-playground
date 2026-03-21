@@ -1,8 +1,8 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { RootApiHandler } from '@/handlers/api-handlers';
+import { RootApiController } from '@/controllers/api-controllers';
 
-const rootApiHandler = new RootApiHandler();
+const rootApiController = new RootApiController();
 
 const defaultRequest = {
   method: 'GET',
@@ -12,9 +12,9 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('RootApiHandler', () => {
+void describe('RootApiController', () => {
   void test('returns a welcome message when a root request is made', async () => {
-    const response = await rootApiHandler.run({ ...defaultRequest });
+    const response = await rootApiController.run({ ...defaultRequest });
 
     assert.equal(response.status, 200);
     assert.deepEqual(response.body, {
@@ -23,7 +23,7 @@ void describe('RootApiHandler', () => {
   });
 
   void test('returns a 501 response when an unrecognized endpoint is requested', async () => {
-    const response = await rootApiHandler.run({
+    const response = await rootApiController.run({
       ...defaultRequest,
       pathname: '/unknown',
     });

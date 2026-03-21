@@ -1,8 +1,8 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { RootHandler } from '@/handlers';
+import { RootController } from '@/controllers';
 
-const rootHandler = new RootHandler();
+const rootController = new RootController();
 
 const defaultRequest = {
   method: 'GET',
@@ -12,9 +12,9 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('RootHandler', () => {
+void describe('RootController', () => {
   void test('returns Home Page HTML when root path is requested', async () => {
-    const response = await rootHandler.run({ ...defaultRequest });
+    const response = await rootController.run({ ...defaultRequest });
 
     assert.equal(response.status, 200);
     assert.ok(
@@ -24,7 +24,7 @@ void describe('RootHandler', () => {
   });
 
   void test('returns a 404 HTML page when a request other than the root is made', async () => {
-    const response = await rootHandler.run({
+    const response = await rootController.run({
       ...defaultRequest,
       pathname: '/unknown',
     });
