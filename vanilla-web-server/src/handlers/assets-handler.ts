@@ -33,14 +33,10 @@ export class AssetsHandler implements ServerAppInterface {
       return this.nextServerApp.run(req);
     }
 
-    const body = await fs.readFile(assetAbsolutePath);
-
     return {
       status: 200,
-      headers: {
-        'Content-Type': contentTypeFromFileName(assetAbsolutePath),
-      },
-      body,
+      headers: { 'Content-Type': contentTypeFromFileName(assetAbsolutePath) },
+      body: await fs.readFile(assetAbsolutePath),
     };
   }
 }
