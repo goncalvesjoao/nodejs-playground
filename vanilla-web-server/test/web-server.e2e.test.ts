@@ -85,8 +85,8 @@
 //     );
 //   });
 
-//   void test('GET /ascii/123 - should return an ASCII response', async () => {
-//     const response = await fetch(`${webServer.url}/ascii/123`);
+//   void test('GET /admin/123 - should return an ASCII response', async () => {
+//     const response = await fetch(`${webServer.url}/admin/123`);
 //     const responseText = await response.text();
 
 //     assert.equal(response.status, 200, 'Response status should be 200');

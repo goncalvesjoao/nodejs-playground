@@ -5,9 +5,9 @@ import type {
   ServerAppResponseType,
 } from '@/types';
 
-const BASE_PATH = /\/ascii\/?(.*)/;
+const BASE_PATH = /\/admin\/?(.*)/;
 
-export class AsciiHandler implements ServerAppInterface {
+export class AdminHandler implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
