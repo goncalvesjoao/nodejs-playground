@@ -20,7 +20,7 @@ export class Api implements ServerAppInterface {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: 'Hello from the API!' }),
+        body: JSON.stringify({ message: 'Welcome to the API!' }),
       };
     }
 

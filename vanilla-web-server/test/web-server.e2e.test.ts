@@ -49,7 +49,7 @@
 //     assert.equal(response.status, 200, 'Response status should be 200');
 //     assert.deepEqual(
 //       JSON.parse(responseText),
-//       { message: 'Hello from the API!' },
+//       { message: 'Welcome to the API!' },
 //       'API response should match',
 //     );
 //   });
