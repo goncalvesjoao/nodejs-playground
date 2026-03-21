@@ -42,7 +42,7 @@ export class WebServer {
             headers: req.headers,
             method: req.method ?? 'GET',
             pathname: url.pathname,
-            searchParams: url.searchParams,
+            searchParams: Object.fromEntries(url.searchParams),
           })
           .then(({ statusCode, headers, body }) => {
             res.writeHead(statusCode, headers);

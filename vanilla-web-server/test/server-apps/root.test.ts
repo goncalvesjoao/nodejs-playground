@@ -7,7 +7,7 @@ const root = new Root();
 const defaultRequest = {
   method: 'GET',
   pathname: '/',
-  searchParams: new URLSearchParams(),
+  searchParams: {},
   headers: {},
   body: () => Promise.resolve(''),
 };

@@ -12,7 +12,7 @@ const api = new Api({ run: nextServerAppRun });
 const defaultRequest = {
   method: 'GET',
   pathname: '/api',
-  searchParams: new URLSearchParams(),
+  searchParams: {},
   headers: {},
   body: () => Promise.resolve(''),
 };

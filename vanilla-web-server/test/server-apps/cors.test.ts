@@ -11,7 +11,7 @@ const cors = new Cors({ run: nextServerAppRun });
 
 const defaultRequest = {
   pathname: '/unknown',
-  searchParams: new URLSearchParams(),
+  searchParams: {},
   headers: {},
   body: () => Promise.resolve(''),
 };

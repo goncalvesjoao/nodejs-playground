@@ -1,12 +1,11 @@
 import type { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
-import { URLSearchParams } from 'url';
 
 export type ServerAppRequestType = {
   body: () => Promise<string>;
   headers: IncomingHttpHeaders;
   method: string;
   pathname: string;
-  searchParams: URLSearchParams;
+  searchParams: Record<string, string>;
 };
 
 export type ServerAppResponseType = {
