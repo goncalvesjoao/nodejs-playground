@@ -7,13 +7,12 @@ export async function renderView(
   viewPath: string,
   data: Record<string, any> = {},
 ) {
-  const viewAbsolutePath = path.join(
-    rootDirPath,
-    VIEWS_DIR_NAME,
-    viewPath.endsWith('.ejs') ? viewPath : `${viewPath}.ejs`,
-  );
+  const viewAbsolutePath = path.join(rootDirPath, VIEWS_DIR_NAME, viewPath);
+  const options = {
+    views: [path.join(rootDirPath, VIEWS_DIR_NAME)],
+  };
 
-  const content = await ejs.renderFile(viewAbsolutePath, data);
+  const content = await ejs.renderFile(viewAbsolutePath, data, options);
 
   return content;
 }

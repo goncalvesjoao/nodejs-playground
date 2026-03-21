@@ -3,12 +3,17 @@ import type {
   ServerModInterface,
   ServerModResponseType,
 } from '@/types';
-import { RootAdminController } from '@/controllers/admin-controllers';
+import {
+  RootAdminController,
+  UsersAdminController,
+} from '@/controllers/admin-controllers';
 
 const BASE_PATH = '/admin';
 
 export class AdminController implements ServerModInterface {
-  serverMod: ServerModInterface = new RootAdminController();
+  serverMod: ServerModInterface = new UsersAdminController(
+    new RootAdminController(),
+  );
 
   constructor(protected nextServerMod: ServerModInterface) {}
 
