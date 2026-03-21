@@ -13,7 +13,7 @@ export class Root implements ServerAppInterface {
     if (req.method !== 'GET' || req.pathname !== '/') {
       return {
         statusCode: 404,
-        headers: { 'Content-Type': 'text/plain' },
+        headers: { 'Content-Type': 'text/html' },
         body: await fs.readFile(
           path.join(rootDirPath, RESOURCES_DIR_NAME, 'not_found.html'),
         ),
