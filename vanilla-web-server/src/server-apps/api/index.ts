@@ -5,7 +5,7 @@ import type {
 } from '@/types';
 import { Countries } from '@/server-apps/api/countries';
 import { Root } from '@/server-apps/api/root';
-import { JsonParser } from '@/server-apps/json-parser';
+import { JsonParser } from '@/middleware/json-parser';
 
 const BASE_PATH = '/api';
 

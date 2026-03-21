@@ -1,6 +1,6 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Cors } from '@/server-apps';
+import { Cors } from '@/middleware';
 import { ServerAppRequestType } from '@/types';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
@@ -23,7 +23,7 @@ void describe('Cors server app', () => {
     assert.equal(nextServerAppRun.mock.calls.length, 0);
 
     assert.equal(response.statusCode, 204);
-    assert.equal(response.headers['Access-Control-Allow-Origin'], '*');
+    assert.equal((response.headers || {})['Access-Control-Allow-Origin'], '*');
     assert.equal(response.body, null);
   });
 
