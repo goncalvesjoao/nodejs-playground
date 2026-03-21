@@ -5,7 +5,7 @@ import { ServerAppRequestType } from '@/types';
 import CountryList from 'country-list';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
-  Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
+  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 const apiHandler = new ApiHandler({ run: nextServerAppRun });
@@ -22,7 +22,7 @@ void describe('ApiHandler', () => {
   void test('returns a welcome message when a /api request is made', async () => {
     const response = await apiHandler.run({ ...defaultRequest });
 
-    assert.equal(response.statusCode, 200);
+    assert.equal(response.status, 200);
     assert.deepEqual(JSON.parse(String(response.body)), {
       message: 'Welcome to the API!',
     });
@@ -34,7 +34,7 @@ void describe('ApiHandler', () => {
       pathname: '/api/countries',
     });
 
-    assert.equal(response.statusCode, 200);
+    assert.equal(response.status, 200);
     assert.deepEqual(JSON.parse(String(response.body)), {
       results: CountryList.getData(),
     });
@@ -46,7 +46,7 @@ void describe('ApiHandler', () => {
       pathname: '/api/unknown',
     });
 
-    assert.equal(response.statusCode, 501);
+    assert.equal(response.status, 501);
     assert.deepEqual(JSON.parse(String(response.body)), {
       message: 'Not Implemented',
     });

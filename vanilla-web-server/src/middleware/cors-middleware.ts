@@ -13,7 +13,7 @@ export class CorsMiddleware implements ServerAppInterface {
     }
 
     return {
-      statusCode: 204,
+      status: 204,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS, GET, POST, PUT, DELETE',

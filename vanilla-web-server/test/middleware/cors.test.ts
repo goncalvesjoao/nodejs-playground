@@ -4,7 +4,7 @@ import { CorsMiddleware } from '@/middleware';
 import { ServerAppRequestType } from '@/types';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
-  Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
+  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 const corsMiddleware = new CorsMiddleware({ run: nextServerAppRun });
@@ -18,11 +18,14 @@ const defaultRequest = {
 
 void describe('CorsMiddleware', () => {
   void test('returns a positive CORS response when OPTIONS request is made', async () => {
-    const response = await corsMiddleware.run({ ...defaultRequest, method: 'OPTIONS' });
+    const response = await corsMiddleware.run({
+      ...defaultRequest,
+      method: 'OPTIONS',
+    });
 
     assert.equal(nextServerAppRun.mock.calls.length, 0);
 
-    assert.equal(response.statusCode, 204);
+    assert.equal(response.status, 204);
     assert.equal((response.headers || {})['Access-Control-Allow-Origin'], '*');
     assert.equal(response.body, null);
   });

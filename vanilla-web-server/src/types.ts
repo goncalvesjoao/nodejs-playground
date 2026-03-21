@@ -9,7 +9,7 @@ export type ServerAppRequestType = {
 };
 
 export type ServerAppResponseType = {
-  statusCode: number;
+  status: number;
   headers?: OutgoingHttpHeaders;
   body?: any;
 };

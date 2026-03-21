@@ -21,13 +21,13 @@ export class CountriesApiHandler implements ServerAppInterface {
       const results: CountryList.Country[] = CountryList.getData();
 
       return {
-        statusCode: 200,
+        status: 200,
         body: { results },
       };
     }
 
     return {
-      statusCode: 501,
+      status: 501,
       body: { message: 'Not Implemented' },
     };
   }

@@ -18,7 +18,7 @@ export class AsciiHandler implements ServerAppInterface {
     }
 
     return Promise.resolve({
-      statusCode: 200,
+      status: 200,
       headers: { 'Content-Type': 'text/plain' },
       body: figlet.textSync(match[1] || 'Hello World!'),
     });

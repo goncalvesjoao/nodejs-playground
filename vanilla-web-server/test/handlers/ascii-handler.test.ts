@@ -4,7 +4,7 @@ import { AsciiHandler } from '@/handlers';
 import { ServerAppRequestType } from '@/types';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
-  Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
+  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 const asciiHandler = new AsciiHandler({ run: nextServerAppRun });
@@ -24,7 +24,7 @@ void describe('AsciiHandler', () => {
       pathname: '/ascii/123',
     });
 
-    assert.equal(response.statusCode, 200, 'Response status should be 200');
+    assert.equal(response.status, 200, 'Response status should be 200');
     assert.ok(
       String(response.body).includes('| |/ __/ ___) |'),
       'Response should include an ASCII representation of "123"',

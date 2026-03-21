@@ -31,7 +31,7 @@ export class AssetsHandler implements ServerAppInterface {
 
     if (!fileExists) {
       return {
-        statusCode: 404,
+        status: 404,
         headers: { 'Content-Type': 'text/html' },
         body: await fs.readFile(
           path.join(rootDirPath, PUBLIC_DIR_NAME, 'not_found.html'),
@@ -42,7 +42,7 @@ export class AssetsHandler implements ServerAppInterface {
     const body = await fs.readFile(assetAbsolutePath);
 
     return {
-      statusCode: 200,
+      status: 200,
       headers: {
         'Content-Type': contentTypeFromFileName(assetAbsolutePath),
       },

@@ -16,7 +16,7 @@ void describe('RootHandler', () => {
   void test('returns Home Page HTML when root path is requested', async () => {
     const response = await rootHandler.run({ ...defaultRequest });
 
-    assert.equal(response.statusCode, 200);
+    assert.equal(response.status, 200);
     assert.ok(
       String(response.body).includes('<h1>Home Page</h1>'),
       'Response should include "Home Page"',
@@ -29,7 +29,7 @@ void describe('RootHandler', () => {
       pathname: '/unknown',
     });
 
-    assert.equal(response.statusCode, 404);
+    assert.equal(response.status, 404);
     assert.ok(String(response.body).includes('<h1>404 Page Not Found</h1>'));
   });
 });

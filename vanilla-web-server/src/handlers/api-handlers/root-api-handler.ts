@@ -6,17 +6,15 @@ import type {
 
 export class RootApiHandler implements ServerAppInterface {
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
-    if (req.pathname === '' || req.pathname === '/') {
+    if (req.method === 'GET' && (req.pathname === '/' || req.pathname === '')) {
       return Promise.resolve({
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
+        status: 200,
         body: { message: 'Welcome to the API!' },
       });
     }
 
     return Promise.resolve({
-      statusCode: 501,
-      headers: { 'Content-Type': 'application/json' },
+      status: 501,
       body: { message: 'Not Implemented' },
     });
   }

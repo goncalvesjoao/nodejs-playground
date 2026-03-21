@@ -4,7 +4,7 @@ import { WebServer } from '@/web-server';
 import type { ServerAppRequestType } from '@/types';
 
 const handlerRun = mock.fn(async (_req: ServerAppRequestType) =>
-  Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
+  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 void describe('WebServer', () => {
@@ -37,7 +37,7 @@ void describe('WebServer', () => {
   void test('returns an HTTP response based on handler#run output', async (t) => {
     handlerRun.mock.mockImplementationOnce(async (_req: ServerAppRequestType) =>
       Promise.resolve({
-        statusCode: 400,
+        status: 400,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ error: 'Bad Request' }),
       }),

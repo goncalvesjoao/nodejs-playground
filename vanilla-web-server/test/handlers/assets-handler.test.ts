@@ -8,7 +8,7 @@ import { PUBLIC_DIR_NAME } from '@/constants';
 import { rootDirPath } from '@/utils';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
-  Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
+  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 const assetsHandler = new AssetsHandler({ run: nextServerAppRun });
@@ -32,7 +32,7 @@ void describe('AssetsHandler', () => {
       path.join(rootDirPath, PUBLIC_DIR_NAME, 'assets', 'chippy.jpg'),
     );
 
-    assert.equal(response.statusCode, 200);
+    assert.equal(response.status, 200);
 
     assert.ok(
       expectedBody.equals(response.body as Buffer),
@@ -46,7 +46,7 @@ void describe('AssetsHandler', () => {
       pathname: '/assets/unknown',
     });
 
-    assert.equal(response.statusCode, 404);
+    assert.equal(response.status, 404);
     assert.ok(String(response.body).includes('<h1>404 Page Not Found</h1>'));
   });
 

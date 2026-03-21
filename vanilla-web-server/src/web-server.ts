@@ -44,8 +44,8 @@ export class WebServer {
             pathname: url.pathname,
             searchParams: Object.fromEntries(url.searchParams),
           })
-          .then(({ statusCode, headers, body }) => {
-            res.writeHead(statusCode, headers);
+          .then(({ status, headers, body }) => {
+            res.writeHead(status, headers);
             res.end(body);
           })
           .catch((error) => {
