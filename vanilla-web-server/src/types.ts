@@ -1,7 +1,7 @@
 import type { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import { URLSearchParams } from 'url';
 
-export type ServerAppEnvType = {
+export type ServerAppRequestType = {
   body: () => Promise<string>;
   headers: IncomingHttpHeaders;
   method: string;
@@ -9,12 +9,12 @@ export type ServerAppEnvType = {
   searchParams: URLSearchParams;
 };
 
-export type ServerAppOutputType = {
+export type ServerAppResponseType = {
   statusCode: number;
   headers?: OutgoingHttpHeaders;
   body?: any;
 };
 
 export interface ServerAppInterface {
-  run(env: ServerAppEnvType): Promise<ServerAppOutputType>;
+  run(req: ServerAppRequestType): Promise<ServerAppResponseType>;
 }

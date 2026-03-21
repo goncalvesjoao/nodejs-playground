@@ -1,16 +1,16 @@
 import path from 'path';
 import type {
   ServerAppInterface,
-  ServerAppEnvType,
-  ServerAppOutputType,
+  ServerAppRequestType,
+  ServerAppResponseType,
 } from '@/types';
 import { rootDirPath } from '@/utils';
 import fs from 'fs/promises';
 import { RESOURCES_DIR_NAME } from '@/constants';
 
 export class Root implements ServerAppInterface {
-  async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
-    if (env.method !== 'GET' || env.pathname !== '/') {
+  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+    if (req.method !== 'GET' || req.pathname !== '/') {
       return {
         statusCode: 404,
         headers: { 'Content-Type': 'text/plain' },

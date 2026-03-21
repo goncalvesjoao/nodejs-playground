@@ -1,8 +1,8 @@
 import figlet from 'figlet';
 import type {
-  ServerAppEnvType,
+  ServerAppRequestType,
   ServerAppInterface,
-  ServerAppOutputType,
+  ServerAppResponseType,
 } from '@/types';
 
 const BASE_PATH = /\/ascii\/?(.*)/;
@@ -10,11 +10,11 @@ const BASE_PATH = /\/ascii\/?(.*)/;
 export class Ascii implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
-  async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
-    const match = env.pathname.match(BASE_PATH);
+  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+    const match = req.pathname.match(BASE_PATH);
 
-    if (!match || env.method !== 'GET') {
-      return this.nextServerApp.run(env);
+    if (!match || req.method !== 'GET') {
+      return this.nextServerApp.run(req);
     }
 
     return Promise.resolve({

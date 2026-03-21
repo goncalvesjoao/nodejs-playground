@@ -1,15 +1,15 @@
 import type {
-  ServerAppEnvType,
+  ServerAppRequestType,
   ServerAppInterface,
-  ServerAppOutputType,
+  ServerAppResponseType,
 } from '@/types';
 
 export class Cors implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
-  async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
-    if (env.method !== 'OPTIONS') {
-      return await this.nextServerApp.run(env);
+  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+    if (req.method !== 'OPTIONS') {
+      return await this.nextServerApp.run(req);
     }
 
     return {

@@ -2,9 +2,9 @@ import fs from 'fs/promises';
 import path from 'node:path';
 import { rootDirPath } from '@/utils';
 import type {
-  ServerAppEnvType,
+  ServerAppRequestType,
   ServerAppInterface,
-  ServerAppOutputType,
+  ServerAppResponseType,
 } from '@/types';
 import { RESOURCES_DIR_NAME } from '@/constants';
 
@@ -13,15 +13,15 @@ const BASE_PATH = '/assets';
 export class Assets implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
-  async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
-    if (!env.pathname.startsWith(BASE_PATH) || env.method !== 'GET') {
-      return this.nextServerApp.run(env);
+  async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
+    if (!req.pathname.startsWith(BASE_PATH) || req.method !== 'GET') {
+      return this.nextServerApp.run(req);
     }
 
     const assetAbsolutePath = path.join(
       rootDirPath,
       RESOURCES_DIR_NAME,
-      `.${env.pathname}`,
+      `.${req.pathname}`,
     );
 
     const fileExists = await fs
