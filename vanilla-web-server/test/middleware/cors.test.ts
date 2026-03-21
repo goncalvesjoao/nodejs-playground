@@ -1,13 +1,13 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Cors } from '@/middleware';
+import { CorsMiddleware } from '@/middleware';
 import { ServerAppRequestType } from '@/types';
 
 const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
   Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const cors = new Cors({ run: nextServerAppRun });
+const corsMiddleware = new CorsMiddleware({ run: nextServerAppRun });
 
 const defaultRequest = {
   pathname: '/unknown',
@@ -16,9 +16,9 @@ const defaultRequest = {
   body: () => Promise.resolve(''),
 };
 
-void describe('Cors server app', () => {
+void describe('CorsMiddleware', () => {
   void test('returns a positive CORS response when OPTIONS request is made', async () => {
-    const response = await cors.run({ ...defaultRequest, method: 'OPTIONS' });
+    const response = await corsMiddleware.run({ ...defaultRequest, method: 'OPTIONS' });
 
     assert.equal(nextServerAppRun.mock.calls.length, 0);
 
@@ -28,7 +28,7 @@ void describe('Cors server app', () => {
   });
 
   void test('invokes nextServerApp when OPTIONS request is not made', async () => {
-    await cors.run({ ...defaultRequest, method: 'POST' });
+    await corsMiddleware.run({ ...defaultRequest, method: 'POST' });
 
     assert.equal(nextServerAppRun.mock.calls.length, 1);
   });

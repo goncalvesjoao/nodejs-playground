@@ -17,7 +17,7 @@ const defaultRequest = {
   body: () => Promise.resolve(''),
 };
 
-void describe('Ascii server app', () => {
+void describe('AsciiHandler', () => {
   void test('returns an ASCII version of the requested asset', async () => {
     const response = await asciiHandler.run({
       ...defaultRequest,

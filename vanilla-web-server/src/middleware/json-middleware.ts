@@ -4,7 +4,7 @@ import type {
   ServerAppResponseType,
 } from '@/types';
 
-export class JsonParser implements ServerAppInterface {
+export class JsonMiddleware implements ServerAppInterface {
   constructor(protected nextServerApp: ServerAppInterface) {}
 
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {

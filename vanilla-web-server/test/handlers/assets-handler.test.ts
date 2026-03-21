@@ -21,7 +21,7 @@ const defaultRequest = {
   body: () => Promise.resolve(''),
 };
 
-void describe('Assets server app', () => {
+void describe('AssetsHandler', () => {
   void test('returns an asset from the disk, matching the requested path', async () => {
     const response = await assetsHandler.run({
       ...defaultRequest,

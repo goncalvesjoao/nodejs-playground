@@ -18,7 +18,7 @@ const defaultRequest = {
   body: () => Promise.resolve(''),
 };
 
-void describe('Api server app', () => {
+void describe('ApiHandler', () => {
   void test('returns a welcome message when a /api request is made', async () => {
     const response = await apiHandler.run({ ...defaultRequest });
 

@@ -12,7 +12,7 @@ const defaultRequest = {
   body: () => Promise.resolve(''),
 };
 
-void describe('Root server app', () => {
+void describe('RootHandler', () => {
   void test('returns Home Page HTML when root path is requested', async () => {
     const response = await rootHandler.run({ ...defaultRequest });
 

@@ -1,9 +1,9 @@
 import { WebServer } from '@/web-server';
-import { serverApp } from '@/server-app';
+import { handler } from '@/handler';
 
 async function main() {
   const webServer = new WebServer(
-    serverApp,
+    handler,
     process.env.SERVER_PORT ? Number(process.env.SERVER_PORT) : undefined,
     console,
   );

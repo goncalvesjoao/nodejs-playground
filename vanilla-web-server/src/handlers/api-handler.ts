@@ -4,7 +4,7 @@ import type {
   ServerAppResponseType,
 } from '@/types';
 import { RootApiHandler, CountriesApiHandler } from '@/handlers/api-handlers';
-import { JsonParser } from '@/middleware/json-parser';
+import { JsonMiddleware } from '@/middleware';
 
 const BASE_PATH = '/api';
 
@@ -16,11 +16,11 @@ export class ApiHandler implements ServerAppInterface {
       return this.nextServerApp.run(req);
     }
 
-    const serverApp = new JsonParser(
+    const handler = new JsonMiddleware(
       new CountriesApiHandler(new RootApiHandler()),
     );
 
-    return serverApp.run({
+    return handler.run({
       ...req,
       pathname: req.pathname.replace(BASE_PATH, ''),
     });

@@ -1,2 +1,2 @@
-export * from './cors';
-export * from './json-parser';
+export * from './cors-middleware';
+export * from './json-middleware';
