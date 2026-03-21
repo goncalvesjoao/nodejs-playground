@@ -1,25 +1,15 @@
 import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
 import { ServerModInterface } from '@/types';
-import {
-  ApiController,
-  AssetsController,
-  AdminController,
-  RootController,
-} from '@/controllers';
-import { CorsMiddleware } from '@/middlewares';
+import { app } from '@/app';
 
 export class Logger {
   log(..._args: unknown[]) {}
   error(..._args: unknown[]) {}
 }
 
-const handler = new ApiController(
-  new AdminController(new AssetsController(new RootController())),
-);
-
 export class WebServer {
-  handler: ServerModInterface = handler;
+  app: ServerModInterface = app;
   logger: Logger = new Logger();
   server: http.Server;
 
@@ -43,9 +33,7 @@ export class WebServer {
           req.on('error', reject);
         });
 
-        const app = new CorsMiddleware(this.handler);
-
-        app
+        this.app
           .run({
             body(): Promise<Buffer> {
               return bodyPromise;

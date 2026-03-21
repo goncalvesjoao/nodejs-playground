@@ -3,15 +3,15 @@ import assert from 'node:assert/strict';
 import { WebServer } from '@/web-server';
 import type { ServerModRequestType } from '@/types';
 
-const handlerRun = mock.fn(async (_req: ServerModRequestType) =>
+const mockedRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 void describe('WebServer', () => {
-  void test('invokes handler#run with a well formed request', async (t) => {
+  void test('invokes #app.run with a well formed request', async (t) => {
     const webServer = new WebServer();
 
-    webServer.handler = { run: handlerRun };
+    webServer.app = { run: mockedRun };
 
     t.after(() => webServer.close());
 
@@ -23,8 +23,8 @@ void describe('WebServer', () => {
       body: `I'm not a teapot`,
     });
 
-    assert.strictEqual(handlerRun.mock.calls.length, 1);
-    const firstCallArgs = handlerRun.mock.calls[0].arguments;
+    assert.strictEqual(mockedRun.mock.calls.length, 1);
+    const firstCallArgs = mockedRun.mock.calls[0].arguments;
     const receivedRequest = firstCallArgs[0];
 
     assert.strictEqual(receivedRequest.method, 'POST');
@@ -36,8 +36,8 @@ void describe('WebServer', () => {
     assert.strictEqual(bodyText, `I'm not a teapot`);
   });
 
-  void test('returns an HTTP response based on handler#run output', async (t) => {
-    handlerRun.mock.mockImplementationOnce(async (_req: ServerModRequestType) =>
+  void test('returns an HTTP response based on #app.run output', async (t) => {
+    mockedRun.mock.mockImplementationOnce(async (_req: ServerModRequestType) =>
       Promise.resolve({
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -47,7 +47,7 @@ void describe('WebServer', () => {
 
     const webServer = new WebServer();
 
-    webServer.handler = { run: handlerRun };
+    webServer.app = { run: mockedRun };
 
     t.after(() => webServer.close());
 
@@ -65,14 +65,14 @@ void describe('WebServer', () => {
     assert.strictEqual(bodyText, JSON.stringify({ error: 'Bad Request' }));
   });
 
-  void test('returns an Internal Server Error when handler#run throws an error', async (t) => {
-    handlerRun.mock.mockImplementationOnce(async (_req: ServerModRequestType) =>
+  void test('returns an Internal Server Error when #app.run throws an error', async (t) => {
+    mockedRun.mock.mockImplementationOnce(async (_req: ServerModRequestType) =>
       Promise.reject(new Error('Something went wrong')),
     );
 
     const webServer = new WebServer();
 
-    webServer.handler = { run: handlerRun };
+    webServer.app = { run: mockedRun };
 
     t.after(() => webServer.close());
 
