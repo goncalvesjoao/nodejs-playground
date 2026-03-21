@@ -1,13 +1,8 @@
-import { describe, mock, test } from 'node:test';
+import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Root } from '@/server-apps';
-import { ServerAppRequestType } from '@/types';
 
-const nextServerAppRun = mock.fn(async (_req: ServerAppRequestType) =>
-  Promise.resolve({ statusCode: 418, headers: {}, body: `I'm a teapot` }),
-);
-
-const root = new Root({ run: nextServerAppRun });
+const root = new Root();
 
 const defaultRequest = {
   method: 'GET',
@@ -28,9 +23,13 @@ void describe('Root server app', () => {
     );
   });
 
-  void test('invokes nextServerApp when a request other than the root is made', async () => {
-    await root.run({ ...defaultRequest, pathname: '/unknown' });
+  void test('returns a 404 HTML page when a request other than the root is made', async () => {
+    const response = await root.run({
+      ...defaultRequest,
+      pathname: '/unknown',
+    });
 
-    assert.equal(nextServerAppRun.mock.calls.length, 1);
+    assert.equal(response.statusCode, 404);
+    assert.ok(String(response.body).includes('<h1>404 Page Not Found</h1>'));
   });
 });

@@ -9,11 +9,15 @@ import { rootDirPath } from '@/utils';
 import { RESOURCES_DIR_NAME } from '@/constants';
 
 export class Root implements ServerAppInterface {
-  constructor(protected nextServerApp: ServerAppInterface) {}
-
   async run(req: ServerAppRequestType): Promise<ServerAppResponseType> {
     if (req.method !== 'GET' || req.pathname !== '/') {
-      return this.nextServerApp.run(req);
+      return {
+        statusCode: 404,
+        headers: { 'Content-Type': 'text/plain' },
+        body: await fs.readFile(
+          path.join(rootDirPath, RESOURCES_DIR_NAME, 'not_found.html'),
+        ),
+      };
     }
 
     const body = await fs.readFile(
