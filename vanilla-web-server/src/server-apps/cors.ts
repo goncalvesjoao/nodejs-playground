@@ -1,10 +1,15 @@
-import { ServerApp } from '@/server-app';
-import type { ServerAppEnvType, ServerAppOutputType } from '@/types';
+import type {
+  ServerAppEnvType,
+  ServerAppInterface,
+  ServerAppOutputType,
+} from '@/types';
 
-export class Cors extends ServerApp {
+export class Cors implements ServerAppInterface {
+  constructor(protected nextServerApp: ServerAppInterface) {}
+
   async run(env: ServerAppEnvType): Promise<ServerAppOutputType> {
     if (env.method !== 'OPTIONS') {
-      return await this.nextMod.run(env);
+      return await this.nextServerApp.run(env);
     }
 
     return {

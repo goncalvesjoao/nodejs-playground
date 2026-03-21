@@ -1,13 +1,3 @@
-import {
-  ServerAppEnvType,
-  ServerAppInterface,
-  ServerAppOutputType,
-} from '@/types';
+import { Api, Assets, Cors, Ascii, Root } from '@/server-apps';
 
-export class ServerApp implements ServerAppInterface {
-  constructor(protected nextMod: ServerAppInterface) {}
-
-  run(_env: ServerAppEnvType): Promise<ServerAppOutputType> {
-    throw new Error('Method not implemented.');
-  }
-}
+export const serverApp = new Cors(new Api(new Ascii(new Assets(new Root()))));
