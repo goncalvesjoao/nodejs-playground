@@ -1,9 +1,8 @@
 // import { after, before, describe, test } from 'node:test';
 // import assert from 'node:assert/strict';
 // import { WebServer } from '@/web-server';
-// import { handler } from '@/handler';
 
-// const webServer = new WebServer(handler);
+// const webServer = new WebServer(3002);
 
 // void describe('WebServer e2e', () => {
 //   before(() => webServer.listen());
@@ -85,14 +84,11 @@
 //     );
 //   });
 
-//   void test('GET /admin/123 - should return an ASCII response', async () => {
-//     const response = await fetch(`${webServer.url}/admin/123`);
+//   void test('GET /admin - returns Admin Home Page HTML when root path is requested', async () => {
+//     const response = await fetch(`${webServer.url}/admin`);
 //     const responseText = await response.text();
 
 //     assert.equal(response.status, 200, 'Response status should be 200');
-//     assert.ok(
-//       responseText.includes('| |/ __/ ___) |'),
-//       'Response should include an ASCII representation of "123"',
-//     );
+//     assert.ok(responseText.includes('<h1>Admin Dashboard</h1>'));
 //   });
 // });

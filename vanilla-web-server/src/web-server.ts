@@ -1,24 +1,33 @@
 import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
 import { ServerAppInterface } from '@/types';
+import {
+  ApiHandler,
+  AssetsHandler,
+  AdminHandler,
+  RootHandler,
+} from '@/handlers';
+import { CorsMiddleware } from '@/middlewares';
 
 export class Logger {
   log(..._args: unknown[]) {}
   error(..._args: unknown[]) {}
 }
 
+const handler = new CorsMiddleware(
+  new ApiHandler(new AdminHandler(new AssetsHandler(new RootHandler()))),
+);
+
 export class WebServer {
-  protected server: http.Server;
+  handler: ServerAppInterface = handler;
+  logger: Logger = new Logger();
+  server: http.Server;
 
   get url() {
     return `http://localhost:${this.serverPort}`;
   }
 
-  constructor(
-    protected app: ServerAppInterface,
-    readonly serverPort: number = DEFAULT_SERVER_PORT,
-    private logger: Logger = new Logger(),
-  ) {
+  constructor(readonly serverPort: number = DEFAULT_SERVER_PORT) {
     this.server = http.createServer(
       (req: http.IncomingMessage, res: http.ServerResponse) => {
         const url = new URL(req.url ?? '', this.url);
@@ -34,7 +43,7 @@ export class WebServer {
           req.on('error', reject);
         });
 
-        this.app
+        this.handler
           .run({
             body(): Promise<string> {
               return bodyPromise;

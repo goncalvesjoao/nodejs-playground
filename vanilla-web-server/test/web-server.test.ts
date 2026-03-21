@@ -9,7 +9,9 @@ const handlerRun = mock.fn(async (_req: ServerAppRequestType) =>
 
 void describe('WebServer', () => {
   void test('invokes handler#run with a well formed request', async (t) => {
-    const webServer = new WebServer({ run: handlerRun }, 3001);
+    const webServer = new WebServer();
+
+    webServer.handler = { run: handlerRun };
 
     t.after(() => webServer.close());
 
@@ -43,7 +45,9 @@ void describe('WebServer', () => {
       }),
     );
 
-    const webServer = new WebServer({ run: handlerRun }, 3001);
+    const webServer = new WebServer();
+
+    webServer.handler = { run: handlerRun };
 
     t.after(() => webServer.close());
 
@@ -66,7 +70,9 @@ void describe('WebServer', () => {
       Promise.reject(new Error('Something went wrong')),
     );
 
-    const webServer = new WebServer({ run: handlerRun }, 3001);
+    const webServer = new WebServer();
+
+    webServer.handler = { run: handlerRun };
 
     t.after(() => webServer.close());
 
