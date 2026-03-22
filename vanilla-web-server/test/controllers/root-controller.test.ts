@@ -2,11 +2,11 @@ import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RootController } from '@/controllers';
 
-const nextServerModRun = mock.fn(async () =>
+const nextServerMod = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const rootController = new RootController({ run: nextServerModRun });
+const rootController = new RootController(nextServerMod);
 
 const defaultRequest = {
   method: 'GET',
@@ -25,10 +25,10 @@ void describe('RootController', () => {
   });
 
   void test('invokes nextServerMod when a request other than root is made', async () => {
-    nextServerModRun.mock.resetCalls();
+    nextServerMod.mock.resetCalls();
 
     await rootController.run({ ...defaultRequest, pathname: '/unknown' });
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    assert.equal(nextServerMod.mock.calls.length, 1);
   });
 });

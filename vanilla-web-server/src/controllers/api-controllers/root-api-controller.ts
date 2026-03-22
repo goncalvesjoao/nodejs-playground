@@ -2,13 +2,14 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
+  ServerModType,
 } from '@/types';
 
 const BASE_PATH = '';
 
 export class RootApiController implements ServerModInterface {
   constructor(
-    protected nextServerMod: ServerModInterface,
+    protected nextServerMod: ServerModType,
     protected basePathPrefix: string = '',
   ) {}
 
@@ -27,6 +28,6 @@ export class RootApiController implements ServerModInterface {
       });
     }
 
-    return this.nextServerMod.run(req);
+    return this.nextServerMod(req);
   };
 }

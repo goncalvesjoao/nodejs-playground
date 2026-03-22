@@ -2,13 +2,14 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
+  ServerModType,
 } from '@/types';
 
 export class BodyParserMiddleware implements ServerModInterface {
-  constructor(protected nextServerMod: ServerModInterface) {}
+  constructor(protected nextServerMod: ServerModType) {}
 
   run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
-    const response = await this.nextServerMod.run(req);
+    const response = await this.nextServerMod(req);
 
     const body = response.body ? parseBody(response.body) : null;
 

@@ -2,7 +2,7 @@ import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ApiController } from '@/controllers';
 
-const nextServerModRun = mock.fn(async () =>
+const nextServerMod = mock.fn(async () =>
   Promise.resolve({
     status: 418,
     headers: {},
@@ -28,7 +28,7 @@ void describe('ApiController', () => {
       }),
     );
 
-    const apiController = new ApiController({ run: nextServerModRun });
+    const apiController = new ApiController(nextServerMod);
 
     apiController.serverMod = { run: mockedRun };
 
@@ -44,10 +44,10 @@ void describe('ApiController', () => {
   });
 
   void test('invokes nextServerMod when a request other than /api is made', async () => {
-    const apiController = new ApiController({ run: nextServerModRun });
+    const apiController = new ApiController(nextServerMod);
 
     await apiController.run({ ...defaultRequest, pathname: '/unknown' });
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    assert.equal(nextServerMod.mock.calls.length, 1);
   });
 });

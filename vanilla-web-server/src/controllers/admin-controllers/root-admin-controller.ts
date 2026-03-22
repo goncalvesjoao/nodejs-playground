@@ -2,6 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
+  ServerModType,
 } from '@/types';
 import { renderView } from '@/utils';
 import path from 'path';
@@ -10,7 +11,7 @@ const BASE_PATH = '';
 
 export class RootAdminController implements ServerModInterface {
   constructor(
-    protected nextServerMod: ServerModInterface,
+    protected nextServerMod: ServerModType,
     protected basePathPrefix: string = '',
   ) {}
 
@@ -31,6 +32,6 @@ export class RootAdminController implements ServerModInterface {
       };
     }
 
-    return this.nextServerMod.run(req);
+    return this.nextServerMod(req);
   };
 }

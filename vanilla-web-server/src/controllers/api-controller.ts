@@ -2,6 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
+  ServerModType,
 } from '@/types';
 import {
   RootApiController,
@@ -18,28 +19,23 @@ export class ApiController implements ServerModInterface {
   }
 
   constructor(
-    protected nextServerMod: ServerModInterface,
+    protected nextServerMod: ServerModType,
     protected basePathPrefix: string = '',
   ) {
     this.serverMod = new CountriesApiController(
-      new RootApiController(
-        {
-          run() {
-            return Promise.resolve({
-              status: 501,
-              body: { message: 'Not Implemented' },
-            });
-          },
-        },
-        this.basePath,
-      ),
+      new RootApiController(async () => {
+        return Promise.resolve({
+          status: 501,
+          body: { message: 'Not Implemented' },
+        });
+      }, this.basePath).run,
       this.basePath,
     );
   }
 
   run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (!req.pathname.startsWith(this.basePath)) {
-      return this.nextServerMod.run(req);
+      return this.nextServerMod(req);
     }
 
     return this.serverMod.run(req);

@@ -5,6 +5,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
+  ServerModType,
 } from '@/types';
 import { PUBLIC_DIR_NAME } from '@/constants';
 
@@ -16,13 +17,13 @@ export class AssetsController implements ServerModInterface {
   }
 
   constructor(
-    protected nextServerMod: ServerModInterface,
+    protected nextServerMod: ServerModType,
     protected basePathPrefix: string = '',
   ) {}
 
   run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (!req.pathname.startsWith(this.basePath) || req.method !== 'GET') {
-      return this.nextServerMod.run(req);
+      return this.nextServerMod(req);
     }
 
     const assetAbsolutePath = path.join(
@@ -37,7 +38,7 @@ export class AssetsController implements ServerModInterface {
       .catch(() => false);
 
     if (!fileExists) {
-      return this.nextServerMod.run(req);
+      return this.nextServerMod(req);
     }
 
     return {

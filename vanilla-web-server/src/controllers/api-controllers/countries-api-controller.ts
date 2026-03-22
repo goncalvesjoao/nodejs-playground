@@ -2,6 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
+  ServerModType,
 } from '@/types';
 import CountryList from 'country-list';
 
@@ -13,20 +14,20 @@ export class CountriesApiController implements ServerModInterface {
   }
 
   constructor(
-    protected nextServerMod: ServerModInterface,
+    protected nextServerMod: ServerModType,
     protected basePathPrefix: string = '',
   ) {}
 
   run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (!req.pathname.startsWith(this.basePath)) {
-      return this.nextServerMod.run(req);
+      return this.nextServerMod(req);
     }
 
     if (req.method === 'GET' && req.pathname === this.basePath) {
       return this.findAll();
     }
 
-    return this.nextServerMod.run(req);
+    return this.nextServerMod(req);
   };
 
   findAll(): ServerModResponseType {

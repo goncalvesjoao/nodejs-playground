@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import { CountriesApiController } from '@/controllers/api-controllers';
 import CountryList from 'country-list';
 
-const nextServerModRun = mock.fn(async () =>
+const nextServerMod = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 const countriesApiController = new CountriesApiController(
-  { run: nextServerModRun },
+  nextServerMod,
   '/api',
 );
 
@@ -35,6 +35,6 @@ void describe('CountriesApiController', () => {
   void test('invokes nextServerMod when a request is not supported', async () => {
     await countriesApiController.run({ ...defaultRequest, method: 'OPTIONS' });
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    assert.equal(nextServerMod.mock.calls.length, 1);
   });
 });

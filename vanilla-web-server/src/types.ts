@@ -14,6 +14,10 @@ export type ServerModResponseType = {
   body?: any;
 };
 
+export type ServerModType = (
+  req: ServerModRequestType,
+) => Promise<ServerModResponseType>;
+
 export interface ServerModInterface {
   run(req: ServerModRequestType): Promise<ServerModResponseType>;
 }

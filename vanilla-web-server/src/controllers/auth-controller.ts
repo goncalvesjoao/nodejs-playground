@@ -2,6 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
+  ServerModType,
 } from '@/types';
 import { renderView } from '@/utils';
 import path from 'path';
@@ -10,7 +11,7 @@ const BASE_PATH = '/auth';
 
 export class AuthController implements ServerModInterface {
   constructor(
-    protected nextServerMod: ServerModInterface,
+    protected nextServerMod: ServerModType,
     protected basePathPrefix: string = '',
   ) {}
 
@@ -20,14 +21,14 @@ export class AuthController implements ServerModInterface {
 
   run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (!req.pathname.startsWith(this.basePath)) {
-      return this.nextServerMod.run(req);
+      return this.nextServerMod(req);
     }
 
     if (req.method === 'GET' && req.pathname === `${this.basePath}/login`) {
       return this.showLogin();
     }
 
-    return this.nextServerMod.run(req);
+    return this.nextServerMod(req);
   };
 
   async showLogin(): Promise<ServerModResponseType> {

@@ -19,18 +19,16 @@ export const app = new CorsMiddleware(
         new AdminController(
           new AssetsController(
             new AuthController(
-              new RootController({
-                async run() {
-                  return Promise.resolve({
-                    status: 404,
-                    body: await readPublicFile('not_found.html', 'utf-8'),
-                  });
-                },
-              }),
-            ),
-          ),
-        ),
-      ),
-    ),
-  ),
+              new RootController(async () => {
+                return Promise.resolve({
+                  status: 404,
+                  body: await readPublicFile('not_found.html', 'utf-8'),
+                });
+              }).run,
+            ).run,
+          ).run,
+        ).run,
+      ).run,
+    ).run,
+  ).run,
 );
