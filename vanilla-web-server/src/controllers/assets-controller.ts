@@ -20,7 +20,7 @@ export class AssetsController implements ServerModInterface {
     protected basePathPrefix: string = '',
   ) {}
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (!req.pathname.startsWith(this.basePath) || req.method !== 'GET') {
       return this.nextServerMod.run(req);
     }
@@ -45,7 +45,7 @@ export class AssetsController implements ServerModInterface {
       headers: { 'Content-Type': contentTypeFromFileName(req.pathname) },
       body: await readPublicFile(req.pathname),
     };
-  }
+  };
 }
 
 function contentTypeFromFileName(filePath: string): string {

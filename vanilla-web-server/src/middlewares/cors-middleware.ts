@@ -7,7 +7,7 @@ import type {
 export class CorsMiddleware implements ServerModInterface {
   constructor(protected nextServerMod: ServerModInterface) {}
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (req.method !== 'OPTIONS') {
       return await this.nextServerMod.run(req);
     }
@@ -21,5 +21,5 @@ export class CorsMiddleware implements ServerModInterface {
       },
       body: null,
     };
-  }
+  };
 }

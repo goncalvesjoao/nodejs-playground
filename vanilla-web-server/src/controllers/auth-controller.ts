@@ -18,7 +18,7 @@ export class AuthController implements ServerModInterface {
     return `${this.basePathPrefix}${BASE_PATH}`;
   }
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (!req.pathname.startsWith(this.basePath)) {
       return this.nextServerMod.run(req);
     }
@@ -28,7 +28,7 @@ export class AuthController implements ServerModInterface {
     }
 
     return this.nextServerMod.run(req);
-  }
+  };
 
   async showLogin(): Promise<ServerModResponseType> {
     return {

@@ -32,11 +32,11 @@ export class AdminController implements ServerModInterface {
     );
   }
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (!req.pathname.startsWith(this.basePath)) {
       return this.nextServerMod.run(req);
     }
 
     return this.serverMod.run(req);
-  }
+  };
 }

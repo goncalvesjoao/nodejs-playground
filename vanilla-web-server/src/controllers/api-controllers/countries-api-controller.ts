@@ -17,7 +17,7 @@ export class CountriesApiController implements ServerModInterface {
     protected basePathPrefix: string = '',
   ) {}
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (!req.pathname.startsWith(this.basePath)) {
       return this.nextServerMod.run(req);
     }
@@ -27,7 +27,7 @@ export class CountriesApiController implements ServerModInterface {
     }
 
     return this.nextServerMod.run(req);
-  }
+  };
 
   findAll(): ServerModResponseType {
     const results: CountryList.Country[] = CountryList.getData();

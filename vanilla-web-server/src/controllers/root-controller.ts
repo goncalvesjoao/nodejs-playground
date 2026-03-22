@@ -18,7 +18,7 @@ export class RootController implements ServerModInterface {
     return `${this.basePathPrefix}${BASE_PATH}`;
   }
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     if (
       req.method === 'GET' &&
       (req.pathname === this.basePath || req.pathname === `${this.basePath}/`)
@@ -32,5 +32,5 @@ export class RootController implements ServerModInterface {
     }
 
     return this.nextServerMod.run(req);
-  }
+  };
 }
