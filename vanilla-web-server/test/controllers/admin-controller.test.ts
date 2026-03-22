@@ -13,7 +13,7 @@ const nextServerModRun = mock.fn(async () =>
 const defaultRequest = {
   method: 'GET',
   pathname: '/admin',
-  searchParams: {},
+  params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };

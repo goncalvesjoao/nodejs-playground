@@ -14,7 +14,7 @@ const rootAdminController = new RootAdminController(
 const defaultRequest = {
   method: 'GET',
   pathname: '/admin/',
-  searchParams: {},
+  params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };

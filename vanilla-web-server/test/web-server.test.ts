@@ -29,7 +29,7 @@ void describe('WebServer', () => {
 
     assert.strictEqual(receivedRequest.method, 'POST');
     assert.strictEqual(receivedRequest.pathname, '/posts');
-    assert.strictEqual(receivedRequest.searchParams['timestamp'], '123');
+    assert.strictEqual(receivedRequest.params['timestamp'], '123');
     assert.strictEqual(receivedRequest.headers.authorization, 'Bearer <token>');
 
     const bodyText = (await receivedRequest.body()).toString();
