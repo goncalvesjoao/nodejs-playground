@@ -17,7 +17,7 @@ export class ApiController extends Controller {
 
   constructor(
     protected nextServerMod: ServerModInterface,
-    protected pathPrefix: string = '',
+    pathPrefix: string = '',
   ) {
     super(nextServerMod, pathPrefix);
 
