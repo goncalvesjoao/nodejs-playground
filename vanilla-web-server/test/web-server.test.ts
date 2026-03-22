@@ -37,7 +37,7 @@ void describe('WebServer', () => {
   });
 
   void test('returns an HTTP response based on #app.run output', async (t) => {
-    mockedRun.mock.mockImplementationOnce(async (_req: ServerModRequestType) =>
+    mockedRun.mock.mockImplementationOnce(async () =>
       Promise.resolve({
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -66,7 +66,7 @@ void describe('WebServer', () => {
   });
 
   void test('returns an Internal Server Error when #app.run throws an error', async (t) => {
-    mockedRun.mock.mockImplementationOnce(async (_req: ServerModRequestType) =>
+    mockedRun.mock.mockImplementationOnce(async () =>
       Promise.reject(new Error('Something went wrong')),
     );
 

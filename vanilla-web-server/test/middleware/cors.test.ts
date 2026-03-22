@@ -1,9 +1,8 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CorsMiddleware } from '@/middlewares';
-import { ServerModRequestType } from '@/types';
 
-const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
+const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 

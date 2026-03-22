@@ -3,17 +3,20 @@ import type {
   ServerModInterface,
   ServerModResponseType,
 } from '@/types';
-import { readPublicFile, renderView } from '@/utils';
+import { renderView } from '@/utils';
 import path from 'path';
 
 const BASE_PATH = '';
 
 export class RootAdminController implements ServerModInterface {
+  constructor(
+    protected nextServerMod: ServerModInterface,
+    protected basePathPrefix: string = '',
+  ) {}
+
   get basePath() {
     return `${this.basePathPrefix}${BASE_PATH}`;
   }
-
-  constructor(protected basePathPrefix: string = '') {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
@@ -28,9 +31,6 @@ export class RootAdminController implements ServerModInterface {
       };
     }
 
-    return {
-      status: 404,
-      body: await readPublicFile('not_found.html', 'utf-8'),
-    };
+    return this.nextServerMod.run(req);
   }
 }

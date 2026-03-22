@@ -1,8 +1,15 @@
-import { describe, test } from 'node:test';
+import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RootAdminController } from '@/controllers/admin-controllers';
 
-const rootAdminController = new RootAdminController('/admin');
+const nextServerModRun = mock.fn(async () =>
+  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
+);
+
+const rootAdminController = new RootAdminController(
+  { run: nextServerModRun },
+  '/admin',
+);
 
 const defaultRequest = {
   method: 'GET',
@@ -20,13 +27,11 @@ void describe('RootAdminController', () => {
     assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
   });
 
-  void test('returns a 404 response when an unrecognized endpoint is requested', async () => {
-    const response = await rootAdminController.run({
-      ...defaultRequest,
-      pathname: '/unknown',
-    });
+  void test('invokes nextServerMod when a request other than root is made', async () => {
+    nextServerModRun.mock.resetCalls();
 
-    assert.equal(response.status, 404);
-    assert.ok(String(response.body).includes('<h1>404 Page Not Found</h1>'));
+    await rootAdminController.run({ ...defaultRequest, pathname: '/unknown' });
+
+    assert.equal(nextServerModRun.mock.calls.length, 1);
   });
 });

@@ -1,8 +1,15 @@
-import { describe, test } from 'node:test';
+import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RootApiController } from '@/controllers/api-controllers';
 
-const rootApiController = new RootApiController('/api');
+const nextServerModRun = mock.fn(async () =>
+  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
+);
+
+const rootApiController = new RootApiController(
+  { run: nextServerModRun },
+  '/api',
+);
 
 const defaultRequest = {
   method: 'GET',
@@ -22,15 +29,11 @@ void describe('RootApiController', () => {
     });
   });
 
-  void test('returns a 501 response when an unrecognized endpoint is requested', async () => {
-    const response = await rootApiController.run({
-      ...defaultRequest,
-      pathname: '/unknown',
-    });
+  void test('invokes nextServerMod when a request other than root is made', async () => {
+    nextServerModRun.mock.resetCalls();
 
-    assert.equal(response.status, 501);
-    assert.deepEqual(response.body, {
-      message: 'Not Implemented',
-    });
+    await rootApiController.run({ ...defaultRequest, pathname: '/unknown' });
+
+    assert.equal(nextServerModRun.mock.calls.length, 1);
   });
 });

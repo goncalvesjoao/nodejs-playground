@@ -1,10 +1,9 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { AssetsController } from '@/controllers';
-import { ServerModRequestType } from '@/types';
 import { readPublicFile } from '@/utils';
 
-const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
+const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 

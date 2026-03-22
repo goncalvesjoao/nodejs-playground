@@ -7,11 +7,14 @@ import type {
 const BASE_PATH = '';
 
 export class RootApiController implements ServerModInterface {
+  constructor(
+    protected nextServerMod: ServerModInterface,
+    protected basePathPrefix: string = '',
+  ) {}
+
   get basePath() {
     return `${this.basePathPrefix}${BASE_PATH}`;
   }
-
-  constructor(protected basePathPrefix: string = '') {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
@@ -24,9 +27,6 @@ export class RootApiController implements ServerModInterface {
       });
     }
 
-    return Promise.resolve({
-      status: 501,
-      body: { message: 'Not Implemented' },
-    });
+    return this.nextServerMod.run(req);
   }
 }

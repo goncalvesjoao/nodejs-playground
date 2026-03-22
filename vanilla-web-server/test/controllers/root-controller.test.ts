@@ -1,8 +1,12 @@
-import { describe, test } from 'node:test';
+import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RootController } from '@/controllers';
 
-const rootController = new RootController();
+const nextServerModRun = mock.fn(async () =>
+  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
+);
+
+const rootController = new RootController({ run: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -20,13 +24,11 @@ void describe('RootController', () => {
     assert.ok(String(response.body).includes('<h1>Home Page</h1>'));
   });
 
-  void test('returns a 404 HTML page when a request other than the root is made', async () => {
-    const response = await rootController.run({
-      ...defaultRequest,
-      pathname: '/unknown',
-    });
+  void test('invokes nextServerMod when a request other than root is made', async () => {
+    nextServerModRun.mock.resetCalls();
 
-    assert.equal(response.status, 404);
-    assert.ok(String(response.body).includes('<h1>404 Page Not Found</h1>'));
+    await rootController.run({ ...defaultRequest, pathname: '/unknown' });
+
+    assert.equal(nextServerModRun.mock.calls.length, 1);
   });
 });

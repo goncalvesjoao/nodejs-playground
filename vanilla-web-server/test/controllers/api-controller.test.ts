@@ -1,9 +1,8 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ApiController } from '@/controllers';
-import { ServerModRequestType } from '@/types';
 
-const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
+const nextServerModRun = mock.fn(async () =>
   Promise.resolve({
     status: 418,
     headers: {},
@@ -21,7 +20,7 @@ const defaultRequest = {
 
 void describe('ApiController', () => {
   void test('invokes #serverMod.run when a request starting with "/api" is made', async () => {
-    const mockedRun = mock.fn(async (_req: ServerModRequestType) =>
+    const mockedRun = mock.fn(async () =>
       Promise.resolve({
         status: 200,
         headers: {},

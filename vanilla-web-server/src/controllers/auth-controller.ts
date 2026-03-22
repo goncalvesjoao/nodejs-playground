@@ -9,14 +9,14 @@ import path from 'path';
 const BASE_PATH = '/auth';
 
 export class AuthController implements ServerModInterface {
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
-
   constructor(
     protected nextServerMod: ServerModInterface,
     protected basePathPrefix: string = '',
   ) {}
+
+  get basePath() {
+    return `${this.basePathPrefix}${BASE_PATH}`;
+  }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.pathname.startsWith(this.basePath)) {

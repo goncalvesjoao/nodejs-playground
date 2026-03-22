@@ -22,7 +22,17 @@ export class ApiController implements ServerModInterface {
     protected basePathPrefix: string = '',
   ) {
     this.serverMod = new CountriesApiController(
-      new RootApiController(this.basePath),
+      new RootApiController(
+        {
+          run() {
+            return Promise.resolve({
+              status: 501,
+              body: { message: 'Not Implemented' },
+            });
+          },
+        },
+        this.basePath,
+      ),
       this.basePath,
     );
   }
