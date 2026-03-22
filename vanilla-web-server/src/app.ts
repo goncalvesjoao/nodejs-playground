@@ -17,9 +17,9 @@ export const app = new CorsMiddleware(
   new BodyParserMiddleware(
     new ContentTypeMiddleware(
       new ApiController(
-        new AdminController(
-          new AssetsController(
-            new AuthController(
+        new AssetsController(
+          new AuthController(
+            new AdminController(
               new RootController(
                 ServerMod.new({
                   status: 404,
