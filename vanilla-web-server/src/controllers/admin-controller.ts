@@ -3,10 +3,7 @@ import type {
   ServerModInterface,
   ServerModResponseType,
 } from '@/types';
-import {
-  RootAdminController,
-  UsersAdminController,
-} from '@/controllers/admin-controllers';
+import { RootAdminController } from '@/controllers/admin-controllers';
 
 const BASE_PATH = '/admin';
 
@@ -21,10 +18,7 @@ export class AdminController implements ServerModInterface {
     protected nextServerMod: ServerModInterface,
     protected basePathPrefix: string = '',
   ) {
-    this.serverMod = new UsersAdminController(
-      new RootAdminController(this.basePath),
-      this.basePath,
-    );
+    this.serverMod = new RootAdminController(this.basePath);
   }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {

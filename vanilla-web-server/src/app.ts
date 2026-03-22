@@ -3,6 +3,7 @@ import {
   AssetsController,
   AdminController,
   RootController,
+  AuthController,
 } from '@/controllers';
 import {
   BodyParserMiddleware,
@@ -14,7 +15,9 @@ export const app = new CorsMiddleware(
   new BodyParserMiddleware(
     new ContentTypeMiddleware(
       new ApiController(
-        new AdminController(new AssetsController(new RootController())),
+        new AdminController(
+          new AssetsController(new AuthController(new RootController())),
+        ),
       ),
     ),
   ),

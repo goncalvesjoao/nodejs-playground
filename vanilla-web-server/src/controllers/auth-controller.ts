@@ -6,9 +6,9 @@ import type {
 import { renderView } from '@/utils';
 import path from 'path';
 
-const BASE_PATH = '/users';
+const BASE_PATH = '/auth';
 
-export class UsersAdminController implements ServerModInterface {
+export class AuthController implements ServerModInterface {
   get basePath() {
     return `${this.basePathPrefix}${BASE_PATH}`;
   }
