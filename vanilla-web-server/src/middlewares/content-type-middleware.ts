@@ -4,7 +4,7 @@ import type {
   ServerModResponseType,
 } from '@/types';
 
-export class ContentMiddleware implements ServerModInterface {
+export class ContentTypeMiddleware implements ServerModInterface {
   constructor(protected nextServerMod: ServerModInterface) {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
@@ -14,9 +14,7 @@ export class ContentMiddleware implements ServerModInterface {
 
     headers['Content-Type'] ||= contentTypeFromBody(response.body);
 
-    const body = response.body ? bodyToString(response.body) : null;
-
-    return { ...response, headers, body };
+    return { ...response, headers };
   }
 }
 
@@ -30,16 +28,4 @@ function contentTypeFromBody(body: unknown): string {
   }
 
   return 'text/html';
-}
-
-function bodyToString(body: unknown): string {
-  if (Buffer.isBuffer(body)) {
-    return body.toString();
-  }
-
-  if (typeof body === 'object' && body !== null) {
-    return JSON.stringify(body);
-  }
-
-  return String(body);
 }

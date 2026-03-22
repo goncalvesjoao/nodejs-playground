@@ -4,12 +4,18 @@ import {
   AdminController,
   RootController,
 } from '@/controllers';
-import { ContentMiddleware, CorsMiddleware } from '@/middlewares';
+import {
+  BodyParserMiddleware,
+  ContentTypeMiddleware,
+  CorsMiddleware,
+} from '@/middlewares';
 
-export const app = new ContentMiddleware(
-  new CorsMiddleware(
-    new ApiController(
-      new AdminController(new AssetsController(new RootController())),
+export const app = new CorsMiddleware(
+  new BodyParserMiddleware(
+    new ContentTypeMiddleware(
+      new ApiController(
+        new AdminController(new AssetsController(new RootController())),
+      ),
     ),
   ),
 );
