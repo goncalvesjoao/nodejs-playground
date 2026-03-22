@@ -11,7 +11,7 @@ const assetsController = new AssetsController({ run: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/assets',
+  path: '/assets',
   params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
@@ -21,7 +21,7 @@ void describe('AssetsController', () => {
   void test('returns an asset from the disk, matching the requested path', async () => {
     const response = await assetsController.run({
       ...defaultRequest,
-      pathname: '/assets/chippy.jpg',
+      path: '/assets/chippy.jpg',
     });
 
     const expectedBody = (await readPublicFile('assets/chippy.jpg')) as Buffer;
@@ -39,7 +39,7 @@ void describe('AssetsController', () => {
 
     await assetsController.run({
       ...defaultRequest,
-      pathname: '/assets/unknown',
+      path: '/assets/unknown',
     });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
@@ -48,7 +48,7 @@ void describe('AssetsController', () => {
   void test('invokes nextServerMod when a request other than /assets is made', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await assetsController.run({ ...defaultRequest, pathname: '/unknown' });
+    await assetsController.run({ ...defaultRequest, path: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

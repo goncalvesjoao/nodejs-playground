@@ -40,7 +40,7 @@ export class WebServer {
             },
             headers: req.headers,
             method: req.method ?? 'GET',
-            pathname: url.pathname,
+            path: url.pathname,
             params: Object.fromEntries(url.searchParams),
           })
           .then(({ status, headers, body }) => {

@@ -5,11 +5,11 @@ export class AuthController extends Controller {
   static basePath = '/auth';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.pathname.startsWith(this.basePath)) {
+    if (!req.path.startsWith(this.basePath)) {
       return this.next(req);
     }
 
-    if (req.method === 'GET' && req.pathname === `${this.basePath}/login`) {
+    if (req.method === 'GET' && req.path === `${this.basePath}/login`) {
       return this.showLogin();
     }
 

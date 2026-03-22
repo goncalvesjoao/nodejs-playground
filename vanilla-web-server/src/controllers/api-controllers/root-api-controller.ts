@@ -5,7 +5,7 @@ export class RootApiController extends Controller {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
       req.method === 'GET' &&
-      (req.pathname === this.basePath || req.pathname === `${this.basePath}/`)
+      (req.path === this.basePath || req.path === `${this.basePath}/`)
     ) {
       return Promise.resolve({
         status: 200,

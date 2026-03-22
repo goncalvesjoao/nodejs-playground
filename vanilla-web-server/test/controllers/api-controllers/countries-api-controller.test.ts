@@ -14,7 +14,7 @@ const countriesApiController = new CountriesApiController(
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/api/countries',
+  path: '/api/countries',
   params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),

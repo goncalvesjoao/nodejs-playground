@@ -12,7 +12,7 @@ const nextServerModRun = mock.fn(async () =>
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/admin',
+  path: '/admin',
   params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
@@ -34,7 +34,7 @@ void describe('AdminController', () => {
 
     const response = await adminController.run({
       ...defaultRequest,
-      pathname: '/admin/unknown',
+      path: '/admin/unknown',
     });
 
     assert.strictEqual(mockedRun.mock.calls.length, 1);
@@ -46,7 +46,7 @@ void describe('AdminController', () => {
   void test('invokes nextServerMod when a request other than /admin is made', async () => {
     const adminController = new AdminController({ run: nextServerModRun });
 
-    await adminController.run({ ...defaultRequest, pathname: '/unknown' });
+    await adminController.run({ ...defaultRequest, path: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });
