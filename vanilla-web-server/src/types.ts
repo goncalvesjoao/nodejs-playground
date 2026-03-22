@@ -14,7 +14,7 @@ export type ServerModResponseType = {
   body?: any;
 };
 
-export type ServerModType = (
+export type ServerModFuncType = (
   req: ServerModRequestType,
 ) => Promise<ServerModResponseType>;
 

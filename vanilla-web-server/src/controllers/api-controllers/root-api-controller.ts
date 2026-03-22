@@ -2,14 +2,14 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-  ServerModType,
+  ServerModFuncType,
 } from '@/types';
 
 const BASE_PATH = '';
 
 export class RootApiController implements ServerModInterface {
   constructor(
-    protected nextServerMod: ServerModType,
+    protected nextServerMod: ServerModFuncType,
     protected basePathPrefix: string = '',
   ) {}
 

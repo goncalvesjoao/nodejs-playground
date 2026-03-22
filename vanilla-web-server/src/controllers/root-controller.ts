@@ -2,7 +2,7 @@ import type {
   ServerModInterface,
   ServerModRequestType,
   ServerModResponseType,
-  ServerModType,
+  ServerModFuncType,
 } from '@/types';
 import { renderView } from '@/utils';
 import path from 'path';
@@ -11,7 +11,7 @@ const BASE_PATH = '';
 
 export class RootController implements ServerModInterface {
   constructor(
-    protected nextServerMod: ServerModType,
+    protected nextServerMod: ServerModFuncType,
     protected basePathPrefix: string = '',
   ) {}
 

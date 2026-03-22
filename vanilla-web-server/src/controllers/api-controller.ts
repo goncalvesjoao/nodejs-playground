@@ -2,7 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-  ServerModType,
+  ServerModFuncType,
 } from '@/types';
 import {
   RootApiController,
@@ -19,7 +19,7 @@ export class ApiController implements ServerModInterface {
   }
 
   constructor(
-    protected nextServerMod: ServerModType,
+    protected nextServerMod: ServerModFuncType,
     protected basePathPrefix: string = '',
   ) {
     this.serverMod = new CountriesApiController(

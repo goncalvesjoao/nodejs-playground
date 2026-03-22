@@ -2,11 +2,11 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-  ServerModType,
+  ServerModFuncType,
 } from '@/types';
 
 export class ContentTypeMiddleware implements ServerModInterface {
-  constructor(protected nextServerMod: ServerModType) {}
+  constructor(protected nextServerMod: ServerModFuncType) {}
 
   run = async (req: ServerModRequestType): Promise<ServerModResponseType> => {
     const response = await this.nextServerMod(req);

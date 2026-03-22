@@ -2,7 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-  ServerModType,
+  ServerModFuncType,
 } from '@/types';
 import { RootAdminController } from '@/controllers/admin-controllers';
 import { readPublicFile } from '@/utils/read-public-file';
@@ -10,14 +10,14 @@ import { readPublicFile } from '@/utils/read-public-file';
 const BASE_PATH = '/admin';
 
 export class AdminController implements ServerModInterface {
-  serverMod: ServerModType;
+  serverMod: ServerModFuncType;
 
   get basePath() {
     return `${this.basePathPrefix}${BASE_PATH}`;
   }
 
   constructor(
-    protected nextServerMod: ServerModType,
+    protected nextServerMod: ServerModFuncType,
     protected basePathPrefix: string = '',
   ) {
     this.serverMod = new RootAdminController(async () => {

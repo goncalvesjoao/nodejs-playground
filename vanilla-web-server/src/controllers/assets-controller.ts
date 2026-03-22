@@ -5,7 +5,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-  ServerModType,
+  ServerModFuncType,
 } from '@/types';
 import { PUBLIC_DIR_NAME } from '@/constants';
 
@@ -17,7 +17,7 @@ export class AssetsController implements ServerModInterface {
   }
 
   constructor(
-    protected nextServerMod: ServerModType,
+    protected nextServerMod: ServerModFuncType,
     protected basePathPrefix: string = '',
   ) {}
 
