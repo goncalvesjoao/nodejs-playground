@@ -2,7 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-} from '@/types';
+} from '@/server-mod';
 
 const BASE_PATH = '';
 

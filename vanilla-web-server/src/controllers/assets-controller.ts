@@ -5,7 +5,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-} from '@/types';
+} from '@/server-mod';
 import { PUBLIC_DIR_NAME } from '@/constants';
 
 const BASE_PATH = '/assets';

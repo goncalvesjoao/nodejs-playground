@@ -2,7 +2,7 @@ import type {
   ServerModInterface,
   ServerModRequestType,
   ServerModResponseType,
-} from '@/types';
+} from '@/server-mod';
 import { renderView } from '@/utils';
 import path from 'path';
 

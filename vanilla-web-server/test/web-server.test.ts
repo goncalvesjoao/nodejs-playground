@@ -1,7 +1,7 @@
 import { describe, test, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import { WebServer } from '@/web-server';
-import type { ServerModRequestType } from '@/types';
+import type { ServerModRequestType } from '@/server-mod';
 
 const mockedRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),

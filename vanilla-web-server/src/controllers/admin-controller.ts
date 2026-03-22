@@ -2,7 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-} from '@/types';
+} from '@/server-mod';
 import { RootAdminController } from '@/controllers/admin-controllers';
 import { readPublicFile } from '@/utils/read-public-file';
 

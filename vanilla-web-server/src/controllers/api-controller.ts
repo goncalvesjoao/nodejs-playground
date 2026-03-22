@@ -2,7 +2,7 @@ import type {
   ServerModRequestType,
   ServerModInterface,
   ServerModResponseType,
-} from '@/types';
+} from '@/server-mod';
 import {
   RootApiController,
   CountriesApiController,

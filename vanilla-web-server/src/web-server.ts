@@ -1,6 +1,6 @@
 import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
-import { ServerModInterface } from '@/types';
+import { ServerModInterface } from '@/server-mod';
 import { app } from '@/app';
 
 export class Logger {
