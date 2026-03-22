@@ -1,33 +1,31 @@
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
+import {
+  type ServerModRequestType,
+  type ServerModInterface,
+  type ServerModResponseType,
+  ServerMod,
 } from '@/server-mod';
 import { RootAdminController } from '@/controllers/admin-controllers';
 import { readPublicFile } from '@/utils/read-public-file';
+import { Controller } from '@/controller';
 
-const BASE_PATH = '/admin';
+export class AdminController extends Controller {
+  static basePath = '/admin';
 
-export class AdminController implements ServerModInterface {
   serverMod: ServerModInterface;
-
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
 
   constructor(
     protected nextServerMod: ServerModInterface,
     protected basePathPrefix: string = '',
   ) {
+    super(nextServerMod, basePathPrefix);
+
     this.serverMod = new RootAdminController(
-      {
-        async run() {
-          return Promise.resolve({
-            status: 404,
-            body: await readPublicFile('not_found.html', 'utf-8'),
-          });
-        },
-      },
+      ServerMod.new(async () =>
+        Promise.resolve({
+          status: 404,
+          body: await readPublicFile('not_found.html', 'utf-8'),
+        }),
+      ),
       this.basePath,
     );
   }

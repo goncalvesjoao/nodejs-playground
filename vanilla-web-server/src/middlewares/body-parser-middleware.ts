@@ -1,12 +1,10 @@
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
+import {
+  type ServerModRequestType,
+  type ServerModResponseType,
+  ServerMod,
 } from '@/server-mod';
 
-export class BodyParserMiddleware implements ServerModInterface {
-  constructor(protected nextServerMod: ServerModInterface) {}
-
+export class BodyParserMiddleware extends ServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     const response = await this.nextServerMod.run(req);
 

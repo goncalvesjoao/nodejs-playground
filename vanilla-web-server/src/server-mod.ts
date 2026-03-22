@@ -14,6 +14,24 @@ export type ServerModResponseType = {
   body?: any;
 };
 
+export type ServerModFuncType = (
+  req: ServerModRequestType,
+) => Promise<ServerModResponseType>;
+
 export interface ServerModInterface {
-  run(req: ServerModRequestType): Promise<ServerModResponseType>;
+  run: ServerModFuncType;
+}
+
+export class ServerMod implements ServerModInterface {
+  static new(serverModFunc: ServerModFuncType): ServerModInterface {
+    return new this({
+      run: serverModFunc,
+    });
+  }
+
+  constructor(protected nextServerMod: ServerModInterface) {}
+
+  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+    return this.nextServerMod.run(req);
+  }
 }

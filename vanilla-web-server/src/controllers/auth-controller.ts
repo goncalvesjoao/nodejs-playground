@@ -1,22 +1,8 @@
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
-} from '@/server-mod';
-import { renderView } from '@/utils';
-import path from 'path';
+import { Controller } from '@/controller';
+import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 
-const BASE_PATH = '/auth';
-
-export class AuthController implements ServerModInterface {
-  constructor(
-    protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
-  ) {}
-
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
+export class AuthController extends Controller {
+  static basePath = '/auth';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.pathname.startsWith(this.basePath)) {
@@ -33,7 +19,7 @@ export class AuthController implements ServerModInterface {
   async showLogin(): Promise<ServerModResponseType> {
     return {
       status: 200,
-      body: await renderView(path.join(this.basePath, 'login.html')),
+      body: await this.renderView('login.html'),
     };
   }
 }

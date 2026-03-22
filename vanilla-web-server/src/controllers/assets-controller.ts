@@ -1,24 +1,12 @@
 import fs from 'fs/promises';
 import path from 'node:path';
 import { readPublicFile, rootDirPath } from '@/utils';
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
-} from '@/server-mod';
+import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 import { PUBLIC_DIR_NAME } from '@/constants';
+import { Controller } from '@/controller';
 
-const BASE_PATH = '/assets';
-
-export class AssetsController implements ServerModInterface {
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
-
-  constructor(
-    protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
-  ) {}
+export class AssetsController extends Controller {
+  static basePath = '/assets';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.pathname.startsWith(this.basePath) || req.method !== 'GET') {

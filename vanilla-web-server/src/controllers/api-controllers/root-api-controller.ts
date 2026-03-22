@@ -1,21 +1,7 @@
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
-} from '@/server-mod';
+import { Controller } from '@/controller';
+import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 
-const BASE_PATH = '';
-
-export class RootApiController implements ServerModInterface {
-  constructor(
-    protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
-  ) {}
-
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
-
+export class RootApiController extends Controller {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
       req.method === 'GET' &&
