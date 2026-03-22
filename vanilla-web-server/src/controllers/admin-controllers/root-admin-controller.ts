@@ -5,7 +5,7 @@ export class RootAdminController extends Controller {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
       req.method === 'GET' &&
-      (req.path === this.basePath || req.path === `${this.basePath}/`)
+      (req.path === this.path || req.path === `${this.path}/`)
     ) {
       const data = { title: 'Admin Home Page' };
 

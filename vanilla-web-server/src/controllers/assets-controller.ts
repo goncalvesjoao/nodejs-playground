@@ -6,10 +6,10 @@ import { PUBLIC_DIR_NAME } from '@/constants';
 import { Controller } from '@/controller';
 
 export class AssetsController extends Controller {
-  static basePath = '/assets';
+  static path = '/assets';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.path.startsWith(this.basePath) || req.method !== 'GET') {
+    if (!req.path.startsWith(this.path) || req.method !== 'GET') {
       return this.next(req);
     }
 

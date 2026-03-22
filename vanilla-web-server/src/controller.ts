@@ -3,20 +3,20 @@ import { ServerMod, ServerModInterface } from '@/server-mod';
 import { renderView } from '@/utils';
 
 export class Controller extends ServerMod {
-  static basePath = '';
+  static path = '';
+
+  readonly path: string;
 
   constructor(
     protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
+    pathPrefix: string = '',
   ) {
     super(nextServerMod);
-  }
 
-  get basePath() {
-    return `${this.basePathPrefix}${(this.constructor as typeof Controller).basePath}`;
+    this.path = `${pathPrefix}${(this.constructor as typeof Controller).path}`;
   }
 
   renderView(filePath: string, data: Record<string, any> = {}) {
-    return renderView(path.join(this.basePath, filePath), data);
+    return renderView(path.join(this.path, filePath), data);
   }
 }

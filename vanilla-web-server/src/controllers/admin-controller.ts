@@ -9,15 +9,15 @@ import { readPublicFile } from '@/utils/read-public-file';
 import { Controller } from '@/controller';
 
 export class AdminController extends Controller {
-  static basePath = '/admin';
+  static path = '/admin';
 
   serverMod: ServerModInterface;
 
   constructor(
     protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
+    protected pathPrefix: string = '',
   ) {
-    super(nextServerMod, basePathPrefix);
+    super(nextServerMod, pathPrefix);
 
     this.serverMod = new RootAdminController(
       ServerMod.new(async () =>
@@ -26,12 +26,12 @@ export class AdminController extends Controller {
           body: await readPublicFile('not_found.html', 'utf-8'),
         }),
       ),
-      this.basePath,
+      this.path,
     );
   }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.path.startsWith(this.basePath)) {
+    if (!req.path.startsWith(this.path)) {
       return this.next(req);
     }
 

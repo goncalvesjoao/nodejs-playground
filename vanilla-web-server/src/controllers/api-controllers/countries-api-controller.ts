@@ -3,14 +3,14 @@ import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 import CountryList from 'country-list';
 
 export class CountriesApiController extends Controller {
-  static basePath = '/countries';
+  static path = '/countries';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.path.startsWith(this.basePath)) {
+    if (!req.path.startsWith(this.path)) {
       return this.next(req);
     }
 
-    if (req.method === 'GET' && req.path === this.basePath) {
+    if (req.method === 'GET' && req.path === this.path) {
       return this.findAll();
     }
 

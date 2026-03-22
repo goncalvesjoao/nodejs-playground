@@ -11,15 +11,15 @@ import {
 import { Controller } from '@/controller';
 
 export class ApiController extends Controller {
-  static basePath = '/api';
+  static path = '/api';
 
   serverMod: ServerModInterface;
 
   constructor(
     protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
+    protected pathPrefix: string = '',
   ) {
-    super(nextServerMod, basePathPrefix);
+    super(nextServerMod, pathPrefix);
 
     this.serverMod = new CountriesApiController(
       new RootApiController(
@@ -27,14 +27,14 @@ export class ApiController extends Controller {
           status: 501,
           body: { message: 'Not Implemented' },
         }),
-        this.basePath,
+        this.path,
       ),
-      this.basePath,
+      this.path,
     );
   }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.path.startsWith(this.basePath)) {
+    if (!req.path.startsWith(this.path)) {
       return this.next(req);
     }
 
