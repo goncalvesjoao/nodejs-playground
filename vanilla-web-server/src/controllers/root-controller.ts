@@ -3,7 +3,8 @@ import type {
   ServerModRequestType,
   ServerModResponseType,
 } from '@/types';
-import { readPublicFile } from '@/utils';
+import { readPublicFile, renderView } from '@/utils';
+import path from 'path';
 
 const BASE_PATH = '/';
 
@@ -19,9 +20,11 @@ export class RootController implements ServerModInterface {
       req.method === 'GET' &&
       (req.pathname === this.basePath || req.pathname === `${this.basePath}/`)
     ) {
+      const data = { title: 'Home Page' };
+
       return {
         status: 200,
-        body: await readPublicFile('index.html', 'utf-8'),
+        body: await renderView(path.join(this.basePath, 'index.html'), data),
       };
     }
 
