@@ -10,7 +10,7 @@ export class AssetsController extends Controller {
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.pathname.startsWith(this.basePath) || req.method !== 'GET') {
-      return this.nextServerMod.run(req);
+      return this.next(req);
     }
 
     const assetAbsolutePath = path.join(
@@ -25,7 +25,7 @@ export class AssetsController extends Controller {
       .catch(() => false);
 
     if (!fileExists) {
-      return this.nextServerMod.run(req);
+      return this.next(req);
     }
 
     return {

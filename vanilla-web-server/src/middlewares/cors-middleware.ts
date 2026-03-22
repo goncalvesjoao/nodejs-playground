@@ -7,7 +7,7 @@ import {
 export class CorsMiddleware extends ServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (req.method !== 'OPTIONS') {
-      return await this.nextServerMod.run(req);
+      return await this.next(req);
     }
 
     return {

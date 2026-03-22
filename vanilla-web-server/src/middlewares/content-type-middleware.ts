@@ -6,7 +6,7 @@ import {
 
 export class ContentTypeMiddleware extends ServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    const response = await this.nextServerMod.run(req);
+    const response = await this.next(req);
 
     const headers = { ...response.headers };
 

@@ -36,6 +36,10 @@ export class ServerMod implements ServerModInterface {
   constructor(protected nextServerMod: ServerModInterface) {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+    return this.next(req);
+  }
+
+  async next(req: ServerModRequestType): Promise<ServerModResponseType> {
     return this.nextServerMod.run(req);
   }
 }

@@ -1,6 +1,6 @@
+import path from 'path';
 import { ServerMod, ServerModInterface } from '@/server-mod';
 import { renderView } from '@/utils';
-import path from 'path';
 
 export class Controller extends ServerMod {
   static basePath = '';

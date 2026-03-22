@@ -13,6 +13,6 @@ export class RootApiController extends Controller {
       });
     }
 
-    return this.nextServerMod.run(req);
+    return this.next(req);
   }
 }

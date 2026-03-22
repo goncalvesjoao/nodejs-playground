@@ -6,7 +6,7 @@ import {
 
 export class BodyParserMiddleware extends ServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    const response = await this.nextServerMod.run(req);
+    const response = await this.next(req);
 
     const body = response.body ? parseBody(response.body) : null;
 

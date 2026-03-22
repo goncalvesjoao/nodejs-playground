@@ -32,7 +32,7 @@ export class AdminController extends Controller {
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.pathname.startsWith(this.basePath)) {
-      return this.nextServerMod.run(req);
+      return this.next(req);
     }
 
     return this.serverMod.run(req);
