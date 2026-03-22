@@ -23,12 +23,10 @@ export class ApiController extends Controller {
 
     this.serverMod = new CountriesApiController(
       new RootApiController(
-        ServerMod.new(async () =>
-          Promise.resolve({
-            status: 501,
-            body: { message: 'Not Implemented' },
-          }),
-        ),
+        ServerMod.new({
+          status: 501,
+          body: { message: 'Not Implemented' },
+        }),
         this.basePath,
       ),
       this.basePath,

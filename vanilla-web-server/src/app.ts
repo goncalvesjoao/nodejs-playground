@@ -21,12 +21,10 @@ export const app = new CorsMiddleware(
           new AssetsController(
             new AuthController(
               new RootController(
-                ServerMod.new(async () =>
-                  Promise.resolve({
-                    status: 404,
-                    body: await readPublicFile('not_found.html', 'utf-8'),
-                  }),
-                ),
+                ServerMod.new({
+                  status: 404,
+                  body: await readPublicFile('not_found.html', 'utf-8'),
+                }),
               ),
             ),
           ),

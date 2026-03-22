@@ -23,10 +23,14 @@ export interface ServerModInterface {
 }
 
 export class ServerMod implements ServerModInterface {
-  static new(serverModFunc: ServerModFuncType): ServerModInterface {
-    return new this({
-      run: serverModFunc,
-    });
+  static new(
+    serverMod: ServerModFuncType | ServerModResponseType,
+  ): ServerModInterface {
+    if (typeof serverMod === 'object') {
+      return new this({ run: async () => Promise.resolve(serverMod) });
+    }
+
+    return new this({ run: serverMod });
   }
 
   constructor(protected nextServerMod: ServerModInterface) {}
