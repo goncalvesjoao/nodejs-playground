@@ -2,11 +2,11 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RootAdminController } from '@/controllers/admin-controllers';
 
-const rootAdminController = new RootAdminController();
+const rootAdminController = new RootAdminController('/admin');
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/',
+  pathname: '/admin/',
   searchParams: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),

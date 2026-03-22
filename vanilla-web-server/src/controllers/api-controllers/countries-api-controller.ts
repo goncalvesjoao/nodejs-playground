@@ -5,15 +5,24 @@ import type {
 } from '@/types';
 import CountryList from 'country-list';
 
-const BASE_PATH = /\/countries\/?(.*)/;
+const BASE_PATH = '/countries';
 
 export class CountriesApiController implements ServerModInterface {
-  constructor(protected nextServerMod: ServerModInterface) {}
+  get basePath() {
+    return `${this.basePathPrefix}${BASE_PATH}`;
+  }
+
+  constructor(
+    protected nextServerMod: ServerModInterface,
+    protected basePathPrefix: string = '',
+  ) {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    const id = req.pathname.match(BASE_PATH)?.[1];
+    if (!req.pathname.startsWith(this.basePath)) {
+      return this.nextServerMod.run(req);
+    }
 
-    if (id === '' && req.method === 'GET') {
+    if (req.method === 'GET' && req.pathname === this.basePath) {
       return this.findAll();
     }
 

@@ -25,7 +25,7 @@ void describe('AssetsController', () => {
       pathname: '/assets/chippy.jpg',
     });
 
-    const expectedBody = await readPublicFile('assets/chippy.jpg');
+    const expectedBody = (await readPublicFile('assets/chippy.jpg')) as Buffer;
 
     assert.equal(response.status, 200);
 

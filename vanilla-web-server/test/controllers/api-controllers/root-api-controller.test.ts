@@ -2,11 +2,11 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RootApiController } from '@/controllers/api-controllers';
 
-const rootApiController = new RootApiController();
+const rootApiController = new RootApiController('/api');
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/',
+  pathname: '/api/',
   searchParams: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),

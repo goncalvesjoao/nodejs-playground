@@ -4,15 +4,27 @@ import type {
   ServerModResponseType,
 } from '@/types';
 import { readPublicFile, renderView } from '@/utils';
+import path from 'path';
+
+const BASE_PATH = '';
 
 export class RootAdminController implements ServerModInterface {
+  get basePath() {
+    return `${this.basePathPrefix}${BASE_PATH}`;
+  }
+
+  constructor(protected basePathPrefix: string = '') {}
+
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (req.method === 'GET' && (req.pathname === '/' || req.pathname === '')) {
+    if (
+      req.method === 'GET' &&
+      (req.pathname === this.basePath || req.pathname === `${this.basePath}/`)
+    ) {
       const data = { title: 'Admin Home Page' };
 
       return {
         status: 200,
-        body: await renderView('admin/index.html', data),
+        body: await renderView(path.join(this.basePath, 'index.html'), data),
       };
     }
 

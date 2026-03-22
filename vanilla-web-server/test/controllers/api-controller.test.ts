@@ -20,7 +20,7 @@ const defaultRequest = {
 };
 
 void describe('ApiController', () => {
-  void test('invokes #serverMod.run with a request without the "/api" prefix', async () => {
+  void test('invokes #serverMod.run when a request starting with "/api" is made', async () => {
     const mockedRun = mock.fn(async (_req: ServerModRequestType) =>
       Promise.resolve({
         status: 200,
@@ -39,9 +39,6 @@ void describe('ApiController', () => {
     });
 
     assert.strictEqual(mockedRun.mock.calls.length, 1);
-    const firstCallArgs = mockedRun.mock.calls[0].arguments;
-    const receivedRequest = firstCallArgs[0];
-    assert.strictEqual(receivedRequest.pathname, '/unknown');
 
     assert.equal(response.status, 200);
     assert.deepEqual(response.body, { message: `I'm not a teapot` });

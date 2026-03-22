@@ -20,7 +20,7 @@ const defaultRequest = {
 };
 
 void describe('AdminController', () => {
-  void test('invokes #serverMod.run with a request without the "/admin" prefix', async () => {
+  void test('invokes #serverMod.run when a request starting with "/admin" is made', async () => {
     const mockedRun = mock.fn(async (_req: ServerModRequestType) =>
       Promise.resolve({
         status: 200,
@@ -39,9 +39,6 @@ void describe('AdminController', () => {
     });
 
     assert.strictEqual(mockedRun.mock.calls.length, 1);
-    const firstCallArgs = mockedRun.mock.calls[0].arguments;
-    const receivedRequest = firstCallArgs[0];
-    assert.strictEqual(receivedRequest.pathname, '/unknown');
 
     assert.equal(response.status, 200);
     assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));

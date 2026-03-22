@@ -11,10 +11,17 @@ import { PUBLIC_DIR_NAME } from '@/constants';
 const BASE_PATH = '/assets';
 
 export class AssetsController implements ServerModInterface {
-  constructor(protected nextServerMod: ServerModInterface) {}
+  get basePath() {
+    return `${this.basePathPrefix}${BASE_PATH}`;
+  }
+
+  constructor(
+    protected nextServerMod: ServerModInterface,
+    protected basePathPrefix: string = '',
+  ) {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.pathname.startsWith(BASE_PATH) || req.method !== 'GET') {
+    if (!req.pathname.startsWith(this.basePath) || req.method !== 'GET') {
       return this.nextServerMod.run(req);
     }
 

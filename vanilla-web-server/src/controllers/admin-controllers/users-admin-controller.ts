@@ -4,18 +4,26 @@ import type {
   ServerModResponseType,
 } from '@/types';
 import { renderView } from '@/utils';
+import path from 'path';
 
 const BASE_PATH = '/users';
 
 export class UsersAdminController implements ServerModInterface {
-  constructor(protected nextServerMod: ServerModInterface) {}
+  get basePath() {
+    return `${this.basePathPrefix}${BASE_PATH}`;
+  }
+
+  constructor(
+    protected nextServerMod: ServerModInterface,
+    protected basePathPrefix: string = '',
+  ) {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.pathname.startsWith(BASE_PATH)) {
+    if (!req.pathname.startsWith(this.basePath)) {
       return this.nextServerMod.run(req);
     }
 
-    if (req.method === 'GET' && req.pathname === `${BASE_PATH}/login`) {
+    if (req.method === 'GET' && req.pathname === `${this.basePath}/login`) {
       return this.showLogin();
     }
 
@@ -25,7 +33,7 @@ export class UsersAdminController implements ServerModInterface {
   async showLogin(): Promise<ServerModResponseType> {
     return {
       status: 200,
-      body: await renderView('admin/users/login.html'),
+      body: await renderView(path.join(this.basePath, 'login.html')),
     };
   }
 }

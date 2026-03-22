@@ -11,20 +11,27 @@ import {
 const BASE_PATH = '/api';
 
 export class ApiController implements ServerModInterface {
-  serverMod: ServerModInterface = new CountriesApiController(
-    new RootApiController(),
-  );
+  serverMod: ServerModInterface;
 
-  constructor(protected nextServerMod: ServerModInterface) {}
+  get basePath() {
+    return `${this.basePathPrefix}${BASE_PATH}`;
+  }
+
+  constructor(
+    protected nextServerMod: ServerModInterface,
+    protected basePathPrefix: string = '',
+  ) {
+    this.serverMod = new CountriesApiController(
+      new RootApiController(this.basePath),
+      this.basePath,
+    );
+  }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.pathname.startsWith(BASE_PATH)) {
+    if (!req.pathname.startsWith(this.basePath)) {
       return this.nextServerMod.run(req);
     }
 
-    return this.serverMod.run({
-      ...req,
-      pathname: req.pathname.replace(BASE_PATH, ''),
-    });
+    return this.serverMod.run(req);
   }
 }

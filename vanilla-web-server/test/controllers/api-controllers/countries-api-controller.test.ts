@@ -8,13 +8,14 @@ const nextServerModRun = mock.fn(async (_req: ServerModRequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const countriesApiController = new CountriesApiController({
-  run: nextServerModRun,
-});
+const countriesApiController = new CountriesApiController(
+  { run: nextServerModRun },
+  '/api',
+);
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/countries',
+  pathname: '/api/countries',
   searchParams: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
