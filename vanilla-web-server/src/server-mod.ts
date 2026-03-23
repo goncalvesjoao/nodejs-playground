@@ -45,3 +45,15 @@ export class ChainLinkServerMod extends ServerMod {
     return this.next.run(req);
   }
 }
+
+export class TerminalServerMod implements ServerModInterface {
+  constructor(protected serverMod: ServerModResponseType | ServerModFuncType) {}
+
+  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+    if (typeof this.serverMod === 'object') {
+      return Promise.resolve(this.serverMod);
+    }
+
+    return this.serverMod(req);
+  }
+}
