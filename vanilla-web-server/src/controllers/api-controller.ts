@@ -11,7 +11,7 @@ import {
 import { Controller } from '@/controller';
 
 export class ApiController extends Controller {
-  static path = '/api';
+  static basePath = '/api';
 
   serverMod: ServerModInterface;
 
@@ -29,9 +29,9 @@ export class ApiController extends Controller {
             body: { message: 'Not Implemented' },
           }),
         ),
-        this.path,
+        this.basePath,
       ),
-      this.path,
+      this.basePath,
     );
   }
 

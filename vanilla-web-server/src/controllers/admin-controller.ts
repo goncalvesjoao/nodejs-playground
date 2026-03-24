@@ -9,7 +9,7 @@ import { readPublicFile } from '@/utils/read-public-file';
 import { Controller } from '@/controller';
 
 export class AdminController extends Controller {
-  static path = '/admin';
+  static basePath = '/admin';
 
   serverMod: ServerModInterface;
 
@@ -26,7 +26,7 @@ export class AdminController extends Controller {
           body: await readPublicFile('not_found.html', 'utf-8'),
         }),
       ),
-      this.path,
+      this.basePath,
     );
   }
 

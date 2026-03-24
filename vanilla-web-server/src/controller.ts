@@ -3,9 +3,9 @@ import { ChainLinkServerMod, ServerMod } from '@/server-mod';
 import { renderView } from '@/utils';
 
 export class Controller extends ChainLinkServerMod {
-  static path = '';
+  static basePath = '';
 
-  readonly path: string;
+  readonly basePath: string;
 
   constructor(
     protected next: ServerMod,
@@ -13,12 +13,12 @@ export class Controller extends ChainLinkServerMod {
   ) {
     super(next);
 
-    this.path = `${pathPrefix}${(this.constructor as typeof Controller).path}`;
+    this.basePath = `${pathPrefix}${(this.constructor as typeof Controller).basePath}`;
 
     const originalRun = this.run.bind(this);
 
     this.run = async (req) => {
-      if (!req.path.startsWith(this.path)) {
+      if (!req.path.startsWith(this.basePath)) {
         return this.next.run(req);
       }
 
@@ -27,6 +27,6 @@ export class Controller extends ChainLinkServerMod {
   }
 
   renderView(filePath: string, data: Record<string, any> = {}) {
-    return renderView(path.join(this.path, filePath), data);
+    return renderView(path.join(this.basePath, filePath), data);
   }
 }

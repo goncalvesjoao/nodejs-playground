@@ -2,10 +2,10 @@ import { Controller } from '@/controller';
 import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 
 export class AuthController extends Controller {
-  static path = '/auth';
+  static basePath = '/auth';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (req.method === 'GET' && req.path === `${this.path}/login`) {
+    if (req.method === 'GET' && req.path === `${this.basePath}/login`) {
       return this.showLogin();
     }
 
