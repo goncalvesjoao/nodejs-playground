@@ -13,7 +13,7 @@ const rootApiController = new RootApiController(
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/api/',
+  path: '/api/',
   searchParams: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
@@ -32,7 +32,7 @@ void describe('RootApiController', () => {
   void test('invokes nextServerMod when a request other than root is made', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await rootApiController.run({ ...defaultRequest, pathname: '/unknown' });
+    await rootApiController.run({ ...defaultRequest, path: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

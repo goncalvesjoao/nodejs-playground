@@ -4,7 +4,7 @@ export type ServerModRequestType = {
   body: () => Promise<Buffer>;
   headers: IncomingHttpHeaders;
   method: string;
-  pathname: string;
+  path: string;
   searchParams: Record<string, string>;
 };
 

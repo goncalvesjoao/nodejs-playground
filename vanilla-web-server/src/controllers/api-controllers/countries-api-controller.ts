@@ -18,11 +18,11 @@ export class CountriesApiController implements ServerModInterface {
   ) {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.pathname.startsWith(this.basePath)) {
+    if (!req.path.startsWith(this.basePath)) {
       return this.nextServerMod.run(req);
     }
 
-    if (req.method === 'GET' && req.pathname === this.basePath) {
+    if (req.method === 'GET' && req.path === this.basePath) {
       return this.findAll();
     }
 

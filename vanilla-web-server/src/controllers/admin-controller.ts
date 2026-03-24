@@ -33,7 +33,7 @@ export class AdminController implements ServerModInterface {
   }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.pathname.startsWith(this.basePath)) {
+    if (!req.path.startsWith(this.basePath)) {
       return this.nextServerMod.run(req);
     }
 

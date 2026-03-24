@@ -21,14 +21,14 @@ export class AssetsController implements ServerModInterface {
   ) {}
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.pathname.startsWith(this.basePath) || req.method !== 'GET') {
+    if (!req.path.startsWith(this.basePath) || req.method !== 'GET') {
       return this.nextServerMod.run(req);
     }
 
     const assetAbsolutePath = path.join(
       rootDirPath,
       PUBLIC_DIR_NAME,
-      `.${req.pathname}`,
+      `.${req.path}`,
     );
 
     const fileExists = await fs
@@ -42,8 +42,8 @@ export class AssetsController implements ServerModInterface {
 
     return {
       status: 200,
-      headers: { 'Content-Type': contentTypeFromFileName(req.pathname) },
-      body: await readPublicFile(req.pathname),
+      headers: { 'Content-Type': contentTypeFromFileName(req.path) },
+      body: await readPublicFile(req.path),
     };
   }
 }

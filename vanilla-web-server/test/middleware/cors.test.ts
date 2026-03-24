@@ -9,7 +9,7 @@ const nextServerModRun = mock.fn(async () =>
 const corsMiddleware = new CorsMiddleware({ run: nextServerModRun });
 
 const defaultRequest = {
-  pathname: '/unknown',
+  path: '/unknown',
   searchParams: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),

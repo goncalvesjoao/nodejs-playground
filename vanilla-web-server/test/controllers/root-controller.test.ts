@@ -10,7 +10,7 @@ const rootController = new RootController({ run: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/',
+  path: '/',
   searchParams: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
@@ -27,7 +27,7 @@ void describe('RootController', () => {
   void test('invokes nextServerMod when a request other than root is made', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await rootController.run({ ...defaultRequest, pathname: '/unknown' });
+    await rootController.run({ ...defaultRequest, path: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

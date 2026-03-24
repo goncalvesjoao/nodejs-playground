@@ -12,7 +12,7 @@ const nextServerModRun = mock.fn(async () =>
 
 const defaultRequest = {
   method: 'GET',
-  pathname: '/api',
+  path: '/api',
   searchParams: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
@@ -34,7 +34,7 @@ void describe('ApiController', () => {
 
     const response = await apiController.run({
       ...defaultRequest,
-      pathname: '/api/unknown',
+      path: '/api/unknown',
     });
 
     assert.strictEqual(mockedRun.mock.calls.length, 1);
@@ -46,7 +46,7 @@ void describe('ApiController', () => {
   void test('invokes nextServerMod when a request other than /api is made', async () => {
     const apiController = new ApiController({ run: nextServerModRun });
 
-    await apiController.run({ ...defaultRequest, pathname: '/unknown' });
+    await apiController.run({ ...defaultRequest, path: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });
