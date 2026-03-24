@@ -26,16 +26,6 @@ export abstract class ServerMod implements ServerModInterface {
   abstract run(req: ServerModRequestType): Promise<ServerModResponseType>;
 }
 
-export class ChainEndServerMod extends ServerMod {
-  constructor(protected serverModFunc: ServerModFuncType) {
-    super();
-  }
-
-  run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    return this.serverModFunc(req);
-  }
-}
-
 export class ChainLinkServerMod extends ServerMod {
   constructor(protected next: ServerMod) {
     super();
@@ -46,14 +36,29 @@ export class ChainLinkServerMod extends ServerMod {
   }
 }
 
-export class TerminalServerMod implements ServerModInterface {
-  constructor(protected serverMod: ServerModResponseType | ServerModFuncType) {}
+export class ChainEndServerMod extends ServerMod {
+  constructor(protected serverMod: ServerModFuncType) {
+    super();
+  }
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (typeof this.serverMod === 'object') {
-      return Promise.resolve(this.serverMod);
-    }
-
+  run(req: ServerModRequestType): Promise<ServerModResponseType> {
     return this.serverMod(req);
+  }
+}
+
+export class ChainServerMod {
+  chainLinks: Array<typeof ChainLinkServerMod> = [];
+
+  deadEnd(_req: ServerModRequestType): Promise<ServerModResponseType> {
+    throw new Error('#deadEnd method not implemented');
+  }
+
+  run(req: ServerModRequestType): Promise<ServerModResponseType> {
+    const serverMod = this.chainLinks.reduceRight<ServerMod>(
+      (accumulator, ChainLink) => new ChainLink(accumulator),
+      new ChainEndServerMod(this.deadEnd.bind(this)),
+    );
+
+    return serverMod.run(req);
   }
 }

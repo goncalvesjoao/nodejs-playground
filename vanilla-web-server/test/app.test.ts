@@ -1,7 +1,9 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { app } from '@/app';
+import { App } from '@/app';
 import { readPublicFile } from '@/utils';
+
+const app = new App();
 
 const defaultRequest = {
   method: 'GET',
