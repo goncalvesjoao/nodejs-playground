@@ -14,6 +14,16 @@ export class Controller extends ChainLinkServerMod {
     super(next);
 
     this.path = `${pathPrefix}${(this.constructor as typeof Controller).path}`;
+
+    const originalRun = this.run.bind(this);
+
+    this.run = async (req) => {
+      if (!req.path.startsWith(this.path)) {
+        return this.next.run(req);
+      }
+
+      return originalRun(req);
+    };
   }
 
   renderView(filePath: string, data: Record<string, any> = {}) {

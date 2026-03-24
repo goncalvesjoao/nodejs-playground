@@ -9,7 +9,7 @@ export class AssetsController extends Controller {
   static path = '/assets';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.path.startsWith(this.path) || req.method !== 'GET') {
+    if (req.method !== 'GET') {
       return this.next.run(req);
     }
 

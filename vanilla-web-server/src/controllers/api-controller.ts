@@ -36,10 +36,6 @@ export class ApiController extends Controller {
   }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.path.startsWith(this.path)) {
-      return this.next.run(req);
-    }
-
     return this.serverMod.run(req);
   }
 }
