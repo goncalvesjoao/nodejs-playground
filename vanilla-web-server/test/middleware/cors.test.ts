@@ -10,7 +10,7 @@ const corsMiddleware = new CorsMiddleware({ run: nextServerModRun });
 
 const defaultRequest = {
   path: '/unknown',
-  searchParams: {},
+  params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };

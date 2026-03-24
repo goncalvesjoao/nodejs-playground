@@ -11,7 +11,7 @@ const rootController = new RootController({ run: nextServerModRun });
 const defaultRequest = {
   method: 'GET',
   path: '/',
-  searchParams: {},
+  params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };

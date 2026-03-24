@@ -14,7 +14,7 @@ const rootApiController = new RootApiController(
 const defaultRequest = {
   method: 'GET',
   path: '/api/',
-  searchParams: {},
+  params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };

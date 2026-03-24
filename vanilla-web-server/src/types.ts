@@ -5,7 +5,7 @@ export type ServerModRequestType = {
   headers: IncomingHttpHeaders;
   method: string;
   path: string;
-  searchParams: Record<string, string>;
+  params: Record<string, string>;
 };
 
 export type ServerModResponseType = {

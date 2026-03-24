@@ -12,7 +12,7 @@ const assetsController = new AssetsController({ run: nextServerModRun });
 const defaultRequest = {
   method: 'GET',
   path: '/assets',
-  searchParams: {},
+  params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };
