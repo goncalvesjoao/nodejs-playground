@@ -1,28 +1,16 @@
 import fs from 'fs/promises';
 import path from 'node:path';
 import { readPublicFile, rootDirPath } from '@/utils';
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
-} from '@/types';
+import type { ServerModRequestType, ServerModResponseType } from '@/types';
 import { PUBLIC_DIR_NAME } from '@/constants';
+import { Controller } from '@/controller';
 
-const BASE_PATH = '/assets';
-
-export class AssetsController implements ServerModInterface {
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
-
-  constructor(
-    protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
-  ) {}
+export class AssetsController extends Controller {
+  static basePath = '/assets';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.path.startsWith(this.basePath) || req.method !== 'GET') {
-      return this.nextServerMod.run(req);
+    if (req.method !== 'GET') {
+      return this.next.run(req);
     }
 
     const assetAbsolutePath = path.join(
@@ -37,7 +25,7 @@ export class AssetsController implements ServerModInterface {
       .catch(() => false);
 
     if (!fileExists) {
-      return this.nextServerMod.run(req);
+      return this.next.run(req);
     }
 
     return {

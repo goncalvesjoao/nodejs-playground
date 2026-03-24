@@ -6,10 +6,7 @@ const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const rootApiController = new RootApiController(
-  { run: nextServerModRun },
-  '/api',
-);
+const rootApiController = new RootApiController({ run: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',

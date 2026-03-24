@@ -1,23 +1,7 @@
-import type {
-  ServerModInterface,
-  ServerModRequestType,
-  ServerModResponseType,
-} from '@/types';
-import { renderView } from '@/utils';
-import path from 'path';
+import { Controller } from '@/controller';
+import type { ServerModRequestType, ServerModResponseType } from '@/types';
 
-const BASE_PATH = '';
-
-export class RootController implements ServerModInterface {
-  constructor(
-    protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
-  ) {}
-
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
-
+export class RootController extends Controller {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
       req.method === 'GET' &&
@@ -27,10 +11,10 @@ export class RootController implements ServerModInterface {
 
       return {
         status: 200,
-        body: await renderView(path.join(this.basePath, 'index.html'), data),
+        body: await this.renderView('index.html', data),
       };
     }
 
-    return this.nextServerMod.run(req);
+    return this.next.run(req);
   }
 }

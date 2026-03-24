@@ -1,32 +1,17 @@
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
-} from '@/types';
+import type { ServerModRequestType, ServerModResponseType } from '@/types';
 import CountryList from 'country-list';
+// import { ApiController } from '@/controllers/api-controller';
+import { Controller } from '@/controller';
 
-const BASE_PATH = '/countries';
-
-export class CountriesApiController implements ServerModInterface {
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
-
-  constructor(
-    protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
-  ) {}
+export class CountriesApiController extends Controller {
+  static basePath = '/api/countries';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    if (!req.path.startsWith(this.basePath)) {
-      return this.nextServerMod.run(req);
-    }
-
     if (req.method === 'GET' && req.path === this.basePath) {
       return this.findAll();
     }
 
-    return this.nextServerMod.run(req);
+    return this.next.run(req);
   }
 
   findAll(): ServerModResponseType {

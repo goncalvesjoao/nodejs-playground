@@ -1,22 +1,9 @@
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
-} from '@/types';
-import { renderView } from '@/utils';
-import path from 'path';
+import type { ServerModRequestType, ServerModResponseType } from '@/types';
+import { Controller } from '@/controller';
+// import { AdminController } from '@/controllers/admin-controller';
 
-const BASE_PATH = '';
-
-export class RootAdminController implements ServerModInterface {
-  constructor(
-    protected nextServerMod: ServerModInterface,
-    protected basePathPrefix: string = '',
-  ) {}
-
-  get basePath() {
-    return `${this.basePathPrefix}${BASE_PATH}`;
-  }
+export class RootAdminController extends Controller {
+  static basePath = '/admin';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
@@ -27,10 +14,10 @@ export class RootAdminController implements ServerModInterface {
 
       return {
         status: 200,
-        body: await renderView(path.join(this.basePath, 'index.html'), data),
+        body: await this.renderView('index.html', data),
       };
     }
 
-    return this.nextServerMod.run(req);
+    return this.next.run(req);
   }
 }

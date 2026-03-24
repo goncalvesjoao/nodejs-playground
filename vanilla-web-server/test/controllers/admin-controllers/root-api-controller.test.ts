@@ -6,10 +6,7 @@ const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const rootAdminController = new RootAdminController(
-  { run: nextServerModRun },
-  '/admin',
-);
+const rootAdminController = new RootAdminController({ run: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',

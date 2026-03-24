@@ -7,10 +7,9 @@ const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const countriesApiController = new CountriesApiController(
-  { run: nextServerModRun },
-  '/api',
-);
+const countriesApiController = new CountriesApiController({
+  run: nextServerModRun,
+});
 
 const defaultRequest = {
   method: 'GET',
