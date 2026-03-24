@@ -14,10 +14,6 @@ export type ServerModResponseType = {
   body?: any;
 };
 
-export type ServerModFuncType = (
-  req: ServerModRequestType,
-) => Promise<ServerModResponseType>;
-
 export abstract class ServerMod {
   abstract run(req: ServerModRequestType): Promise<ServerModResponseType>;
 }
@@ -34,7 +30,7 @@ export class ChainLinkServerMod extends ServerMod {
 
 export function composeServerModChain(
   chainLinks: Array<typeof ChainLinkServerMod>,
-  endOfChain: ServerModFuncType,
+  endOfChain: (req: ServerModRequestType) => Promise<ServerModResponseType>,
 ): ServerMod {
   return chainLinks.reduceRight<ServerMod>(
     (accumulator, ChainLink) => new ChainLink(accumulator),
