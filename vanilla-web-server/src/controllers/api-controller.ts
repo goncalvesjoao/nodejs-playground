@@ -2,7 +2,7 @@ import {
   type ServerModRequestType,
   type ServerModInterface,
   type ServerModResponseType,
-  ServerMod,
+  ChainEndServerMod,
 } from '@/server-mod';
 import {
   RootApiController,
@@ -23,10 +23,12 @@ export class ApiController extends Controller {
 
     this.serverMod = new CountriesApiController(
       new RootApiController(
-        ServerMod.new({
-          status: 501,
-          body: { message: 'Not Implemented' },
-        }),
+        new ChainEndServerMod(async () =>
+          Promise.resolve({
+            status: 501,
+            body: { message: 'Not Implemented' },
+          }),
+        ),
         this.path,
       ),
       this.path,

@@ -11,7 +11,7 @@ import {
   CorsMiddleware,
 } from '@/middlewares';
 import { readPublicFile } from '@/utils';
-import { ServerMod } from './server-mod';
+import { ChainEndServerMod } from '@/server-mod';
 
 export const app = new CorsMiddleware(
   new BodyParserMiddleware(
@@ -21,10 +21,12 @@ export const app = new CorsMiddleware(
           new AuthController(
             new AdminController(
               new RootController(
-                ServerMod.new({
-                  status: 404,
-                  body: await readPublicFile('not_found.html', 'utf-8'),
-                }),
+                new ChainEndServerMod(async () =>
+                  Promise.resolve({
+                    status: 404,
+                    body: await readPublicFile('not_found.html', 'utf-8'),
+                  }),
+                ),
               ),
             ),
           ),

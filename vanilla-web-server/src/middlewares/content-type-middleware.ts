@@ -1,10 +1,10 @@
 import {
   type ServerModRequestType,
   type ServerModResponseType,
-  ServerMod,
+  ChainLinkServerMod,
 } from '@/server-mod';
 
-export class ContentTypeMiddleware extends ServerMod {
+export class ContentTypeMiddleware extends ChainLinkServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     const response = await this.next(req);
 

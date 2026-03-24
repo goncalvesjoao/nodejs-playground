@@ -2,7 +2,7 @@ import {
   type ServerModRequestType,
   type ServerModInterface,
   type ServerModResponseType,
-  ServerMod,
+  ChainEndServerMod,
 } from '@/server-mod';
 import { RootAdminController } from '@/controllers/admin-controllers';
 import { readPublicFile } from '@/utils/read-public-file';
@@ -20,7 +20,7 @@ export class AdminController extends Controller {
     super(nextServerMod, pathPrefix);
 
     this.serverMod = new RootAdminController(
-      ServerMod.new(async () =>
+      new ChainEndServerMod(async () =>
         Promise.resolve({
           status: 404,
           body: await readPublicFile('not_found.html', 'utf-8'),

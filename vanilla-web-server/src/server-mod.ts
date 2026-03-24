@@ -23,17 +23,25 @@ export interface ServerModInterface {
 }
 
 export class ServerMod implements ServerModInterface {
-  static new(
-    serverMod: ServerModFuncType | ServerModResponseType,
-  ): ServerModInterface {
-    if (typeof serverMod === 'object') {
-      return new this({ run: async () => Promise.resolve(serverMod) });
-    }
+  run(_req: ServerModRequestType): Promise<ServerModResponseType> {
+    throw new Error('Method not implemented in child class');
+  }
+}
 
-    return new this({ run: serverMod });
+export class ChainEndServerMod extends ServerMod {
+  constructor(protected serverModFunc: ServerModFuncType) {
+    super();
   }
 
-  constructor(protected nextServerMod: ServerModInterface) {}
+  run(req: ServerModRequestType): Promise<ServerModResponseType> {
+    return this.serverModFunc(req);
+  }
+}
+
+export class ChainLinkServerMod extends ServerMod {
+  constructor(protected nextServerMod: ServerMod) {
+    super();
+  }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     return this.next(req);
