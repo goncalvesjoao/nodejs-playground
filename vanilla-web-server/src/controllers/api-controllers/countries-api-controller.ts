@@ -7,14 +7,14 @@ export class CountriesApiController extends Controller {
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.path.startsWith(this.path)) {
-      return this.next(req);
+      return this.next.run(req);
     }
 
     if (req.method === 'GET' && req.path === this.path) {
       return this.findAll();
     }
 
-    return this.next(req);
+    return this.next.run(req);
   }
 
   findAll(): ServerModResponseType {

@@ -7,7 +7,7 @@ import {
 export class CorsMiddleware extends ChainLinkServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (req.method !== 'OPTIONS') {
-      return await this.next(req);
+      return await this.next.run(req);
     }
 
     return {

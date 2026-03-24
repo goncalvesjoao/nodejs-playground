@@ -15,6 +15,6 @@ export class RootController extends Controller {
       };
     }
 
-    return this.next(req);
+    return this.next.run(req);
   }
 }

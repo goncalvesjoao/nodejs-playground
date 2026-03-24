@@ -6,7 +6,7 @@ import {
 
 export class BodyParserMiddleware extends ChainLinkServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    const response = await this.next(req);
+    const response = await this.next.run(req);
 
     const body = response.body ? parseBody(response.body) : null;
 

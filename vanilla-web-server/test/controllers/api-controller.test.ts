@@ -2,7 +2,7 @@ import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ApiController } from '@/controllers';
 
-const nextServerModRun = mock.fn(async () =>
+const nextRun = mock.fn(async () =>
   Promise.resolve({
     status: 418,
     headers: {},
@@ -28,7 +28,7 @@ void describe('ApiController', () => {
       }),
     );
 
-    const apiController = new ApiController({ run: nextServerModRun });
+    const apiController = new ApiController({ run: nextRun });
 
     apiController.serverMod = { run: mockedRun };
 
@@ -43,11 +43,11 @@ void describe('ApiController', () => {
     assert.deepEqual(response.body, { message: `I'm not a teapot` });
   });
 
-  void test('invokes nextServerMod when a request other than /api is made', async () => {
-    const apiController = new ApiController({ run: nextServerModRun });
+  void test('invokes next when a request other than /api is made', async () => {
+    const apiController = new ApiController({ run: nextRun });
 
     await apiController.run({ ...defaultRequest, path: '/unknown' });
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    assert.equal(nextRun.mock.calls.length, 1);
   });
 });

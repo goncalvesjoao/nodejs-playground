@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import { AssetsController } from '@/controllers';
 import { readPublicFile } from '@/utils';
 
-const nextServerModRun = mock.fn(async () =>
+const nextRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const assetsController = new AssetsController({ run: nextServerModRun });
+const assetsController = new AssetsController({ run: nextRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -34,22 +34,22 @@ void describe('AssetsController', () => {
     );
   });
 
-  void test('invokes nextServerMod when an unknown asset is requested', async () => {
-    nextServerModRun.mock.resetCalls();
+  void test('invokes next when an unknown asset is requested', async () => {
+    nextRun.mock.resetCalls();
 
     await assetsController.run({
       ...defaultRequest,
       path: '/assets/unknown',
     });
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    assert.equal(nextRun.mock.calls.length, 1);
   });
 
-  void test('invokes nextServerMod when a request other than /assets is made', async () => {
-    nextServerModRun.mock.resetCalls();
+  void test('invokes next when a request other than /assets is made', async () => {
+    nextRun.mock.resetCalls();
 
     await assetsController.run({ ...defaultRequest, path: '/unknown' });
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    assert.equal(nextRun.mock.calls.length, 1);
   });
 });

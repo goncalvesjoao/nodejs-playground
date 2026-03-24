@@ -6,14 +6,14 @@ export class AuthController extends Controller {
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.path.startsWith(this.path)) {
-      return this.next(req);
+      return this.next.run(req);
     }
 
     if (req.method === 'GET' && req.path === `${this.path}/login`) {
       return this.showLogin();
     }
 
-    return this.next(req);
+    return this.next.run(req);
   }
 
   async showLogin(): Promise<ServerModResponseType> {

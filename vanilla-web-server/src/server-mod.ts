@@ -37,15 +37,11 @@ export class ChainEndServerMod extends ServerMod {
 }
 
 export class ChainLinkServerMod extends ServerMod {
-  constructor(protected nextServerMod: ServerMod) {
+  constructor(protected next: ServerMod) {
     super();
   }
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    return this.next(req);
-  }
-
-  async next(req: ServerModRequestType): Promise<ServerModResponseType> {
-    return this.nextServerMod.run(req);
+    return this.next.run(req);
   }
 }

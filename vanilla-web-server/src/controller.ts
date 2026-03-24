@@ -8,10 +8,10 @@ export class Controller extends ChainLinkServerMod {
   readonly path: string;
 
   constructor(
-    protected nextServerMod: ServerMod,
+    protected next: ServerMod,
     pathPrefix: string = '',
   ) {
-    super(nextServerMod);
+    super(next);
 
     this.path = `${pathPrefix}${(this.constructor as typeof Controller).path}`;
   }

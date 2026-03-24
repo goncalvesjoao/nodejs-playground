@@ -14,10 +14,10 @@ export class AdminController extends Controller {
   serverMod: ServerModInterface;
 
   constructor(
-    protected nextServerMod: ServerModInterface,
+    protected next: ServerModInterface,
     pathPrefix: string = '',
   ) {
-    super(nextServerMod, pathPrefix);
+    super(next, pathPrefix);
 
     this.serverMod = new RootAdminController(
       new ChainEndServerMod(async () =>
@@ -32,7 +32,7 @@ export class AdminController extends Controller {
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (!req.path.startsWith(this.path)) {
-      return this.next(req);
+      return this.next.run(req);
     }
 
     return this.serverMod.run(req);

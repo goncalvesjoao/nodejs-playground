@@ -15,6 +15,6 @@ export class RootAdminController extends Controller {
       };
     }
 
-    return this.next(req);
+    return this.next.run(req);
   }
 }

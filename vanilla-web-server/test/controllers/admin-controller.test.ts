@@ -2,7 +2,7 @@ import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { AdminController } from '@/controllers';
 
-const nextServerModRun = mock.fn(async () =>
+const nextRun = mock.fn(async () =>
   Promise.resolve({
     status: 418,
     headers: {},
@@ -28,7 +28,7 @@ void describe('AdminController', () => {
       }),
     );
 
-    const adminController = new AdminController({ run: nextServerModRun });
+    const adminController = new AdminController({ run: nextRun });
 
     adminController.serverMod = { run: mockedRun };
 
@@ -43,11 +43,11 @@ void describe('AdminController', () => {
     assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
   });
 
-  void test('invokes nextServerMod when a request other than /admin is made', async () => {
-    const adminController = new AdminController({ run: nextServerModRun });
+  void test('invokes next when a request other than /admin is made', async () => {
+    const adminController = new AdminController({ run: nextRun });
 
     await adminController.run({ ...defaultRequest, path: '/unknown' });
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    assert.equal(nextRun.mock.calls.length, 1);
   });
 });
