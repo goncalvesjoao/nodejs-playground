@@ -22,10 +22,8 @@ export interface ServerModInterface {
   run: ServerModFuncType;
 }
 
-export class ServerMod implements ServerModInterface {
-  run(_req: ServerModRequestType): Promise<ServerModResponseType> {
-    throw new Error('Method not implemented in child class');
-  }
+export abstract class ServerMod implements ServerModInterface {
+  abstract run(req: ServerModRequestType): Promise<ServerModResponseType>;
 }
 
 export class ChainEndServerMod extends ServerMod {
