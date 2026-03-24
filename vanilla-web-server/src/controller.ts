@@ -2,7 +2,7 @@ import path from 'path';
 import { ChainLinkServerMod, ServerMod } from '@/server-mod';
 import { renderView } from '@/utils';
 
-export class Controller extends ChainLinkServerMod {
+export class ChainLinkController extends ChainLinkServerMod {
   static basePath = '';
 
   readonly basePath: string;
@@ -13,7 +13,7 @@ export class Controller extends ChainLinkServerMod {
   ) {
     super(next);
 
-    this.basePath = `${pathPrefix}${(this.constructor as typeof Controller).basePath}`;
+    this.basePath = `${pathPrefix}${(this.constructor as typeof ChainLinkController).basePath}`;
 
     const originalRun = this.run.bind(this);
 

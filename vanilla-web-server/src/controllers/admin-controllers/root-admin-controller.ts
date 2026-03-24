@@ -1,7 +1,7 @@
-import { Controller } from '@/controller';
+import { ChainLinkController } from '@/controller';
 import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 
-export class RootAdminController extends Controller {
+export class RootAdminController extends ChainLinkController {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
       req.method === 'GET' &&

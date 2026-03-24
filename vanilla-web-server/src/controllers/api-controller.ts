@@ -8,9 +8,9 @@ import {
   RootApiController,
   CountriesApiController,
 } from '@/controllers/api-controllers';
-import { Controller } from '@/controller';
+import { ChainLinkController } from '@/controller';
 
-export class ApiController extends Controller {
+export class ApiController extends ChainLinkController {
   static basePath = '/api';
 
   serverMod: ServerModInterface;

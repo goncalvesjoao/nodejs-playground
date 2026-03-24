@@ -1,7 +1,7 @@
-import { Controller } from '@/controller';
+import { ChainLinkController } from '@/controller';
 import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 
-export class AuthController extends Controller {
+export class AuthController extends ChainLinkController {
   static basePath = '/auth';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {

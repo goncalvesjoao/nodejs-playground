@@ -6,9 +6,9 @@ import {
 } from '@/server-mod';
 import { RootAdminController } from '@/controllers/admin-controllers';
 import { readPublicFile } from '@/utils/read-public-file';
-import { Controller } from '@/controller';
+import { ChainLinkController } from '@/controller';
 
-export class AdminController extends Controller {
+export class AdminController extends ChainLinkController {
   static basePath = '/admin';
 
   serverMod: ServerModInterface;

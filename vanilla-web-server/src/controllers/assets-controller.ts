@@ -3,9 +3,9 @@ import path from 'node:path';
 import { readPublicFile, rootDirPath } from '@/utils';
 import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 import { PUBLIC_DIR_NAME } from '@/constants';
-import { Controller } from '@/controller';
+import { ChainLinkController } from '@/controller';
 
-export class AssetsController extends Controller {
+export class AssetsController extends ChainLinkController {
   static basePath = '/assets';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {

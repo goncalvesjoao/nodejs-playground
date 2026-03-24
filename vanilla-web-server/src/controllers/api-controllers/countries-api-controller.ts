@@ -1,8 +1,8 @@
-import { Controller } from '@/controller';
+import { ChainLinkController } from '@/controller';
 import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 import CountryList from 'country-list';
 
-export class CountriesApiController extends Controller {
+export class CountriesApiController extends ChainLinkController {
   static basePath = '/countries';
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
