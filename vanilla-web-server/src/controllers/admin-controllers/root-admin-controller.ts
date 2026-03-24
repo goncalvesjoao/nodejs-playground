@@ -1,9 +1,8 @@
 import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
-import { Controller } from '@/controller';
-// import { AdminController } from '@/controllers/admin-controller';
+import { AdminController } from '@/controllers/admin-controller';
 
-export class RootAdminController extends Controller {
-  static basePath = '/admin';
+export class RootAdminController extends AdminController {
+  static basePath = super.basePath;
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (

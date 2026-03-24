@@ -1,9 +1,8 @@
 import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
-// import { ApiController } from '@/controllers/api-controller';
-import { Controller } from '@/controller';
+import { ApiController } from '@/controllers/api-controller';
 
-export class RootApiController extends Controller {
-  static basePath = '/api';
+export class RootApiController extends ApiController {
+  static basePath = super.basePath;
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (
@@ -16,6 +15,9 @@ export class RootApiController extends Controller {
       });
     }
 
-    return this.next.run(req);
+    return {
+      status: 501,
+      body: { message: 'Not Implemented' },
+    };
   }
 }

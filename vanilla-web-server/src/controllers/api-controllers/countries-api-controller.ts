@@ -1,10 +1,9 @@
 import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 import CountryList from 'country-list';
-// import { ApiController } from '@/controllers/api-controller';
-import { Controller } from '@/controller';
+import { ApiController } from '@/controllers/api-controller';
 
-export class CountriesApiController extends Controller {
-  static basePath = '/api/countries';
+export class CountriesApiController extends ApiController {
+  static basePath = `${super.basePath}/countries`;
 
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (req.method === 'GET' && req.path === this.basePath) {
