@@ -18,7 +18,7 @@ import {
 } from '@/server-mod';
 
 export class App extends ChainServerMod {
-  chainLinks = [
+  chain = [
     CorsMiddleware,
     BodyParserMiddleware,
     ContentTypeMiddleware,
