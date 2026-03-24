@@ -12,25 +12,63 @@ import {
   CorsMiddleware,
 } from '@/middlewares';
 import { readPublicFile } from '@/utils';
-import { composeServerModChain } from '@/server-mod';
+import {
+  composeServerModChain,
+  ServerMod,
+  ServerModRequestType,
+  ServerModResponseType,
+} from '@/server-mod';
 
-export const app = composeServerModChain(
-  [
-    CorsMiddleware,
-    BodyParserMiddleware,
-    ContentTypeMiddleware,
+export class App extends ServerMod {
+  middlewares = [CorsMiddleware, BodyParserMiddleware, ContentTypeMiddleware];
+
+  controllers = [
     CountriesApiController,
     RootApiController,
     RootAdminController,
     AssetsController,
     AuthController,
     RootController,
-  ],
-  async () => ({
-    status: 404,
-    body: await readPublicFile('not_found.html', 'utf-8'),
-  }),
-);
+  ];
+
+  deadEndFallback(): Promise<ServerModResponseType> {
+    return readPublicFile('not_found.html', 'utf-8').then((body) => ({
+      status: 404,
+      body,
+    }));
+  }
+
+  protected _serverModChain?: ServerMod;
+
+  get serverModChain() {
+    return (this._serverModChain ||= composeServerModChain(
+      [...this.middlewares, ...this.controllers],
+      this.deadEndFallback.bind(this),
+    ));
+  }
+
+  run(req: ServerModRequestType): Promise<ServerModResponseType> {
+    return this.serverModChain.run(req);
+  }
+}
+
+// export const app = composeServerModChain(
+//   [
+//     CorsMiddleware,
+//     BodyParserMiddleware,
+//     ContentTypeMiddleware,
+//     CountriesApiController,
+//     RootApiController,
+//     RootAdminController,
+//     AssetsController,
+//     AuthController,
+//     RootController,
+//   ],
+//   async () => ({
+//     status: 404,
+//     body: await readPublicFile('not_found.html', 'utf-8'),
+//   }),
+// );
 
 // export const app = new CorsMiddleware(
 //   new BodyParserMiddleware(
