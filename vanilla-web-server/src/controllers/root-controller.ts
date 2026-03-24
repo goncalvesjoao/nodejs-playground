@@ -1,8 +1,7 @@
-import { Controller } from '@/controller';
-import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
+import { Controller, type RequestType, ResponseType } from '@/modules';
 
 export class RootController extends Controller {
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  async handle(req: RequestType): Promise<ResponseType> {
     if (
       req.method === 'GET' &&
       (req.path === this.basePath || req.path === `${this.basePath}/`)
@@ -15,6 +14,6 @@ export class RootController extends Controller {
       };
     }
 
-    return this.next.run(req);
+    return this.next.handle(req);
   }
 }

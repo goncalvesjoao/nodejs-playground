@@ -1,9 +1,9 @@
 import { describe, test, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import { WebServer } from '@/web-server';
-import type { ServerModRequestType } from '@/server-mod';
+import type { RequestType } from '@/modules';
 
-const mockedRun = mock.fn(async (_req: ServerModRequestType) =>
+const mockedRun = mock.fn(async (_req: RequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
@@ -11,7 +11,7 @@ void describe('WebServer', () => {
   void test('invokes #app.run with a well formed request', async (t) => {
     const webServer = new WebServer();
 
-    webServer.app = { run: mockedRun };
+    webServer.app = { handle: mockedRun };
 
     t.after(() => webServer.close());
 
@@ -47,7 +47,7 @@ void describe('WebServer', () => {
 
     const webServer = new WebServer();
 
-    webServer.app = { run: mockedRun };
+    webServer.app = { handle: mockedRun };
 
     t.after(() => webServer.close());
 
@@ -72,7 +72,7 @@ void describe('WebServer', () => {
 
     const webServer = new WebServer();
 
-    webServer.app = { run: mockedRun };
+    webServer.app = { handle: mockedRun };
 
     t.after(() => webServer.close());
 

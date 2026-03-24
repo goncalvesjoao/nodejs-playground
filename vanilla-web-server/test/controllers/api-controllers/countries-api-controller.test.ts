@@ -8,7 +8,7 @@ const nextServerModRun = mock.fn(async () =>
 );
 
 const countriesApiController = new CountriesApiController({
-  run: nextServerModRun,
+  handle: nextServerModRun,
 });
 
 const defaultRequest = {
@@ -21,7 +21,7 @@ const defaultRequest = {
 
 void describe('CountriesApiController', () => {
   void test('returns a list of countries when a /countries request is made', async () => {
-    const response = await countriesApiController.run({
+    const response = await countriesApiController.handle({
       ...defaultRequest,
     });
 
@@ -32,7 +32,10 @@ void describe('CountriesApiController', () => {
   });
 
   void test('invokes nextServerMod when a request is not supported', async () => {
-    await countriesApiController.run({ ...defaultRequest, method: 'OPTIONS' });
+    await countriesApiController.handle({
+      ...defaultRequest,
+      method: 'OPTIONS',
+    });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

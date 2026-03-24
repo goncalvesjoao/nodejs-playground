@@ -6,7 +6,7 @@ const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const corsMiddleware = new CorsMiddleware({ run: nextServerModRun });
+const corsMiddleware = new CorsMiddleware({ handle: nextServerModRun });
 
 const defaultRequest = {
   path: '/unknown',
@@ -17,7 +17,7 @@ const defaultRequest = {
 
 void describe('CorsMiddleware', () => {
   void test('returns a positive CORS response when OPTIONS request is made', async () => {
-    const response = await corsMiddleware.run({
+    const response = await corsMiddleware.handle({
       ...defaultRequest,
       method: 'OPTIONS',
     });
@@ -30,7 +30,7 @@ void describe('CorsMiddleware', () => {
   });
 
   void test('invokes nextServerMod when OPTIONS request is not made', async () => {
-    await corsMiddleware.run({ ...defaultRequest, method: 'POST' });
+    await corsMiddleware.handle({ ...defaultRequest, method: 'POST' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

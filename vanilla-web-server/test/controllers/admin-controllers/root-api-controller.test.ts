@@ -6,7 +6,9 @@ const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const rootAdminController = new RootAdminController({ run: nextServerModRun });
+const rootAdminController = new RootAdminController({
+  handle: nextServerModRun,
+});
 
 const defaultRequest = {
   method: 'GET',
@@ -18,7 +20,7 @@ const defaultRequest = {
 
 void describe('RootAdminController', () => {
   void test('returns a Admin Home Page when a root request is made', async () => {
-    const response = await rootAdminController.run({ ...defaultRequest });
+    const response = await rootAdminController.handle({ ...defaultRequest });
 
     assert.equal(response.status, 200);
     assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
@@ -27,7 +29,7 @@ void describe('RootAdminController', () => {
   void test('invokes nextServerMod when a request other than root is made', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await rootAdminController.run({ ...defaultRequest, path: '/unknown' });
+    await rootAdminController.handle({ ...defaultRequest, path: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

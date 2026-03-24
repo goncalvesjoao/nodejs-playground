@@ -6,7 +6,7 @@ const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const rootApiController = new RootApiController({ run: nextServerModRun });
+const rootApiController = new RootApiController({ handle: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -18,7 +18,7 @@ const defaultRequest = {
 
 void describe('RootApiController', () => {
   void test('returns a welcome message when a root request is made', async () => {
-    const response = await rootApiController.run({ ...defaultRequest });
+    const response = await rootApiController.handle({ ...defaultRequest });
 
     assert.equal(response.status, 200);
     assert.deepEqual(response.body, {
@@ -29,7 +29,7 @@ void describe('RootApiController', () => {
   void test('invokes nextServerMod when a request other than root is made', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await rootApiController.run({ ...defaultRequest, path: '/unknown' });
+    await rootApiController.handle({ ...defaultRequest, path: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

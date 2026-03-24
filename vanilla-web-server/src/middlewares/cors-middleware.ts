@@ -1,13 +1,9 @@
-import {
-  type ServerModRequestType,
-  type ServerModResponseType,
-  ChainLinkServerMod,
-} from '@/server-mod';
+import { ChainLinkRequestHandler, RequestType, ResponseType } from '@/modules';
 
-export class CorsMiddleware extends ChainLinkServerMod {
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+export class CorsMiddleware extends ChainLinkRequestHandler {
+  async handle(req: RequestType): Promise<ResponseType> {
     if (req.method !== 'OPTIONS') {
-      return await this.next.run(req);
+      return await this.next.handle(req);
     }
 
     return {

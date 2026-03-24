@@ -1,18 +1,17 @@
-import { Controller } from '@/controller';
-import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
+import { Controller, type RequestType, ResponseType } from '@/modules';
 
 export class AuthController extends Controller {
   static basePath = '/auth';
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  async handle(req: RequestType): Promise<ResponseType> {
     if (req.method === 'GET' && req.path === `${this.basePath}/login`) {
       return this.showLogin();
     }
 
-    return this.next.run(req);
+    return this.next.handle(req);
   }
 
-  async showLogin(): Promise<ServerModResponseType> {
+  async showLogin(): Promise<ResponseType> {
     return {
       status: 200,
       body: await this.renderView('login.html'),

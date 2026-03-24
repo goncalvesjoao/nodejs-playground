@@ -1,12 +1,8 @@
-import {
-  type ServerModRequestType,
-  type ServerModResponseType,
-  ChainLinkServerMod,
-} from '@/server-mod';
+import { ChainLinkRequestHandler, RequestType, ResponseType } from '@/modules';
 
-export class BodyParserMiddleware extends ChainLinkServerMod {
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    const response = await this.next.run(req);
+export class BodyParserMiddleware extends ChainLinkRequestHandler {
+  async handle(req: RequestType): Promise<ResponseType> {
+    const response = await this.next.handle(req);
 
     const body = response.body ? parseBody(response.body) : null;
 

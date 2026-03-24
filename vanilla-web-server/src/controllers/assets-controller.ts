@@ -1,16 +1,15 @@
 import fs from 'fs/promises';
 import path from 'node:path';
 import { readPublicFile, rootDirPath } from '@/utils';
-import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
+import { Controller, type RequestType, ResponseType } from '@/modules';
 import { PUBLIC_DIR_NAME } from '@/constants';
-import { Controller } from '@/controller';
 
 export class AssetsController extends Controller {
   static basePath = '/assets';
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  async handle(req: RequestType): Promise<ResponseType> {
     if (req.method !== 'GET') {
-      return this.next.run(req);
+      return this.next.handle(req);
     }
 
     const assetAbsolutePath = path.join(
@@ -25,7 +24,7 @@ export class AssetsController extends Controller {
       .catch(() => false);
 
     if (!fileExists) {
-      return this.next.run(req);
+      return this.next.handle(req);
     }
 
     return {

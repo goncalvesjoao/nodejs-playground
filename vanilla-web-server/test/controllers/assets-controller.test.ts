@@ -7,7 +7,7 @@ const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const assetsController = new AssetsController({ run: nextServerModRun });
+const assetsController = new AssetsController({ handle: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -19,7 +19,7 @@ const defaultRequest = {
 
 void describe('AssetsController', () => {
   void test('returns an asset from the disk, matching the requested path', async () => {
-    const response = await assetsController.run({
+    const response = await assetsController.handle({
       ...defaultRequest,
       path: '/assets/chippy.jpg',
     });
@@ -37,7 +37,7 @@ void describe('AssetsController', () => {
   void test('invokes nextServerMod when an unknown asset is requested', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await assetsController.run({
+    await assetsController.handle({
       ...defaultRequest,
       path: '/assets/unknown',
     });
@@ -48,7 +48,7 @@ void describe('AssetsController', () => {
   void test('invokes nextServerMod when a request other than /assets is made', async () => {
     nextServerModRun.mock.resetCalls();
 
-    await assetsController.run({ ...defaultRequest, path: '/unknown' });
+    await assetsController.handle({ ...defaultRequest, path: '/unknown' });
 
     assert.equal(nextServerModRun.mock.calls.length, 1);
   });

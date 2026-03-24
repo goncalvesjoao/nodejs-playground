@@ -1,10 +1,10 @@
-import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
+import { type RequestType, ResponseType } from '@/modules';
 import { ApiController } from '@/controllers/api-controller';
 
 export class RootApiController extends ApiController {
   static basePath = super.basePath;
 
-  async run(req: ServerModRequestType): Promise<ServerModResponseType> {
+  async handle(req: RequestType): Promise<ResponseType> {
     if (
       req.method === 'GET' &&
       (req.path === this.basePath || req.path === `${this.basePath}/`)

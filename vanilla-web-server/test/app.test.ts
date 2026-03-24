@@ -15,7 +15,7 @@ const defaultRequest = {
 
 void describe('App', () => {
   void test('OPTIONS / - should return a positive CORS response', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'OPTIONS',
     });
@@ -29,7 +29,7 @@ void describe('App', () => {
   });
 
   void test('GET / - should return the home page', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'GET',
       path: '/',
@@ -44,7 +44,7 @@ void describe('App', () => {
   });
 
   void test('GET /unknown - should return a 404 page', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'GET',
       path: '/unknown',
@@ -59,7 +59,7 @@ void describe('App', () => {
   });
 
   void test('GET /api - should return a JSON response', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'GET',
       path: '/api',
@@ -75,7 +75,7 @@ void describe('App', () => {
   });
 
   void test('GET /api/unknown - should return a 501 JSON response', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'GET',
       path: '/api/unknown',
@@ -91,7 +91,7 @@ void describe('App', () => {
   });
 
   void test('GET /assets/chippy.jpg - should return a jpg image', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'GET',
       path: '/assets/chippy.jpg',
@@ -108,7 +108,7 @@ void describe('App', () => {
   });
 
   void test('GET /assets/unknown - should return a 404 response', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'GET',
       path: '/assets/unknown',
@@ -120,7 +120,7 @@ void describe('App', () => {
   });
 
   void test('GET /admin - returns Admin Home Page HTML', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'GET',
       path: '/admin',
@@ -132,7 +132,7 @@ void describe('App', () => {
   });
 
   void test('GET /admin/unknown - should return a 404 response', async () => {
-    const response = await app.run({
+    const response = await app.handle({
       ...defaultRequest,
       method: 'GET',
       path: '/admin/unknown',

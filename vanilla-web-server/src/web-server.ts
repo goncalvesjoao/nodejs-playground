@@ -1,6 +1,6 @@
 import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
-import { ServerMod } from '@/server-mod';
+import { RequestHandler } from '@/modules';
 import { App } from '@/app';
 
 export class Logger {
@@ -9,7 +9,7 @@ export class Logger {
 }
 
 export class WebServer {
-  app: ServerMod = new App();
+  app: RequestHandler = new App();
   logger: Logger = new Logger();
   server: http.Server;
 
@@ -34,7 +34,7 @@ export class WebServer {
         });
 
         this.app
-          .run({
+          .handle({
             body(): Promise<Buffer> {
               return bodyPromise;
             },

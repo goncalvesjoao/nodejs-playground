@@ -1,23 +1,26 @@
 import path from 'path';
 import { renderView } from '@/utils';
-import { ChainLinkServerMod, ServerMod } from '@/server-mod';
+import {
+  ChainLinkRequestHandler,
+  RequestHandler,
+} from '@/modules/request-handler';
 
-export class Controller extends ChainLinkServerMod {
+export class Controller extends ChainLinkRequestHandler {
   static basePath = '';
 
   basePath = (this.constructor as typeof Controller).basePath;
 
-  constructor(protected next: ServerMod) {
+  constructor(protected next: RequestHandler) {
     super(next);
 
-    const originalRun = this.run.bind(this);
+    const originalHandle = this.handle.bind(this);
 
-    this.run = async (req) => {
+    this.handle = async (req) => {
       if (!req.path.startsWith(this.basePath)) {
-        return this.next.run(req);
+        return this.next.handle(req);
       }
 
-      return originalRun(req);
+      return originalHandle(req);
     };
   }
 
