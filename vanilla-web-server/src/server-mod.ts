@@ -46,19 +46,12 @@ export class ChainEndServerMod extends ServerMod {
   }
 }
 
-export class ChainServerMod {
-  chain: Array<typeof ChainLinkServerMod> = [];
-
-  deadEnd(_req: ServerModRequestType): Promise<ServerModResponseType> {
-    throw new Error('#deadEnd method not implemented');
-  }
-
-  run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    const serverMod = this.chain.reduceRight<ServerMod>(
-      (accumulator, ChainLink) => new ChainLink(accumulator),
-      new ChainEndServerMod(this.deadEnd.bind(this)),
-    );
-
-    return serverMod.run(req);
-  }
+export function composeServerModChain(input: {
+  chainLinks: Array<typeof ChainLinkServerMod>;
+  deadEnd: ServerModFuncType;
+}): ServerMod {
+  return input.chainLinks.reduceRight<ServerMod>(
+    (accumulator, ChainLink) => new ChainLink(accumulator),
+    new ChainEndServerMod(input.deadEnd),
+  );
 }

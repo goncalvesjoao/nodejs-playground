@@ -12,13 +12,13 @@ import {
 } from '@/middlewares';
 import { readPublicFile } from '@/utils';
 import {
-  ChainServerMod,
+  composeServerModChain,
   ServerModRequestType,
   ServerModResponseType,
 } from '@/server-mod';
 
-export class App extends ChainServerMod {
-  chain = [
+export const app = composeServerModChain({
+  chainLinks: [
     CorsMiddleware,
     BodyParserMiddleware,
     ContentTypeMiddleware,
@@ -27,15 +27,14 @@ export class App extends ChainServerMod {
     AuthController,
     AdminController,
     RootController,
-  ];
-
+  ],
   async deadEnd(_req: ServerModRequestType): Promise<ServerModResponseType> {
     return {
       status: 404,
       body: await readPublicFile('not_found.html', 'utf-8'),
     };
-  }
-}
+  },
+});
 
 // export const app = new CorsMiddleware(
 //   new BodyParserMiddleware(

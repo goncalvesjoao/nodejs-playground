@@ -1,7 +1,7 @@
 import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
-import { ServerModInterface } from '@/server-mod';
-import { App } from '@/app';
+import { ServerMod } from '@/server-mod';
+import { app } from '@/app';
 
 export class Logger {
   log(..._args: unknown[]) {}
@@ -9,7 +9,7 @@ export class Logger {
 }
 
 export class WebServer {
-  app: ServerModInterface = new App();
+  app: ServerMod = app;
   logger: Logger = new Logger();
   server: http.Server;
 
