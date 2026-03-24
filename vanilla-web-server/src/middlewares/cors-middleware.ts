@@ -1,15 +1,13 @@
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
-} from '@/types';
+import {
+  type ServerModRequestType,
+  type ServerModResponseType,
+  ChainLinkServerMod,
+} from '@/server-mod';
 
-export class CorsMiddleware implements ServerModInterface {
-  constructor(protected nextServerMod: ServerModInterface) {}
-
+export class CorsMiddleware extends ChainLinkServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
     if (req.method !== 'OPTIONS') {
-      return await this.nextServerMod.run(req);
+      return await this.next.run(req);
     }
 
     return {

@@ -1,8 +1,8 @@
 import type {
   ServerModRequestType,
-  ServerModInterface,
+  ServerMod,
   ServerModResponseType,
-} from '@/types';
+} from '@/server-mod';
 import { RootAdminController } from '@/controllers/admin-controllers';
 import { readPublicFile } from '@/utils/read-public-file';
 import { Controller } from '@/controller';
@@ -10,9 +10,9 @@ import { Controller } from '@/controller';
 export class AdminController extends Controller {
   static basePath = '/admin';
 
-  serverMod: ServerModInterface;
+  serverMod: ServerMod;
 
-  constructor(protected next: ServerModInterface) {
+  constructor(protected next: ServerMod) {
     super(next);
 
     this.serverMod = new RootAdminController({

@@ -1,8 +1,8 @@
 import type {
   ServerModRequestType,
-  ServerModInterface,
+  ServerMod,
   ServerModResponseType,
-} from '@/types';
+} from '@/server-mod';
 import {
   RootApiController,
   CountriesApiController,
@@ -12,9 +12,9 @@ import { Controller } from '@/controller';
 export class ApiController extends Controller {
   static basePath = '/api';
 
-  serverMod: ServerModInterface;
+  serverMod: ServerMod;
 
-  constructor(protected next: ServerModInterface) {
+  constructor(protected next: ServerMod) {
     super(next);
 
     this.serverMod = new CountriesApiController(

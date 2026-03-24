@@ -1,5 +1,5 @@
 import { Controller } from '@/controller';
-import type { ServerModRequestType, ServerModResponseType } from '@/types';
+import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 
 export class RootController extends Controller {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {

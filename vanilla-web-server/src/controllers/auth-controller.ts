@@ -1,5 +1,5 @@
 import { Controller } from '@/controller';
-import type { ServerModRequestType, ServerModResponseType } from '@/types';
+import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 
 export class AuthController extends Controller {
   static basePath = '/auth';

@@ -1,17 +1,15 @@
 import path from 'path';
 import { renderView } from '@/utils';
-import {
-  ServerModInterface,
-  ServerModRequestType,
-  ServerModResponseType,
-} from '@/types';
+import { ChainLinkServerMod, ServerMod } from '@/server-mod';
 
-export abstract class Controller implements ServerModInterface {
+export class Controller extends ChainLinkServerMod {
   static basePath = '';
 
   basePath = (this.constructor as typeof Controller).basePath;
 
-  constructor(protected next: ServerModInterface) {
+  constructor(protected next: ServerMod) {
+    super(next);
+
     const originalRun = this.run.bind(this);
 
     this.run = async (req) => {
@@ -22,8 +20,6 @@ export abstract class Controller implements ServerModInterface {
       return originalRun(req);
     };
   }
-
-  abstract run(req: ServerModRequestType): Promise<ServerModResponseType>;
 
   renderView(filePath: string, data: Record<string, any> = {}) {
     return renderView(path.join(this.basePath, filePath), data);

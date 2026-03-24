@@ -1,4 +1,4 @@
-import type { ServerModRequestType, ServerModResponseType } from '@/types';
+import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 import { Controller } from '@/controller';
 // import { AdminController } from '@/controllers/admin-controller';
 

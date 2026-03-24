@@ -14,6 +14,16 @@ export type ServerModResponseType = {
   body?: any;
 };
 
-export interface ServerModInterface {
-  run(req: ServerModRequestType): Promise<ServerModResponseType>;
+export abstract class ServerMod {
+  abstract run(req: ServerModRequestType): Promise<ServerModResponseType>;
+}
+
+export class ChainLinkServerMod extends ServerMod {
+  constructor(protected next: ServerMod) {
+    super();
+  }
+
+  run(req: ServerModRequestType): Promise<ServerModResponseType> {
+    return this.next.run(req);
+  }
 }

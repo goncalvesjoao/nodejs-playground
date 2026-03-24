@@ -1,14 +1,12 @@
-import type {
-  ServerModRequestType,
-  ServerModInterface,
-  ServerModResponseType,
-} from '@/types';
+import {
+  type ServerModRequestType,
+  type ServerModResponseType,
+  ChainLinkServerMod,
+} from '@/server-mod';
 
-export class ContentTypeMiddleware implements ServerModInterface {
-  constructor(protected nextServerMod: ServerModInterface) {}
-
+export class ContentTypeMiddleware extends ChainLinkServerMod {
   async run(req: ServerModRequestType): Promise<ServerModResponseType> {
-    const response = await this.nextServerMod.run(req);
+    const response = await this.next.run(req);
 
     const headers = { ...response.headers };
 

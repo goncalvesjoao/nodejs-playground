@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'node:path';
 import { readPublicFile, rootDirPath } from '@/utils';
-import type { ServerModRequestType, ServerModResponseType } from '@/types';
+import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 import { PUBLIC_DIR_NAME } from '@/constants';
 import { Controller } from '@/controller';
 

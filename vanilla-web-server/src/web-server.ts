@@ -1,6 +1,6 @@
 import * as http from 'http';
 import { DEFAULT_SERVER_PORT } from '@/constants';
-import { ServerModInterface } from '@/types';
+import { ServerMod } from '@/server-mod';
 import { app } from '@/app';
 
 export class Logger {
@@ -9,7 +9,7 @@ export class Logger {
 }
 
 export class WebServer {
-  app: ServerModInterface = app;
+  app: ServerMod = app;
   logger: Logger = new Logger();
   server: http.Server;
 

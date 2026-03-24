@@ -1,4 +1,4 @@
-import type { ServerModRequestType, ServerModResponseType } from '@/types';
+import type { ServerModRequestType, ServerModResponseType } from '@/server-mod';
 import CountryList from 'country-list';
 // import { ApiController } from '@/controllers/api-controller';
 import { Controller } from '@/controller';
