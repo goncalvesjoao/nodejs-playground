@@ -1,13 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { PUBLIC_DIR_NAME } from '@/constants';
-import { rootDirPath } from '@/utils/root-dir-path';
+import { env } from '@/config';
 
 export async function readPublicFile(
   filePath: string,
   encoding?: BufferEncoding,
 ): Promise<Buffer | string> {
-  const fileAbsolutePath = path.join(rootDirPath, PUBLIC_DIR_NAME, filePath);
+  const fileAbsolutePath = path.join(env.publicDirPath, filePath);
 
   return await fs.readFile(fileAbsolutePath, encoding);
 }

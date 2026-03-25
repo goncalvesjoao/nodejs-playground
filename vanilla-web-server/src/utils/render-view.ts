@@ -1,23 +1,22 @@
 import ejs from 'ejs';
 import path from 'path';
-import { VIEWS_DIR_NAME } from '@/constants';
-import { rootDirPath } from '@/utils/root-dir-path';
 import { renderViteAssetTags } from '@/utils/vite-assets';
+import { env } from '@/config';
 
 export async function renderView(
   viewPath: string,
   data: Record<string, any> = {},
 ) {
-  const viewAbsolutePath = path.join(rootDirPath, VIEWS_DIR_NAME, viewPath);
+  const filePath = path.join(env.viewsDirPath, viewPath);
   const options = {
-    views: [path.join(rootDirPath, VIEWS_DIR_NAME)],
+    views: [env.viewsDirPath],
   };
   const viewData = {
     ...data,
     viteAssetTags: await renderViteAssetTags(),
   };
 
-  const content = await ejs.renderFile(viewAbsolutePath, viewData, options);
+  const content = await ejs.renderFile(filePath, viewData, options);
 
   return content;
 }

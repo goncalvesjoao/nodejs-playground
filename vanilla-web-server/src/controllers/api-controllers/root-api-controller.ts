@@ -1,5 +1,8 @@
-import { type RequestType, ResponseType } from '@/modules';
 import { ApiController } from '@/controllers/api-controller';
+import {
+  type RequestType,
+  type ResponseType,
+} from '@/controllers/base-controller';
 
 export class RootApiController extends ApiController {
   static basePath = super.basePath;

@@ -2,7 +2,7 @@ import {
   BodyParserMiddleware,
   ContentTypeMiddleware,
   CorsMiddleware,
-} from '@/middlewares';
+} from '@/modules/middleware';
 import {
   CountriesApiController,
   RootApiController,

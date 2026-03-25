@@ -1,7 +1,5 @@
 import * as http from 'http';
-import { DEFAULT_SERVER_PORT } from '@/constants';
 import { RequestHandler } from '@/modules';
-import { App } from '@/app';
 
 export class Logger {
   log(..._args: unknown[]) {}
@@ -9,15 +7,24 @@ export class Logger {
 }
 
 export class WebServer {
-  app: RequestHandler = new App();
-  logger: Logger = new Logger();
-  server: http.Server;
+  protected app: RequestHandler;
+  protected logger: Logger;
+  protected server: http.Server;
+  protected serverPort: number;
 
   get url() {
     return `http://localhost:${this.serverPort}`;
   }
 
-  constructor(readonly serverPort: number = DEFAULT_SERVER_PORT) {
+  constructor(context: {
+    app: RequestHandler;
+    serverPort: number;
+    logger?: Logger;
+  }) {
+    this.app = context.app;
+    this.serverPort = context.serverPort;
+    this.logger = context.logger || new Logger();
+
     this.server = http.createServer(
       (req: http.IncomingMessage, res: http.ServerResponse) => {
         const url = new URL(req.url ?? '', this.url);

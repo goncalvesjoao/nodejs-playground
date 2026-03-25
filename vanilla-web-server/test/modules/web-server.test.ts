@@ -1,17 +1,18 @@
 import { describe, test, mock } from 'node:test';
 import assert from 'node:assert/strict';
-import { WebServer } from '@/web-server';
+import { WebServer } from '@/modules';
 import type { RequestType } from '@/modules';
 
-const mockedRun = mock.fn(async (_req: RequestType) =>
+const mockedHandle = mock.fn(async (_req: RequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
 void describe('WebServer', () => {
   void test('invokes #app.run with a well formed request', async (t) => {
-    const webServer = new WebServer();
-
-    webServer.app = { handle: mockedRun };
+    const webServer = new WebServer({
+      serverPort: 3002,
+      app: { handle: mockedHandle },
+    });
 
     t.after(() => webServer.close());
 
@@ -23,8 +24,8 @@ void describe('WebServer', () => {
       body: `I'm not a teapot`,
     });
 
-    assert.strictEqual(mockedRun.mock.calls.length, 1);
-    const firstCallArgs = mockedRun.mock.calls[0].arguments;
+    assert.strictEqual(mockedHandle.mock.calls.length, 1);
+    const firstCallArgs = mockedHandle.mock.calls[0].arguments;
     const receivedRequest = firstCallArgs[0];
 
     assert.strictEqual(receivedRequest.method, 'POST');
@@ -37,7 +38,7 @@ void describe('WebServer', () => {
   });
 
   void test('returns an HTTP response based on #app.run output', async (t) => {
-    mockedRun.mock.mockImplementationOnce(async () =>
+    mockedHandle.mock.mockImplementationOnce(async () =>
       Promise.resolve({
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -45,9 +46,10 @@ void describe('WebServer', () => {
       }),
     );
 
-    const webServer = new WebServer();
-
-    webServer.app = { handle: mockedRun };
+    const webServer = new WebServer({
+      serverPort: 3002,
+      app: { handle: mockedHandle },
+    });
 
     t.after(() => webServer.close());
 
@@ -66,13 +68,14 @@ void describe('WebServer', () => {
   });
 
   void test('returns an Internal Server Error when #app.run throws an error', async (t) => {
-    mockedRun.mock.mockImplementationOnce(async () =>
+    mockedHandle.mock.mockImplementationOnce(async () =>
       Promise.reject(new Error('Something went wrong')),
     );
 
-    const webServer = new WebServer();
-
-    webServer.app = { handle: mockedRun };
+    const webServer = new WebServer({
+      serverPort: 3002,
+      app: { handle: mockedHandle },
+    });
 
     t.after(() => webServer.close());
 

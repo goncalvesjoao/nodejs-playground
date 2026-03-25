@@ -34,9 +34,21 @@ void describe('vite-assets', () => {
       'assets/main.ts',
     );
 
-    assert.ok(tags.includes('<link rel="stylesheet" href="/assets/main-def456.css">'));
-    assert.ok(tags.includes('<link rel="stylesheet" href="/assets/chunk-jkl012.css">'));
-    assert.ok(tags.includes('<link rel="modulepreload" href="/assets/chunk-ghi789.js">'));
-    assert.ok(tags.includes('<script type="module" src="/assets/main-abc123.js"></script>'));
+    assert.ok(
+      tags.includes('<link rel="stylesheet" href="/assets/main-def456.css">'),
+    );
+    assert.ok(
+      tags.includes('<link rel="stylesheet" href="/assets/chunk-jkl012.css">'),
+    );
+    assert.ok(
+      tags.includes(
+        '<link rel="modulepreload" href="/assets/chunk-ghi789.js">',
+      ),
+    );
+    assert.ok(
+      tags.includes(
+        '<script type="module" src="/assets/main-abc123.js"></script>',
+      ),
+    );
   });
 });

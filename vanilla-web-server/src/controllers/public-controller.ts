@@ -1,10 +1,14 @@
 import fs from 'fs/promises';
 import path from 'node:path';
-import { readPublicFile, rootDirPath } from '@/utils';
-import { Controller, type RequestType, ResponseType } from '@/modules';
-import { PUBLIC_DIR_NAME } from '@/constants';
+import { readPublicFile } from '@/utils';
+import {
+  BaseController,
+  type RequestType,
+  type ResponseType,
+} from '@/controllers/base-controller';
+import { env } from '@/config';
 
-export class PublicController extends Controller {
+export class PublicController extends BaseController {
   static basePath = '';
 
   async handle(req: RequestType): Promise<ResponseType> {
@@ -12,7 +16,7 @@ export class PublicController extends Controller {
       return this.next.handle(req);
     }
 
-    const filePath = path.join(rootDirPath, PUBLIC_DIR_NAME, `.${req.path}`);
+    const filePath = path.join(env.publicDirPath, `.${req.path}`);
 
     const fileExists = await fs
       .stat(filePath)

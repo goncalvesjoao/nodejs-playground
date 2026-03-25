@@ -1,5 +1,3 @@
-import path from 'path';
-import { renderView } from '@/utils';
 import {
   ChainLinkRequestHandler,
   RequestHandler,
@@ -22,9 +20,5 @@ export class Controller extends ChainLinkRequestHandler {
 
       return originalHandle(req);
     };
-  }
-
-  renderView(filePath: string, data: Record<string, any> = {}) {
-    return renderView(path.join(this.basePath, filePath), data);
   }
 }

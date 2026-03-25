@@ -1,15 +1,15 @@
 import { after, before, describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { WebServer } from '@/web-server';
+import { bootLoader } from '@/config';
 
-const webServer = new WebServer(3002);
+const url = 'http://localhost:3000';
 
 void describe('WebServer e2e', () => {
-  before(() => webServer.listen());
-  after(() => webServer.close());
+  before(() => bootLoader.start());
+  after(() => bootLoader.stop());
 
   void test('OPTIONS / - should return a positive CORS response', async () => {
-    const response = await fetch(`${webServer.url}/`, { method: 'OPTIONS' });
+    const response = await fetch(`${url}/`, { method: 'OPTIONS' });
 
     assert.equal(response.status, 204, 'Response status should be 204');
     assert.equal(
@@ -20,7 +20,7 @@ void describe('WebServer e2e', () => {
   });
 
   void test('GET / - should return the home page', async () => {
-    const response = await fetch(`${webServer.url}/`);
+    const response = await fetch(`${url}/`);
     const responseText = await response.text();
 
     assert.equal(response.status, 200, 'Response status should be 200');
@@ -32,7 +32,7 @@ void describe('WebServer e2e', () => {
   });
 
   void test('GET /unknown - should return a 404 page', async () => {
-    const response = await fetch(`${webServer.url}/unknown`);
+    const response = await fetch(`${url}/unknown`);
     const responseText = await response.text();
 
     assert.equal(response.status, 404, 'Response status should be 404');
@@ -44,7 +44,7 @@ void describe('WebServer e2e', () => {
   });
 
   void test('GET /api - should return a JSON response', async () => {
-    const response = await fetch(`${webServer.url}/api`);
+    const response = await fetch(`${url}/api`);
     const responseText = await response.text();
 
     assert.equal(response.status, 200, 'Response status should be 200');
@@ -57,7 +57,7 @@ void describe('WebServer e2e', () => {
   });
 
   void test('GET /api/unknown - should return a 501 JSON response', async () => {
-    const response = await fetch(`${webServer.url}/api/unknown`);
+    const response = await fetch(`${url}/api/unknown`);
     const responseText = await response.text();
 
     assert.equal(response.status, 501, 'Response status should be 501');
@@ -70,7 +70,7 @@ void describe('WebServer e2e', () => {
   });
 
   void test('GET /assets/chippy.jpg - should return a jpg image', async () => {
-    const response = await fetch(`${webServer.url}/assets/chippy.jpg`);
+    const response = await fetch(`${url}/assets/chippy.jpg`);
     const responseBytes = await response.arrayBuffer();
 
     assert.equal(response.status, 200, 'Response status should be 200');
@@ -79,7 +79,7 @@ void describe('WebServer e2e', () => {
   });
 
   void test('GET /assets/unknown - should return a 404 response', async () => {
-    const response = await fetch(`${webServer.url}/assets/unknown`);
+    const response = await fetch(`${url}/assets/unknown`);
     const responseText = await response.text();
 
     assert.equal(response.status, 404, 'Response status should be 404');
@@ -88,7 +88,7 @@ void describe('WebServer e2e', () => {
   });
 
   void test('GET /admin - returns Admin Home Page HTML', async () => {
-    const response = await fetch(`${webServer.url}/admin`);
+    const response = await fetch(`${url}/admin`);
     const responseText = await response.text();
 
     assert.equal(response.status, 200, 'Response status should be 200');
@@ -97,7 +97,7 @@ void describe('WebServer e2e', () => {
   });
 
   void test('GET /admin/unknown - should return a 404 response', async () => {
-    const response = await fetch(`${webServer.url}/admin/unknown`);
+    const response = await fetch(`${url}/admin/unknown`);
     const responseText = await response.text();
 
     assert.equal(response.status, 404, 'Response status should be 404');

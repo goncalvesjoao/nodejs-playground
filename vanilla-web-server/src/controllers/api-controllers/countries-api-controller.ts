@@ -1,6 +1,9 @@
-import { type RequestType, ResponseType } from '@/modules';
-import CountryList from 'country-list';
+import {
+  type RequestType,
+  type ResponseType,
+} from '@/controllers/base-controller';
 import { ApiController } from '@/controllers/api-controller';
+import CountryList from 'country-list';
 
 export class CountriesApiController extends ApiController {
   static basePath = `${super.basePath}/countries`;

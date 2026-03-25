@@ -1,6 +1,10 @@
-import { Controller, type RequestType, ResponseType } from '@/modules';
+import {
+  BaseController,
+  type RequestType,
+  type ResponseType,
+} from '@/controllers/base-controller';
 
-export class AuthController extends Controller {
+export class AuthController extends BaseController {
   static basePath = '/auth';
 
   async handle(req: RequestType): Promise<ResponseType> {

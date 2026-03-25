@@ -1,4 +1,7 @@
-import { type RequestType, ResponseType } from '@/modules';
+import {
+  type RequestType,
+  type ResponseType,
+} from '@/controllers/base-controller';
 import { AdminController } from '@/controllers/admin-controller';
 
 export class RootAdminController extends AdminController {

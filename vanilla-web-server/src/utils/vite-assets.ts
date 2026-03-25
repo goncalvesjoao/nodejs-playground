@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { PUBLIC_DIR_NAME } from '@/constants';
-import { rootDirPath } from '@/utils/root-dir-path';
+import { env } from '@/config';
 
 type ViteManifest = Record<string, ViteManifestEntry>;
 
@@ -46,11 +45,13 @@ export function buildProductionViteAssetTags(
   collectManifestAssets(manifest, entry, stylesheets, modulePreloads, visited);
 
   return [
-    ...Array.from(stylesheets, (filePath) =>
-      `<link rel="stylesheet" href="/${filePath}">`,
+    ...Array.from(
+      stylesheets,
+      (filePath) => `<link rel="stylesheet" href="/${filePath}">`,
     ),
-    ...Array.from(modulePreloads, (filePath) =>
-      `<link rel="modulepreload" href="/${filePath}">`,
+    ...Array.from(
+      modulePreloads,
+      (filePath) => `<link rel="modulepreload" href="/${filePath}">`,
     ),
     `<script type="module" src="/${entry.file}"></script>`,
   ].join('\n');
@@ -59,8 +60,10 @@ export function buildProductionViteAssetTags(
 export async function renderViteAssetTags(
   entryPath = DEFAULT_VITE_ENTRY,
 ): Promise<string> {
-  if (!isProductionRuntime()) {
-    return buildDevelopmentViteAssetTags(entryPath, getViteDevServerOrigin());
+  await env.load();
+
+  if (env.mode !== 'production') {
+    return buildDevelopmentViteAssetTags(entryPath, env.viteDevServerOrigin);
   }
 
   const manifest = await loadManifest();
@@ -117,22 +120,10 @@ async function loadManifest(): Promise<ViteManifest> {
     return manifestCache;
   }
 
-  const manifestPath = path.join(
-    rootDirPath,
-    PUBLIC_DIR_NAME,
-    MANIFEST_FILE_NAME,
-  );
+  const manifestPath = path.join(env.publicDirPath, MANIFEST_FILE_NAME);
   const manifestContent = await fs.readFile(manifestPath, 'utf-8');
 
   manifestCache = JSON.parse(manifestContent) as ViteManifest;
 
   return manifestCache;
-}
-
-function getViteDevServerOrigin(): string {
-  return process.env.VITE_DEV_SERVER_ORIGIN || DEFAULT_VITE_DEV_SERVER_ORIGIN;
-}
-
-function isProductionRuntime(): boolean {
-  return path.basename(rootDirPath) === 'dist' || process.env.NODE_ENV === 'production';
 }

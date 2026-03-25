@@ -1,5 +1,5 @@
-import { Controller } from '@/modules';
+import { BaseController } from '@/controllers/base-controller';
 
-export class ApiController extends Controller {
+export class ApiController extends BaseController {
   static basePath = '/api';
 }
