@@ -19,7 +19,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('CountriesApiController', () => {
+void describe('app - controllers - CountriesApiController', () => {
   void test('returns a list of countries when a /countries request is made', async () => {
     const response = await countriesApiController.handle({
       ...defaultRequest,

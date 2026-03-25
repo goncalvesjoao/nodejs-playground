@@ -7,7 +7,7 @@ const mockedHandle = mock.fn(async (_req: RequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-void describe('WebServer', () => {
+void describe('lib - framework - WebServer', () => {
   void test('invokes #app.run with a well formed request', async (t) => {
     const webServer = new WebServer({
       serverPort: 3002,

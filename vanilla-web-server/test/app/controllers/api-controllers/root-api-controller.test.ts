@@ -16,7 +16,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('RootApiController', () => {
+void describe('app - controllers - RootApiController', () => {
   void test('returns a welcome message when a root request is made', async () => {
     const response = await rootApiController.handle({ ...defaultRequest });
 

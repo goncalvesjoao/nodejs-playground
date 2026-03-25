@@ -13,7 +13,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('App', () => {
+void describe('app integration tests', () => {
   void test('OPTIONS / - should return a positive CORS response', async () => {
     const response = await app.handle({
       ...defaultRequest,

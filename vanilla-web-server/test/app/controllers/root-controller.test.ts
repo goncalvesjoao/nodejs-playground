@@ -16,7 +16,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('RootController', () => {
+void describe('app - controllers - RootController', () => {
   void test('returns Home Page HTML when root path is requested', async () => {
     const response = await rootController.handle({ ...defaultRequest });
 

@@ -18,7 +18,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('RootAdminController', () => {
+void describe('app - controllers - RootAdminController', () => {
   void test('returns a Admin Home Page when a root request is made', async () => {
     const response = await rootAdminController.handle({ ...defaultRequest });
 

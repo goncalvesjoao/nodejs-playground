@@ -4,7 +4,7 @@ import { bootLoader } from '@config/boot-loader';
 
 const url = 'http://localhost:3000';
 
-void describe('WebServer e2e', () => {
+void describe('app end to end tests', () => {
   before(() => bootLoader.start());
   after(() => bootLoader.stop());
 

@@ -1,7 +1,14 @@
 import ejs from 'ejs';
 import path from 'path';
-import { renderViteAssetTags } from '@app/utils/vite-assets';
 import { env } from '@config/env';
+import * as utils from '@lib/utils';
+
+const viteAssetTags = utils.viteAssetTags({
+  productionMode: env.mode === 'PROD',
+  devServerOrigin: env.viteDevServerOrigin,
+  entryPath: env.viteEntry,
+  manifestPath: env.viteManifestFilePath,
+});
 
 export async function renderView(
   viewPath: string,
@@ -13,7 +20,7 @@ export async function renderView(
   };
   const viewData = {
     ...data,
-    viteAssetTags: await renderViteAssetTags(),
+    viteAssetTags,
   };
 
   const content = await ejs.renderFile(filePath, viewData, options);

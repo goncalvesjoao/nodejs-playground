@@ -15,7 +15,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('CorsMiddleware', () => {
+void describe('lib - middleware - CorsMiddleware', () => {
   void test('returns a positive CORS response when OPTIONS request is made', async () => {
     const response = await corsMiddleware.handle({
       ...defaultRequest,

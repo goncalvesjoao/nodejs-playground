@@ -1,6 +1,4 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { env } from '@config/env';
+import fs from 'node:fs';
 
 type ViteManifest = Record<string, ViteManifestEntry>;
 
@@ -12,12 +10,24 @@ type ViteManifestEntry = {
   imports?: string[];
 };
 
-const DEFAULT_VITE_ENTRY = 'assets/main.ts';
-const MANIFEST_FILE_NAME = 'manifest.json';
-
 let manifestCache: ViteManifest | undefined;
 
-export function buildDevelopmentViteAssetTags(
+export function viteAssetTags(input: {
+  productionMode: boolean;
+  entryPath: string;
+  devServerOrigin: string;
+  manifestPath: string;
+}): string {
+  const { productionMode, entryPath, devServerOrigin, manifestPath } = input;
+
+  if (!productionMode) {
+    return developmentViteAssetTags(entryPath, devServerOrigin);
+  }
+
+  return productionViteAssetTags(entryPath, manifestPath);
+}
+
+function developmentViteAssetTags(
   entryPath: string,
   devServerOrigin: string,
 ): string {
@@ -27,10 +37,11 @@ export function buildDevelopmentViteAssetTags(
   ].join('\n');
 }
 
-export function buildProductionViteAssetTags(
-  manifest: ViteManifest,
+function productionViteAssetTags(
   entryPath: string,
+  manifestPath: string,
 ): string {
+  const manifest = loadManifest(manifestPath);
   const entry = resolveManifestEntry(manifest, entryPath);
 
   if (!entry) {
@@ -54,20 +65,6 @@ export function buildProductionViteAssetTags(
     ),
     `<script type="module" src="/${entry.file}"></script>`,
   ].join('\n');
-}
-
-export async function renderViteAssetTags(
-  entryPath = DEFAULT_VITE_ENTRY,
-): Promise<string> {
-  await env.load();
-
-  if (env.mode !== 'PROD') {
-    return buildDevelopmentViteAssetTags(entryPath, env.viteDevServerOrigin);
-  }
-
-  const manifest = await loadManifest();
-
-  return buildProductionViteAssetTags(manifest, entryPath);
 }
 
 function collectManifestAssets(
@@ -114,13 +111,12 @@ function resolveManifestEntry(
   })?.[1];
 }
 
-async function loadManifest(): Promise<ViteManifest> {
+function loadManifest(manifestPath: string): ViteManifest {
   if (manifestCache) {
     return manifestCache;
   }
 
-  const manifestPath = path.join(env.publicDirPath, MANIFEST_FILE_NAME);
-  const manifestContent = await fs.readFile(manifestPath, 'utf-8');
+  const manifestContent = fs.readFileSync(manifestPath, 'utf-8');
 
   manifestCache = JSON.parse(manifestContent) as ViteManifest;
 

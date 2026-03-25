@@ -6,11 +6,15 @@ import {
   PUBLIC_DIR_NAME,
   SRC_DIR_NAME,
   VIEWS_DIR_NAME,
+  VITE_ENTRY,
+  VITE_MANIFEST_FILE_NAME,
 } from '@config/constants';
 
 class Env extends Environment {
   publicDirPath: string;
   viewsDirPath: string;
+  viteEntry: string = VITE_ENTRY;
+  viteManifestFilePath: string;
 
   constructor() {
     super();
@@ -20,6 +24,10 @@ class Env extends Environment {
       this.rootDirPath,
       SRC_DIR_NAME,
       VIEWS_DIR_NAME,
+    );
+    this.viteManifestFilePath = path.join(
+      this.publicDirPath,
+      VITE_MANIFEST_FILE_NAME,
     );
   }
 

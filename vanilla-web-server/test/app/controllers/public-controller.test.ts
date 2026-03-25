@@ -17,7 +17,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('PublicController', () => {
+void describe('app - controllers - PublicController', () => {
   void test('returns an asset from the disk, matching the requested path', async () => {
     const response = await assetsController.handle({
       ...defaultRequest,
