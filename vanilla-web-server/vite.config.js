@@ -26,14 +26,10 @@ export default defineConfig(({ mode }) => {
       outDir,
       sourcemap: true,
       emptyOutDir: true,
+      manifest: 'manifest.json',
 
       rollupOptions: {
         input: browserEntry,
-        output: {
-          entryFileNames: 'assets/[name].js',
-          chunkFileNames: 'assets/[name]-[hash].js',
-          assetFileNames: 'assets/[name][extname]',
-        },
       },
     },
   };

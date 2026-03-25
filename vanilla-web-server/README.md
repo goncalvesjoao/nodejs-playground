@@ -18,3 +18,8 @@ npm run dev
 ```
 
 The server listens on `http://localhost:3000` by default.
+
+Server-rendered pages load browser assets through Vite:
+
+- in development, templates point to the Vite dev server entry
+- in production, the server reads `dist/public/manifest.json` to inject the built asset files
