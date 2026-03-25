@@ -6,6 +6,8 @@ import { parse } from 'dotenv';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+export type EnvironmentModeType = 'DEV' | 'PROD' | 'TEST';
+
 export class Environment {
   isDist: boolean;
   rootDirPath: string;
@@ -59,11 +61,20 @@ export class Environment {
     return process.env[key] || defaultValue || '';
   }
 
-  get mode(): string {
-    return (
+  get mode(): EnvironmentModeType {
+    const mode =
       this.get('APP_ENV') ||
       this.get('NODE_ENV') ||
-      (this.isDist ? 'production' : 'development')
-    );
+      (this.isDist ? 'production' : 'development');
+
+    switch (mode.toLowerCase()) {
+      case 'production':
+      case 'prod':
+        return 'PROD';
+      case 'test':
+        return 'TEST';
+      default:
+        return 'DEV';
+    }
   }
 }

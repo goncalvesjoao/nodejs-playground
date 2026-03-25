@@ -12,7 +12,7 @@ class BootLoader {
 
     this.webServer = new WebServer({
       app: new App(),
-      logger: console,
+      logger: env.mode === 'TEST' ? undefined : console,
       serverPort: env.serverPort,
     });
 

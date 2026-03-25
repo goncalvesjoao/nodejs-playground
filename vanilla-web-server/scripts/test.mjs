@@ -3,6 +3,8 @@ import { spawn } from 'node:child_process';
 const forwardedArgs = process.argv.slice(2);
 const testTargets = forwardedArgs.length > 0 ? forwardedArgs : ['test/**/*.test.ts'];
 
+process.env.APP_ENV = 'test';
+
 const child = spawn(
   process.execPath,
   ['--import', 'tsx', '--test', ...testTargets],
