@@ -1,6 +1,6 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { RootApiController } from '@/controllers/api-controllers';
+import { RootApiController } from '@app/controllers/api-controllers';
 
 const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),

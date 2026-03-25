@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   buildDevelopmentViteAssetTags,
   buildProductionViteAssetTags,
-} from '@/utils';
+} from '@app/utils';
 
 void describe('vite-assets', () => {
   void test('buildDevelopmentViteAssetTags returns Vite client and entry tags', () => {

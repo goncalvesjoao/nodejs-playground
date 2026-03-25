@@ -1,8 +1,8 @@
 import {
   type RequestType,
   type ResponseType,
-} from '@/controllers/base-controller';
-import { ApiController } from '@/controllers/api-controller';
+} from '@app/controllers/base-controller';
+import { ApiController } from '@app/controllers/api-controller';
 import CountryList from 'country-list';
 
 export class CountriesApiController extends ApiController {

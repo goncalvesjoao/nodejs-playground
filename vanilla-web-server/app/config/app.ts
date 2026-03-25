@@ -2,7 +2,7 @@ import {
   BodyParserMiddleware,
   ContentTypeMiddleware,
   CorsMiddleware,
-} from '@/modules/middleware';
+} from '@lib/framework/middleware';
 import {
   CountriesApiController,
   RootApiController,
@@ -10,9 +10,9 @@ import {
   RootAdminController,
   RootController,
   AuthController,
-} from '@/controllers';
-import { ServerApp, ResponseType } from '@/modules';
-import { readPublicFile } from '@/utils';
+} from '@app/controllers';
+import { ServerApp, ResponseType } from '@lib/framework';
+import { readPublicFile } from '@app/utils';
 
 export class App extends ServerApp {
   middlewares = [CorsMiddleware, BodyParserMiddleware, ContentTypeMiddleware];

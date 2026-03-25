@@ -1,8 +1,8 @@
 import path from 'path';
-import { renderView } from '@/utils';
-import { Controller } from '@/modules';
+import { renderView } from '@app/utils';
+import { Controller } from '@lib/framework';
 
-export type { RequestType, ResponseType } from '@/modules';
+export type { RequestType, ResponseType } from '@lib/framework';
 
 export class BaseController extends Controller {
   renderView(filePath: string, data: Record<string, any> = {}) {

@@ -11,10 +11,16 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["app/*"],
+      "@app/*": ["app/*"],
+      "@lib/*": ["lib/*"],
       "@test/*": ["test/*"]
     }
   },
-  "include": ["app/**/*.ts", "test/**/*.ts", "eslint.config.mts"],
+  "include": [
+    "app/**/*.ts",
+    "lib/**/*.ts",
+    "test/**/*.ts",
+    "eslint.config.mts",
+  ],
   "exclude": ["dist"]
 }

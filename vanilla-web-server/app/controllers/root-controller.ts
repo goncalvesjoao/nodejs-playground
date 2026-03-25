@@ -2,7 +2,7 @@ import {
   BaseController,
   type RequestType,
   type ResponseType,
-} from '@/controllers/base-controller';
+} from '@app/controllers/base-controller';
 
 export class RootController extends BaseController {
   static basePath = '';

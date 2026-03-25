@@ -2,7 +2,7 @@ import {
   ChainLinkRequestHandler,
   RequestType,
   ResponseType,
-} from '@/modules/request-handler';
+} from '@lib/framework/request-handler';
 
 export class BodyParserMiddleware extends ChainLinkRequestHandler {
   async handle(req: RequestType): Promise<ResponseType> {

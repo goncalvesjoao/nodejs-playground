@@ -1,5 +1,5 @@
 import * as http from 'http';
-import { RequestHandler } from '@/modules';
+import { RequestHandler } from '@lib/framework';
 
 export class Logger {
   log(..._args: unknown[]) {}

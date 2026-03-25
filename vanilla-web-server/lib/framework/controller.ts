@@ -1,7 +1,7 @@
 import {
   ChainLinkRequestHandler,
   RequestHandler,
-} from '@/modules/request-handler';
+} from '@lib/framework/request-handler';
 
 export class Controller extends ChainLinkRequestHandler {
   static basePath = '';

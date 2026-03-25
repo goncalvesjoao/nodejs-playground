@@ -1,6 +1,6 @@
 import { after, before, describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { bootLoader } from '@/config';
+import { bootLoader } from '@app/config';
 
 const url = 'http://localhost:3000';
 

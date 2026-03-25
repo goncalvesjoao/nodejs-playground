@@ -1,6 +1,6 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { CountriesApiController } from '@/controllers/api-controllers';
+import { CountriesApiController } from '@app/controllers/api-controllers';
 import CountryList from 'country-list';
 
 const nextServerModRun = mock.fn(async () =>

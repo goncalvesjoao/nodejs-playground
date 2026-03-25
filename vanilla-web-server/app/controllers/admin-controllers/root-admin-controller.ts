@@ -1,8 +1,8 @@
 import {
   type RequestType,
   type ResponseType,
-} from '@/controllers/base-controller';
-import { AdminController } from '@/controllers/admin-controller';
+} from '@app/controllers/base-controller';
+import { AdminController } from '@app/controllers/admin-controller';
 
 export class RootAdminController extends AdminController {
   static basePath = super.basePath;

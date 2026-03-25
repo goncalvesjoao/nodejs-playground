@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { env } from '@/config';
+import { env } from '@app/config';
 
 type ViteManifest = Record<string, ViteManifestEntry>;
 

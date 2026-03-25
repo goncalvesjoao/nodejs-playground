@@ -1,3 +1,3 @@
-import { bootLoader } from '@/config';
+import { bootLoader } from '@app/config';
 
 void bootLoader.start();

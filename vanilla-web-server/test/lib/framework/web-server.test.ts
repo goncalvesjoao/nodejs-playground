@@ -1,7 +1,7 @@
 import { describe, test, mock } from 'node:test';
 import assert from 'node:assert/strict';
-import { WebServer } from '@/modules';
-import type { RequestType } from '@/modules';
+import { WebServer } from '@lib/framework';
+import type { RequestType } from '@lib/framework';
 
 const mockedHandle = mock.fn(async (_req: RequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),

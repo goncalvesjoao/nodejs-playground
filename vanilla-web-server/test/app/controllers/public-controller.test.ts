@@ -1,7 +1,7 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PublicController } from '@/controllers';
-import { readPublicFile } from '@/utils';
+import { PublicController } from '@app/controllers';
+import { readPublicFile } from '@app/utils';
 
 const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),

@@ -4,7 +4,7 @@ import {
   RequestType,
   ResponseType,
   ChainLinkRequestHandler,
-} from '@/modules/request-handler';
+} from '@lib/framework/request-handler';
 
 export class ServerApp extends RequestHandler {
   middlewares: Array<typeof ChainLinkRequestHandler> = [];

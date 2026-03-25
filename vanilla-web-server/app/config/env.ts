@@ -8,7 +8,7 @@ import {
   PUBLIC_DIR_NAME,
   SRC_DIR_NAME,
   VIEWS_DIR_NAME,
-} from '@/config/constants';
+} from '@app/config/constants';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
