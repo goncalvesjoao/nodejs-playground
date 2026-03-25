@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { Environment } from '@lib/config';
+import { Environment } from '../lib/config'; // relative path is required for vite.config.js to work
 import {
   DEFAULT_SERVER_PORT,
   DEFAULT_VITE_DEV_SERVER_ORIGIN,
@@ -8,7 +8,7 @@ import {
   VIEWS_DIR_NAME,
   VITE_ENTRY,
   VITE_MANIFEST_FILE_NAME,
-} from '@config/constants';
+} from '../config/constants'; // relative path is required for vite.config.js to work
 
 class Env extends Environment {
   publicDirPath: string;

@@ -1,35 +1,31 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import path from 'node:path';
+import { env } from './config/env';
+import { SRC_DIR_NAME, VITE_ENTRY, PUBLIC_DIR_NAME, VITE_MANIFEST_FILE_NAME } from './config/constants';
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-
-  const outDir = env.VITE_OUT_DIR_PATH || path.resolve(__dirname, 'dist/public');
-  const devServerOrigin =
-    env.VITE_DEV_SERVER_ORIGIN || 'http://localhost:5173';
-  const browserEntry = path.resolve(__dirname, 'app/assets/main.ts');
+export default defineConfig(async () => {
+  env.load();
 
   return {
     resolve: {
+      tsconfigPaths: true,
       alias: {
-        '@/assets': path.resolve(__dirname, 'app/assets'),
+        '@/assets': path.resolve(__dirname, SRC_DIR_NAME, 'assets'),
       },
     },
     server: {
       cors: true,
-      // Defines the origin of the generated asset URLs during development.
-      origin: devServerOrigin,
+      origin: env.viteDevServerOrigin,
     },
-    root: './app',
+    root: SRC_DIR_NAME,
     build: {
-      outDir,
+      outDir: path.resolve(__dirname, 'dist', PUBLIC_DIR_NAME),
       sourcemap: true,
       emptyOutDir: true,
-      manifest: 'manifest.json',
-
+      manifest: VITE_MANIFEST_FILE_NAME,
       rollupOptions: {
-        input: browserEntry,
+        input: path.resolve(__dirname, SRC_DIR_NAME, VITE_ENTRY),
       },
     },
   };
