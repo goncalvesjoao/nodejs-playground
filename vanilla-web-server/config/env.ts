@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { Environment } from '@lib/framework';
+import { Environment } from '@lib/config';
 import {
   DEFAULT_SERVER_PORT,
   DEFAULT_VITE_DEV_SERVER_ORIGIN,
