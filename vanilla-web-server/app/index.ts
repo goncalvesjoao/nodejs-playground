@@ -26,10 +26,10 @@ export class App extends WebApp {
     RootController,
   ];
 
-  deadEndFallback(): Promise<ResponseType> {
-    return readPublicFile('not_found.html', 'utf-8').then((body) => ({
+  async deadEndFallback(): Promise<ResponseType> {
+    return {
       status: 404,
-      body,
-    }));
+      body: await readPublicFile('not_found.html', 'utf-8'),
+    };
   }
 }
