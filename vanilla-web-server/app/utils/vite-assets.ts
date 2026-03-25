@@ -12,7 +12,6 @@ type ViteManifestEntry = {
   imports?: string[];
 };
 
-const DEFAULT_VITE_DEV_SERVER_ORIGIN = 'http://localhost:5173';
 const DEFAULT_VITE_ENTRY = 'assets/main.ts';
 const MANIFEST_FILE_NAME = 'manifest.json';
 
@@ -20,7 +19,7 @@ let manifestCache: ViteManifest | undefined;
 
 export function buildDevelopmentViteAssetTags(
   entryPath: string,
-  devServerOrigin = DEFAULT_VITE_DEV_SERVER_ORIGIN,
+  devServerOrigin: string,
 ): string {
   return [
     `<script type="module" src="${devServerOrigin}/@vite/client"></script>`,
