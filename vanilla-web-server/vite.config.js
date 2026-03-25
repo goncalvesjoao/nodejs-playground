@@ -8,12 +8,12 @@ export default defineConfig(({ mode }) => {
   const outDir = env.VITE_OUT_DIR_PATH || path.resolve(__dirname, 'dist/public');
   const devServerOrigin =
     env.VITE_DEV_SERVER_ORIGIN || 'http://localhost:5173';
-  const browserEntry = path.resolve(__dirname, 'src/assets/main.ts');
+  const browserEntry = path.resolve(__dirname, 'app/assets/main.ts');
 
   return {
     resolve: {
       alias: {
-        '@/assets': path.resolve(__dirname, 'src/assets'),
+        '@/assets': path.resolve(__dirname, 'app/assets'),
       },
     },
     server: {
@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       // Defines the origin of the generated asset URLs during development.
       origin: devServerOrigin,
     },
-    root: './src',
+    root: './app',
     build: {
       outDir,
       sourcemap: true,

@@ -1,6 +1,6 @@
 export const DEFAULT_SERVER_PORT = '3000';
 
-export const SRC_DIR_NAME = 'src';
+export const SRC_DIR_NAME = 'app';
 
 export const VIEWS_DIR_NAME = 'views';
 
