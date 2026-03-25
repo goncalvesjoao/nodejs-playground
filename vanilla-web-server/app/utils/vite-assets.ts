@@ -62,7 +62,7 @@ export async function renderViteAssetTags(
 ): Promise<string> {
   await env.load();
 
-  if (env.mode !== 'production') {
+  if (env.mode !== 'PROD') {
     return buildDevelopmentViteAssetTags(entryPath, env.viteDevServerOrigin);
   }
 
