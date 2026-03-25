@@ -4,22 +4,18 @@ import { readPublicFile, rootDirPath } from '@/utils';
 import { Controller, type RequestType, ResponseType } from '@/modules';
 import { PUBLIC_DIR_NAME } from '@/constants';
 
-export class AssetsController extends Controller {
-  static basePath = '/assets';
+export class PublicController extends Controller {
+  static basePath = '';
 
   async handle(req: RequestType): Promise<ResponseType> {
     if (req.method !== 'GET') {
       return this.next.handle(req);
     }
 
-    const assetAbsolutePath = path.join(
-      rootDirPath,
-      PUBLIC_DIR_NAME,
-      `.${req.path}`,
-    );
+    const filePath = path.join(rootDirPath, PUBLIC_DIR_NAME, `.${req.path}`);
 
     const fileExists = await fs
-      .stat(assetAbsolutePath)
+      .stat(filePath)
       .then((stats) => stats.isFile())
       .catch(() => false);
 

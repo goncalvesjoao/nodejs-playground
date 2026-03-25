@@ -6,7 +6,7 @@ import {
 import {
   CountriesApiController,
   RootApiController,
-  AssetsController,
+  PublicController,
   RootAdminController,
   RootController,
   AuthController,
@@ -21,7 +21,7 @@ export class App extends ServerApp {
     CountriesApiController,
     RootApiController,
     RootAdminController,
-    AssetsController,
+    PublicController,
     AuthController,
     RootController,
   ];
@@ -42,7 +42,7 @@ export class App extends ServerApp {
 //     CountriesApiController,
 //     RootApiController,
 //     RootAdminController,
-//     AssetsController,
+//     PublicController,
 //     AuthController,
 //     RootController,
 //   ],
@@ -58,7 +58,7 @@ export class App extends ServerApp {
 //       new CountriesApiController(
 //         new RootApiController(
 //           new RootAdminController(
-//             new AssetsController(
+//             new PublicController(
 //               new AuthController(
 //                 new RootController({
 //                   run: async () => ({

@@ -1,13 +1,13 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { AssetsController } from '@/controllers';
+import { PublicController } from '@/controllers';
 import { readPublicFile } from '@/utils';
 
 const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
 );
 
-const assetsController = new AssetsController({ handle: nextServerModRun });
+const assetsController = new PublicController({ handle: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -17,7 +17,7 @@ const defaultRequest = {
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('AssetsController', () => {
+void describe('PublicController', () => {
   void test('returns an asset from the disk, matching the requested path', async () => {
     const response = await assetsController.handle({
       ...defaultRequest,

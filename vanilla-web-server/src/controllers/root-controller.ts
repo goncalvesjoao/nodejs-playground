@@ -1,6 +1,8 @@
 import { Controller, type RequestType, ResponseType } from '@/modules';
 
 export class RootController extends Controller {
+  static basePath = '';
+
   async handle(req: RequestType): Promise<ResponseType> {
     if (
       req.method === 'GET' &&
