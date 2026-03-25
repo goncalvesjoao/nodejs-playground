@@ -1,7 +1,5 @@
-import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { parse } from 'dotenv';
+import { Environment } from '@lib/framework';
 import {
   DEFAULT_SERVER_PORT,
   DEFAULT_VITE_DEV_SERVER_ORIGIN,
@@ -10,70 +8,18 @@ import {
   VIEWS_DIR_NAME,
 } from '@config/constants';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-class Environment {
-  isDist: boolean;
+class Env extends Environment {
   publicDirPath: string;
-  rootDirPath: string;
   viewsDirPath: string;
-  protected loaded: boolean = false;
 
   constructor() {
-    this.isDist = path.basename(__dirname) === 'dist';
-    this.rootDirPath = path.resolve(__dirname, '..');
+    super();
+
     this.publicDirPath = path.join(this.rootDirPath, PUBLIC_DIR_NAME);
     this.viewsDirPath = path.join(
       this.rootDirPath,
       SRC_DIR_NAME,
       VIEWS_DIR_NAME,
-    );
-  }
-
-  async load() {
-    if (this.loaded) return;
-
-    this.loaded = true;
-
-    const initialEnvKeys = new Set(Object.keys(process.env));
-    const envFilePaths = [
-      '.env',
-      '.env.local',
-      `.env.${this.mode}`,
-      `.env.${this.mode}.local`,
-    ].map((fileName) => path.join(this.rootDirPath, fileName));
-
-    for (const envFilePath of envFilePaths) {
-      const fileContent = await fs
-        .readFile(envFilePath, 'utf-8')
-        .catch(() => null);
-
-      if (!fileContent) {
-        continue;
-      }
-
-      const parsedEnv = parse(fileContent);
-
-      for (const [key, value] of Object.entries(parsedEnv)) {
-        if (initialEnvKeys.has(key)) {
-          continue;
-        }
-
-        process.env[key] = value;
-      }
-    }
-  }
-
-  get(key: string, defaultValue?: string): string {
-    return process.env[key] || defaultValue || '';
-  }
-
-  get mode(): string {
-    return (
-      this.get('APP_ENV') ||
-      this.get('NODE_ENV') ||
-      (this.isDist ? 'production' : 'development')
     );
   }
 
@@ -86,4 +32,4 @@ class Environment {
   }
 }
 
-export const env = new Environment();
+export const env = new Env();
