@@ -1,4 +1,3 @@
-export * from './middleware';
 export * from './controller';
 export * from './environment';
 export * from './request-handler';

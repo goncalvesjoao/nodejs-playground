@@ -1,6 +1,6 @@
 import { describe, mock, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { CorsMiddleware } from '@lib/framework/middleware';
+import { CorsMiddleware } from '@lib/middleware';
 
 const nextServerModRun = mock.fn(async () =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
