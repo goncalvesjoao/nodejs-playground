@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { env } from '@app/config';
+import { env } from '@config/env';
 
 export async function readPublicFile(
   filePath: string,

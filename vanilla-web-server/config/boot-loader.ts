@@ -1,6 +1,6 @@
 import { WebServer } from '@lib/framework';
-import { App } from '@app/config/app';
-import { env } from '@app/config/env';
+import { App } from '@app/index';
+import { env } from '@config/env';
 
 class BootLoader {
   webServer?: WebServer;

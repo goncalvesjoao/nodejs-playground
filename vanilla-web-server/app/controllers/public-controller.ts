@@ -6,7 +6,7 @@ import {
   type RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
-import { env } from '@app/config';
+import { env } from '@config/env';
 
 export class PublicController extends BaseController {
   static basePath = '';

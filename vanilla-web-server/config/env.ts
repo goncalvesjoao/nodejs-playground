@@ -8,7 +8,7 @@ import {
   PUBLIC_DIR_NAME,
   SRC_DIR_NAME,
   VIEWS_DIR_NAME,
-} from '@app/config/constants';
+} from '@config/constants';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,13 +22,7 @@ class Environment {
 
   constructor() {
     this.isDist = path.basename(__dirname) === 'dist';
-
-    if (this.isDist) {
-      this.rootDirPath = path.join(__dirname, '..');
-    } else {
-      this.rootDirPath = path.resolve(__dirname, '..', '..');
-    }
-
+    this.rootDirPath = path.resolve(__dirname, '..');
     this.publicDirPath = path.join(this.rootDirPath, PUBLIC_DIR_NAME);
     this.viewsDirPath = path.join(
       this.rootDirPath,

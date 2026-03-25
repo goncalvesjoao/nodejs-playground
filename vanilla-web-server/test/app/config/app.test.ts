@@ -1,6 +1,6 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { App } from '@app/config/app';
+import { App } from '@app/index';
 import { readPublicFile } from '@app/utils';
 
 const app = new App();

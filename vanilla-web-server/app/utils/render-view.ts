@@ -1,7 +1,7 @@
 import ejs from 'ejs';
 import path from 'path';
 import { renderViteAssetTags } from '@app/utils/vite-assets';
-import { env } from '@app/config';
+import { env } from '@config/env';
 
 export async function renderView(
   viewPath: string,

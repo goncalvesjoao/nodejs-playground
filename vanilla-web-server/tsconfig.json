@@ -12,12 +12,15 @@
     "baseUrl": ".",
     "paths": {
       "@app/*": ["app/*"],
+      "@config/*": ["config/*"],
       "@lib/*": ["lib/*"],
       "@test/*": ["test/*"]
     }
   },
   "include": [
+    "index.ts",
     "app/**/*.ts",
+    "config/**/*.ts",
     "lib/**/*.ts",
     "test/**/*.ts",
     "eslint.config.mts",
