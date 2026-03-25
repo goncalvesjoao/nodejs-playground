@@ -13,7 +13,12 @@ export class Environment {
 
   constructor() {
     this.isDist = path.basename(__dirname) === 'dist';
-    this.rootDirPath = path.resolve(__dirname, '..');
+
+    if (this.isDist) {
+      this.rootDirPath = path.resolve(__dirname, '..');
+    } else {
+      this.rootDirPath = path.resolve(__dirname, '..', '..');
+    }
   }
 
   async load() {
