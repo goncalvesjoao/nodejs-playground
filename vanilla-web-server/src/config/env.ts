@@ -6,6 +6,7 @@ import {
   DEFAULT_SERVER_PORT,
   DEFAULT_VITE_DEV_SERVER_ORIGIN,
   PUBLIC_DIR_NAME,
+  SRC_DIR_NAME,
   VIEWS_DIR_NAME,
 } from '@/config/constants';
 
@@ -29,7 +30,11 @@ class Environment {
     }
 
     this.publicDirPath = path.join(this.rootDirPath, PUBLIC_DIR_NAME);
-    this.viewsDirPath = path.join(this.rootDirPath, VIEWS_DIR_NAME);
+    this.viewsDirPath = path.join(
+      this.rootDirPath,
+      SRC_DIR_NAME,
+      VIEWS_DIR_NAME,
+    );
   }
 
   async load() {
