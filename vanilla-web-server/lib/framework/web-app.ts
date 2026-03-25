@@ -6,7 +6,7 @@ import {
   ChainLinkRequestHandler,
 } from '@lib/framework/request-handler';
 
-export class ServerApp extends RequestHandler {
+export class WebApp extends RequestHandler {
   middlewares: Array<typeof ChainLinkRequestHandler> = [];
   controllers: Array<typeof ChainLinkRequestHandler> = [];
 

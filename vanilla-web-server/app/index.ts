@@ -11,10 +11,10 @@ import {
   RootController,
   AuthController,
 } from '@app/controllers';
-import { ServerApp, ResponseType } from '@lib/framework';
+import { WebApp, ResponseType } from '@lib/framework';
 import { readPublicFile } from '@app/utils';
 
-export class App extends ServerApp {
+export class App extends WebApp {
   middlewares = [CorsMiddleware, BodyParserMiddleware, ContentTypeMiddleware];
 
   controllers = [
