@@ -1,11 +1,24 @@
-<%- include('layouts/admin/header.html'); -%>
+<%- include('layouts/header.html'); -%>
 
-<article>
-  <hgroup>
-    <h1><%= title %></h1>
-  </hgroup>
+<div class="row">
+  <section class="section col-10 offset-1">
+    <div class="hstack justify-between mb-6">
+      <div class="hstack">
+        <h2 style="margin: 0;"><%= title %></h2>
+        <span class="badge success">Live</span>
+        <span class="badge secondary">v1.0.0</span>
+      </div>
+      <div class="hstack">
+        <label class="hstack gap-2" style="margin: 0;">
+          <input type="checkbox" role="switch" checked=""> Auto-refresh
+        </label>
+      </div>
+    </div>
+  </section>
 
-  <a href="/auth/login">Login here</a>
-</article>
+  <article class="col-10 offset-1">
+    <a href="/auth/login">Login here</a>
+  </article>
+</div>
 
-<%- include('layouts/admin/footer.html'); -%>
+<%- include('layouts/footer.html'); -%>

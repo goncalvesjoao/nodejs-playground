@@ -1,31 +1,52 @@
-<%- include('layouts/admin/header.html'); -%>
+<%- include('layouts/header.html'); -%>
 
-<article>
-  <hgroup>
-    <h1>Sign in</h1>
-    <h2>A minimalist login page example.</h2>
-  </hgroup>
-  <form action="#" method="post">
-    <!-- Email Input -->
-    <div>
-      <label for="email">Email address</label>
-      <input type="email" id="email" name="email" placeholder="Email address" aria-label="Email address" autocomplete="username" required>
-    </div>
-    <!-- Password Input -->
-    <div>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Password" aria-label="Password" autocomplete="current-password" required>
-    </div>
-    <!-- Remember Me Checkbox -->
-    <fieldset>
-      <label for="remember">
-        <input type="checkbox" id="remember" name="remember">
+<div class="row">
+  <article class="card col-6 offset-3">
+    <header>
+      <h2>Sign in</h2>
+      <p class="text-light">Enter using your credentials</p>
+    </header>
+
+    <form action="#" method="post" class="mt-4">
+      <label for="email" data-field>
+        Email address
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email address"
+          aria-label="Email address"
+          autocomplete="username"
+          required
+        />
+      </label>
+
+      <!-- Password Input -->
+      <label for="password" data-field>
+        Password
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          aria-label="Password"
+          autocomplete="current-password"
+          required
+        />
+      </label>
+
+      <!-- Remember Me Checkbox -->
+      <label for="remember" data-field>
+        <input type="checkbox" role="switch" id="remember" name="remember">
         Remember me
       </label>
-    </fieldset>
-    <!-- Submit Button -->
-    <button type="submit">Login</button>
-  </form>
-</article>
+    </form>
 
-<%- include('layouts/admin/footer.html'); -%>
+    <footer class="hstack justify-end mt-4">
+      <a class="outline" href="/">Cancel</a>
+      <button type="submit">Save</button>
+    </footer>
+  </article>
+</main>
+
+<%- include('layouts/footer.html'); -%>
