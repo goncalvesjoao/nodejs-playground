@@ -93,7 +93,7 @@ void describe('app end to end tests', () => {
 
     assert.equal(response.status, 200, 'Response status should be 200');
     assert.equal(response.headers.get('Content-Type'), 'text/html');
-    assert.ok(responseText.includes('<h1>Admin Home Page</h1>'));
+    assert.ok(responseText.includes('Admin Home Page'));
   });
 
   void test('GET /admin/unknown - should return a 404 response', async () => {

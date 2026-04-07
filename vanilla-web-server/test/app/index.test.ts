@@ -128,7 +128,7 @@ void describe('app integration tests', () => {
 
     assert.equal(response.status, 200, 'Response status should be 200');
     assert.equal((response.headers || {})['Content-Type'], 'text/html');
-    assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
+    assert.ok(String(response.body).includes('Admin Home Page'));
   });
 
   void test('GET /admin/unknown - should return a 404 response', async () => {

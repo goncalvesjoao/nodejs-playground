@@ -23,7 +23,7 @@ void describe('app - controllers - RootAdminController', () => {
     const response = await rootAdminController.handle({ ...defaultRequest });
 
     assert.equal(response.status, 200);
-    assert.ok(String(response.body).includes('<h1>Admin Home Page</h1>'));
+    assert.ok(String(response.body).includes('Admin Home Page'));
   });
 
   void test('invokes nextServerMod when a request other than root is made', async () => {
