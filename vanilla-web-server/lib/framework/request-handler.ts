@@ -27,13 +27,3 @@ export class ChainLinkRequestHandler extends RequestHandler {
     return this.next.handle(req);
   }
 }
-
-export function composeRequestHandlerChain(
-  chainLinks: Array<typeof ChainLinkRequestHandler>,
-  endOfChain: (req: RequestType) => Promise<ResponseType>,
-): RequestHandler {
-  return chainLinks.reduceRight<RequestHandler>(
-    (accumulator, ChainLink) => new ChainLink(accumulator),
-    { handle: endOfChain },
-  );
-}
