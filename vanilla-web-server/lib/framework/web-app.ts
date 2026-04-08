@@ -7,16 +7,16 @@ import {
 import { Controller } from '@lib/framework/controller';
 
 export class WebApp extends RequestHandler {
-  middlewares: Array<typeof ChainLinkRequestHandler> = [];
+  middleware: Array<typeof ChainLinkRequestHandler> = [];
   controllers: Array<Controller> = [];
 
   protected _requestHandler?: RequestHandler;
 
   handle(req: RequestType): Promise<ResponseType> {
     this._requestHandler ||= [
-      ...this.middlewares,
+      ...this.middleware,
       ...this.controllers.map((controller) =>
-        controllerToChainLinkRequestHandler(controller),
+        buildControllerMiddleware(controller),
       ),
     ].reduceRight<RequestHandler>(
       (accumulator, ChainLink) => new ChainLink(accumulator),
@@ -31,7 +31,7 @@ export class WebApp extends RequestHandler {
   }
 }
 
-function controllerToChainLinkRequestHandler(controller: Controller) {
+function buildControllerMiddleware(controller: Controller) {
   return class extends ChainLinkRequestHandler {
     async handle(req: RequestType): Promise<ResponseType> {
       const result = await controller.handle(req);
