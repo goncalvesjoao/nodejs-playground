@@ -12,8 +12,10 @@ export class Controller {
 
   readonly basePath = (this.constructor as typeof Controller).basePath;
 
+  handlers: ControllerHandler[] = getControllerHandlers(this);
+
   async handle(req: RequestType): Promise<false | ResponseType> {
-    for (const controllerHandler of getControllerHandlers(this)) {
+    for (const controllerHandler of this.handlers) {
       const requestHandleFunc = controllerHandler(req);
 
       if (requestHandleFunc) {
@@ -51,20 +53,10 @@ export function Options(path: string) {
 
 export function Handle(path: string, methods: string[] = []) {
   return function (
-    target: object,
+    target: Controller,
     _propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<RequestHandleFunc>,
   ) {
-    if (typeof descriptor.value !== 'function') {
-      throw new Error('Handle decorator can only be used on methods');
-    }
-
-    if (!(target instanceof Controller)) {
-      throw new Error(
-        'Handle decorator can only be used on Controller subclasses',
-      );
-    }
-
     const basePath = (target.constructor as typeof Controller).basePath;
 
     getControllerHandlers(target).push(function (
@@ -79,10 +71,6 @@ export function Handle(path: string, methods: string[] = []) {
   };
 }
 
-function getControllerHandlers(target: any): ControllerHandler[] {
-  const controllerTarget = target as {
-    _controllerHandlers: ControllerHandler[];
-  };
-
-  return (controllerTarget._controllerHandlers ||= []);
+function getControllerHandlers(controller: Controller): ControllerHandler[] {
+  return (controller.handlers ||= []);
 }
