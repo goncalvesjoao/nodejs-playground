@@ -2,12 +2,12 @@ import fs from 'fs/promises';
 import path from 'node:path';
 import { readPublicFile } from '@app/utils';
 import {
+  Get,
   BaseController,
   type RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
 import { env } from '@config/env';
-import { Get } from '@lib/framework';
 
 export class PublicController extends BaseController {
   static basePath = '';

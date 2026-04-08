@@ -1,7 +1,8 @@
 import path from 'path';
 import { renderView } from '@app/utils';
-import { Controller } from '@lib/framework';
+import { Get, Controller } from '@lib/framework';
 
+export { Get };
 export type { RequestType, ResponseType } from '@lib/framework';
 
 export class BaseController extends Controller {

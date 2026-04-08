@@ -1,8 +1,9 @@
 import {
+  Get,
   BaseController,
+  type RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
-import { Get, RequestType } from '@lib/framework';
 
 export class AuthController extends BaseController {
   static basePath = '/auth';

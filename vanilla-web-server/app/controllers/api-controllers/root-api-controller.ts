@@ -1,9 +1,9 @@
 import { ApiController } from '@app/controllers/api-controller';
 import {
+  Get,
   type RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
-import { Get } from '@lib/framework/controller';
 
 export class RootApiController extends ApiController {
   static basePath = super.basePath;

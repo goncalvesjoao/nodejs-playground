@@ -1,10 +1,10 @@
 import {
+  Get,
   RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
 import { ApiController } from '@app/controllers/api-controller';
 import CountryList from 'country-list';
-import { Get } from '@lib/framework/controller';
 
 export class CountriesApiController extends ApiController {
   static basePath = `${super.basePath}/countries`;

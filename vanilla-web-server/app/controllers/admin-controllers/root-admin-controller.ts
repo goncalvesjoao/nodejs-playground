@@ -1,9 +1,9 @@
 import {
+  Get,
   type RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
 import { AdminController } from '@app/controllers/admin-controller';
-import { Get } from '@lib/framework';
 
 export class RootAdminController extends AdminController {
   static basePath = super.basePath;

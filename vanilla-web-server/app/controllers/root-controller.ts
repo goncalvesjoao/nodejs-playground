@@ -1,9 +1,9 @@
 import {
+  Get,
   BaseController,
   type RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
-import { Get } from '@lib/framework/controller';
 
 export class RootController extends BaseController {
   static basePath = '';
