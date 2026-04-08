@@ -11,25 +11,17 @@ import {
   RootController,
   AuthController,
 } from '@app/controllers';
-import { WebApp, ResponseType } from '@lib/framework';
-import { readPublicFile } from '@app/utils';
+import { WebApp } from '@lib/framework';
 
 export class App extends WebApp {
   middlewares = [CorsMiddleware, BodyParserMiddleware, ContentTypeMiddleware];
 
   controllers = [
-    CountriesApiController,
-    RootApiController,
-    RootAdminController,
-    PublicController,
-    AuthController,
-    RootController,
+    new CountriesApiController(),
+    new RootApiController(),
+    new RootAdminController(),
+    new PublicController(),
+    new AuthController(),
+    new RootController(),
   ];
-
-  async deadEndFallback(): Promise<ResponseType> {
-    return {
-      status: 404,
-      body: await readPublicFile('not_found.html', 'utf-8'),
-    };
-  }
 }

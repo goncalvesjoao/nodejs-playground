@@ -1,21 +1,14 @@
 import {
   BaseController,
-  type RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
+import { Get, RequestType } from '@lib/framework';
 
 export class AuthController extends BaseController {
   static basePath = '/auth';
 
-  async handle(req: RequestType): Promise<ResponseType> {
-    if (req.method === 'GET' && req.path === `${this.basePath}/login`) {
-      return this.showLogin();
-    }
-
-    return this.next.handle(req);
-  }
-
-  async showLogin(): Promise<ResponseType> {
+  @Get('login')
+  async showLogin(_req: RequestType): Promise<ResponseType> {
     return {
       status: 200,
       body: await this.renderView('login.html'),

@@ -3,24 +3,23 @@ import {
   type RequestType,
   type ResponseType,
 } from '@app/controllers/base-controller';
+import { Get } from '@lib/framework/controller';
 
 export class RootApiController extends ApiController {
   static basePath = super.basePath;
 
-  async handle(req: RequestType): Promise<ResponseType> {
-    if (
-      req.method === 'GET' &&
-      (req.path === this.basePath || req.path === `${this.basePath}/`)
-    ) {
+  @Get('{*path}')
+  async index(req: RequestType): Promise<ResponseType> {
+    if (req.path === this.basePath || req.path === `${this.basePath}/`) {
       return Promise.resolve({
         status: 200,
         body: { message: 'Welcome to the API!' },
       });
     }
 
-    return {
+    return Promise.resolve({
       status: 501,
       body: { message: 'Not Implemented' },
-    };
+    });
   }
 }

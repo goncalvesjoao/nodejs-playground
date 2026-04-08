@@ -1,36 +1,47 @@
-import { describe, mock, test } from 'node:test';
+import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RootAdminController } from '@app/controllers/admin-controllers';
 
-const nextServerModRun = mock.fn(async () =>
-  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
-);
-
-const rootAdminController = new RootAdminController({
-  handle: nextServerModRun,
-});
-
 const defaultRequest = {
   method: 'GET',
-  path: '/admin/',
+  path: '/admin',
   params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };
 
 void describe('app - controllers - RootAdminController', () => {
-  void test('returns a Admin Home Page when a root request is made', async () => {
-    const response = await rootAdminController.handle({ ...defaultRequest });
+  void test('returns a Admin Home Page when "/admin" request is made', async () => {
+    const req = { ...defaultRequest, path: '/admin' };
+    const controller = new RootAdminController();
+    const handler = controller.handler(req);
+
+    assert.ok(handler, 'Expected a handler to be returned');
+
+    const response = await handler(req);
 
     assert.equal(response.status, 200);
     assert.ok(String(response.body).includes('Admin Home Page'));
   });
 
-  void test('invokes nextServerMod when a request other than root is made', async () => {
-    nextServerModRun.mock.resetCalls();
+  void test('returns a Admin Home Page when "/admin/" request is made', async () => {
+    const req = { ...defaultRequest, path: '/admin/' };
+    const controller = new RootAdminController();
+    const handler = controller.handler(req);
 
-    await rootAdminController.handle({ ...defaultRequest, path: '/unknown' });
+    assert.ok(handler, 'Expected a handler to be returned');
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    const response = await handler(req);
+
+    assert.equal(response.status, 200);
+    assert.ok(String(response.body).includes('Admin Home Page'));
+  });
+
+  void test('does not return a handler when a request other than root is made', () => {
+    const req = { ...defaultRequest, path: '/admin/unknown' };
+    const controller = new RootAdminController();
+    const handler = controller.handler(req);
+
+    assert.equal(handler, undefined);
   });
 });

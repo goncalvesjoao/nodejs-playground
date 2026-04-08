@@ -1,13 +1,7 @@
-import { describe, mock, test } from 'node:test';
+import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { PublicController } from '@app/controllers';
 import { readPublicFile } from '@app/utils';
-
-const nextServerModRun = mock.fn(async () =>
-  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
-);
-
-const assetsController = new PublicController({ handle: nextServerModRun });
 
 const defaultRequest = {
   method: 'GET',
@@ -19,10 +13,13 @@ const defaultRequest = {
 
 void describe('app - controllers - PublicController', () => {
   void test('returns an asset from the disk, matching the requested path', async () => {
-    const response = await assetsController.handle({
-      ...defaultRequest,
-      path: '/assets/chippy.jpg',
-    });
+    const req = { ...defaultRequest, path: '/assets/chippy.jpg' };
+    const controller = new PublicController();
+    const handler = controller.handler(req);
+
+    assert.ok(handler, 'Expected a handler to be returned');
+
+    const response = await handler(req);
 
     const expectedBody = (await readPublicFile('assets/chippy.jpg')) as Buffer;
 
@@ -34,22 +31,23 @@ void describe('app - controllers - PublicController', () => {
     );
   });
 
-  void test('invokes nextServerMod when an unknown asset is requested', async () => {
-    nextServerModRun.mock.resetCalls();
+  void test('returns a 404 when an unknown asset is requested', async () => {
+    const req = { ...defaultRequest, path: '/assets/unknown' };
+    const controller = new PublicController();
+    const handler = controller.handler(req);
 
-    await assetsController.handle({
-      ...defaultRequest,
-      path: '/assets/unknown',
-    });
+    assert.ok(handler, 'Expected a handler to be returned');
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    const response = await handler(req);
+
+    assert.equal(response.status, 404);
   });
 
-  void test('invokes nextServerMod when a request other than /assets is made', async () => {
-    nextServerModRun.mock.resetCalls();
+  void test('does not return a handler when "/" is made', () => {
+    const req = { ...defaultRequest, path: '/' };
+    const controller = new PublicController();
+    const handler = controller.handler(req);
 
-    await assetsController.handle({ ...defaultRequest, path: '/unknown' });
-
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    assert.equal(handler, undefined);
   });
 });

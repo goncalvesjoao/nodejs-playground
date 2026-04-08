@@ -7,15 +7,13 @@ import {
   type ResponseType,
 } from '@app/controllers/base-controller';
 import { env } from '@config/env';
+import { Get } from '@lib/framework';
 
 export class PublicController extends BaseController {
   static basePath = '';
 
-  async handle(req: RequestType): Promise<ResponseType> {
-    if (req.method !== 'GET') {
-      return this.next.handle(req);
-    }
-
+  @Get('/*path')
+  async findOne(req: RequestType): Promise<ResponseType> {
     const filePath = path.join(env.publicDirPath, `.${req.path}`);
 
     const fileExists = await fs
@@ -24,7 +22,10 @@ export class PublicController extends BaseController {
       .catch(() => false);
 
     if (!fileExists) {
-      return this.next.handle(req);
+      return {
+        status: 404,
+        body: await readPublicFile('not_found.html', 'utf-8'),
+      };
     }
 
     return {

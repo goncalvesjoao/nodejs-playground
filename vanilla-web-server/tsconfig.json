@@ -2,19 +2,19 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ES2022",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
+    "experimentalDecorators": true,
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "outDir": "dist",
     "types": ["node"],
-    "baseUrl": ".",
     "paths": {
-      "@app/*": ["app/*"],
-      "@config/*": ["config/*"],
-      "@lib/*": ["lib/*"],
-      "@test/*": ["test/*"]
+      "@app/*": ["./app/*"],
+      "@config/*": ["./config/*"],
+      "@lib/*": ["./lib/*"],
+      "@test/*": ["./test/*"]
     }
   },
   "include": [

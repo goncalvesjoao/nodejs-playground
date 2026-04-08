@@ -1,24 +1,24 @@
-import { describe, mock, test } from 'node:test';
+import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RootApiController } from '@app/controllers/api-controllers';
 
-const nextServerModRun = mock.fn(async () =>
-  Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
-);
-
-const rootApiController = new RootApiController({ handle: nextServerModRun });
-
 const defaultRequest = {
   method: 'GET',
-  path: '/api/',
+  path: '/api',
   params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };
 
 void describe('app - controllers - RootApiController', () => {
-  void test('returns a welcome message when a root request is made', async () => {
-    const response = await rootApiController.handle({ ...defaultRequest });
+  void test('returns a welcome message when "/api" request is made', async () => {
+    const req = { ...defaultRequest, path: '/api' };
+    const controller = new RootApiController();
+    const handler = controller.handler(req);
+
+    assert.ok(handler, 'Expected a handler to be returned');
+
+    const response = await handler(req);
 
     assert.equal(response.status, 200);
     assert.deepEqual(response.body, {
@@ -26,11 +26,33 @@ void describe('app - controllers - RootApiController', () => {
     });
   });
 
-  void test('invokes nextServerMod when a request other than root is made', async () => {
-    nextServerModRun.mock.resetCalls();
+  void test('returns a welcome message when "/api/" request is made', async () => {
+    const req = { ...defaultRequest, path: '/api/' };
+    const controller = new RootApiController();
+    const handler = controller.handler(req);
 
-    await rootApiController.handle({ ...defaultRequest, path: '/unknown' });
+    assert.ok(handler, 'Expected a handler to be returned');
 
-    assert.equal(nextServerModRun.mock.calls.length, 1);
+    const response = await handler(req);
+
+    assert.equal(response.status, 200);
+    assert.deepEqual(response.body, {
+      message: 'Welcome to the API!',
+    });
+  });
+
+  void test('returns a 501 response when "/api/unknown" request is made', async () => {
+    const req = { ...defaultRequest, path: '/api/unknown' };
+    const controller = new RootApiController();
+    const handler = controller.handler(req);
+
+    assert.ok(handler, 'Expected a handler to be returned');
+
+    const response = await handler(req);
+
+    assert.equal(response.status, 501);
+    assert.deepEqual(response.body, {
+      message: 'Not Implemented',
+    });
   });
 });
