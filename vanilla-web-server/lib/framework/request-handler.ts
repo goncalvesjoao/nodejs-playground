@@ -14,16 +14,18 @@ export type ResponseType = {
   body?: any;
 };
 
+export type RequestHandleFunc = (req: RequestType) => Promise<ResponseType>;
+
 export abstract class RequestHandler {
   abstract handle(req: RequestType): Promise<ResponseType>;
 }
 
 export class ChainLinkRequestHandler extends RequestHandler {
-  constructor(protected next: RequestHandler) {
+  constructor(protected nextHandler: RequestHandler) {
     super();
   }
 
   handle(req: RequestType): Promise<ResponseType> {
-    return this.next.handle(req);
+    return this.nextHandler.handle(req);
   }
 }

@@ -4,21 +4,19 @@ import { RootAdminController } from '@app/controllers/admin-controllers';
 
 const defaultRequest = {
   method: 'GET',
-  path: '/admin',
+  path: '',
   params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('app - controllers - RootAdminController', () => {
+void describe('app - controllers - RootAdminController#handle', () => {
   void test('returns a Admin Home Page when "/admin" request is made', async () => {
     const req = { ...defaultRequest, path: '/admin' };
     const controller = new RootAdminController();
-    const handler = controller.handler(req);
+    const response = await controller.handle(req);
 
-    assert.ok(handler, 'Expected a handler to be returned');
-
-    const response = await handler(req);
+    assert.ok(response, 'Expected handle function to be returned');
 
     assert.equal(response.status, 200);
     assert.ok(String(response.body).includes('Admin Home Page'));
@@ -27,21 +25,19 @@ void describe('app - controllers - RootAdminController', () => {
   void test('returns a Admin Home Page when "/admin/" request is made', async () => {
     const req = { ...defaultRequest, path: '/admin/' };
     const controller = new RootAdminController();
-    const handler = controller.handler(req);
+    const response = await controller.handle(req);
 
-    assert.ok(handler, 'Expected a handler to be returned');
-
-    const response = await handler(req);
+    assert.ok(response, 'Expected handle function to be returned');
 
     assert.equal(response.status, 200);
     assert.ok(String(response.body).includes('Admin Home Page'));
   });
 
-  void test('does not return a handler when a request other than root is made', () => {
-    const req = { ...defaultRequest, path: '/admin/unknown' };
+  void test('returns false when an unknown path is requested', async () => {
+    const req = { ...defaultRequest, path: '/unknown' };
     const controller = new RootAdminController();
-    const handler = controller.handler(req);
+    const response = await controller.handle(req);
 
-    assert.equal(handler, undefined);
+    assert.equal(response, false, 'Expected handle function to be returned');
   });
 });

@@ -6,7 +6,7 @@ import {
 
 export class ContentTypeMiddleware extends ChainLinkRequestHandler {
   async handle(req: RequestType): Promise<ResponseType> {
-    const response = await this.next.handle(req);
+    const response = await this.nextHandler.handle(req);
 
     const headers = { ...response.headers };
 

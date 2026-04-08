@@ -33,10 +33,10 @@ export class WebApp extends RequestHandler {
 
 function controllerToChainLinkRequestHandler(controller: Controller) {
   return class extends ChainLinkRequestHandler {
-    handle(req: RequestType): Promise<ResponseType> {
-      const handler = controller.handler(req);
+    async handle(req: RequestType): Promise<ResponseType> {
+      const result = await controller.handle(req);
 
-      return handler ? handler(req) : this.next.handle(req);
+      return result === false ? this.nextHandler.handle(req) : result;
     }
   };
 }

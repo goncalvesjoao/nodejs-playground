@@ -5,21 +5,19 @@ import CountryList from 'country-list';
 
 const defaultRequest = {
   method: 'GET',
-  path: '/api/countries',
+  path: '',
   params: {},
   headers: {},
   body: () => Promise.resolve(Buffer.from('')),
 };
 
-void describe('app - controllers - CountriesApiController', () => {
+void describe('app - controllers - CountriesApiController#handle', () => {
   void test('returns a list of countries when "/countries" request is made', async () => {
     const req = { ...defaultRequest, path: '/api/countries' };
     const controller = new CountriesApiController();
-    const handler = controller.handler(req);
+    const response = await controller.handle(req);
 
-    assert.ok(handler, 'Expected a handler to be returned');
-
-    const response = await handler(req);
+    assert.ok(response, 'Expected handle function to be returned');
 
     assert.equal(response.status, 200);
     assert.deepEqual(response.body, {
@@ -30,11 +28,9 @@ void describe('app - controllers - CountriesApiController', () => {
   void test('returns a list of countries when "/countries/" request is made', async () => {
     const req = { ...defaultRequest, path: '/api/countries/' };
     const controller = new CountriesApiController();
-    const handler = controller.handler(req);
+    const response = await controller.handle(req);
 
-    assert.ok(handler, 'Expected a handler to be returned');
-
-    const response = await handler(req);
+    assert.ok(response, 'Expected handle function to be returned');
 
     assert.equal(response.status, 200);
     assert.deepEqual(response.body, {
@@ -42,11 +38,11 @@ void describe('app - controllers - CountriesApiController', () => {
     });
   });
 
-  void test('does not return a handler when a request is not supported', () => {
-    const req = { ...defaultRequest, method: 'OPTIONS' };
+  void test('returns false when an unknown path is requested', async () => {
+    const req = { ...defaultRequest, path: '/unknown' };
     const controller = new CountriesApiController();
-    const handler = controller.handler(req);
+    const response = await controller.handle(req);
 
-    assert.equal(handler, undefined);
+    assert.equal(response, false, 'Expected handle function to be returned');
   });
 });

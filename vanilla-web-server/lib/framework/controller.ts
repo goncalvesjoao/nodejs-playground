@@ -1,89 +1,88 @@
-import { RequestType, RequestHandler } from '@lib/framework/request-handler';
+import {
+  RequestType,
+  ResponseType,
+  RequestHandleFunc,
+} from '@lib/framework/request-handler';
 import { match } from 'path-to-regexp';
 
-export type ControllerActionMethod =
-  | 'GET'
-  | 'POST'
-  | 'PUT'
-  | 'PATCH'
-  | 'DELETE'
-  | 'OPTIONS';
-
-type ControllerAction = (
-  req: RequestType,
-) => undefined | RequestHandler['handle'];
+type ControllerHandler = (req: RequestType) => false | RequestHandleFunc;
 
 export class Controller {
   static basePath: string = '';
 
   readonly basePath = (this.constructor as typeof Controller).basePath;
 
-  handler(req: RequestType): undefined | RequestHandler['handle'] {
-    for (const action of getActions(this)) {
-      const handler = action(req);
+  async handle(req: RequestType): Promise<false | ResponseType> {
+    for (const controllerHandler of getControllerHandlers(this)) {
+      const requestHandleFunc = controllerHandler(req);
 
-      if (handler) return handler.bind(this);
+      if (requestHandleFunc) {
+        return requestHandleFunc.call(this, req);
+      }
     }
 
-    return undefined;
+    return false;
   }
 }
 
 export function Get(path: string) {
-  return Action(path, 'GET');
+  return Handle(path, ['GET']);
 }
 
 export function Post(path: string) {
-  return Action(path, 'POST');
+  return Handle(path, ['POST']);
 }
 
 export function Put(path: string) {
-  return Action(path, 'PUT');
+  return Handle(path, ['PUT']);
 }
 
 export function Patch(path: string) {
-  return Action(path, 'PATCH');
+  return Handle(path, ['PATCH']);
 }
 
 export function Delete(path: string) {
-  return Action(path, 'DELETE');
+  return Handle(path, ['DELETE']);
 }
 
 export function Options(path: string) {
-  return Action(path, 'OPTIONS');
+  return Handle(path, ['OPTIONS']);
 }
 
-export function Action(path: string, method: ControllerActionMethod) {
+export function Handle(path: string, methods: string[] = []) {
   return function (
     target: object,
     _propertyKey: string | symbol,
-    descriptor: TypedPropertyDescriptor<RequestHandler['handle']>,
+    descriptor: TypedPropertyDescriptor<RequestHandleFunc>,
   ) {
     if (typeof descriptor.value !== 'function') {
-      throw new Error('Action decorator can only be used on methods');
+      throw new Error('Handle decorator can only be used on methods');
     }
 
     if (!(target instanceof Controller)) {
       throw new Error(
-        'Action decorator can only be used on Controller subclasses',
+        'Handle decorator can only be used on Controller subclasses',
       );
     }
 
     const basePath = (target.constructor as typeof Controller).basePath;
 
-    getActions(target).push(function (
+    getControllerHandlers(target).push(function (
       req: RequestType,
-    ): undefined | RequestHandler['handle'] {
-      if (req.method !== method) return undefined;
-      if (!match(`${basePath}${path}`)(req.path)) return undefined;
+    ): false | RequestHandleFunc {
+      if (!methods.includes(req.method)) return false;
 
-      return descriptor.value;
+      if (!match(`${basePath}${path}`)(req.path)) return false;
+
+      return descriptor.value || false;
     });
   };
 }
 
-function getActions(target: any): ControllerAction[] {
-  const controllerTarget = target as { _actions: ControllerAction[] };
+function getControllerHandlers(target: any): ControllerHandler[] {
+  const controllerTarget = target as {
+    _controllerHandlers: ControllerHandler[];
+  };
 
-  return (controllerTarget._actions ||= []);
+  return (controllerTarget._controllerHandlers ||= []);
 }

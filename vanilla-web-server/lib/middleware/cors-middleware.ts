@@ -7,7 +7,7 @@ import {
 export class CorsMiddleware extends ChainLinkRequestHandler {
   async handle(req: RequestType): Promise<ResponseType> {
     if (req.method !== 'OPTIONS') {
-      return await this.next.handle(req);
+      return await this.nextHandler.handle(req);
     }
 
     return {
