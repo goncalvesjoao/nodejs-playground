@@ -44,17 +44,14 @@ export class Middleware extends RequestHandler {
 }
 
 type ControllerActionType = {
+  handler: RequestHandleFunc;
   methods: string[];
   path: string;
-  name: keyof Controller;
 };
 
 export class Controller {
   static basePath: string = '';
-
-  static getActions(instance: Controller): ControllerActionType[] {
-    return (instance.actions ||= []);
-  }
+  static actions: ControllerActionType[] = [];
 
   static getAncestorBasePath(klass: typeof Controller): string {
     if (typeof klass.basePath !== 'string') return '';
@@ -82,14 +79,12 @@ export class Controller {
     };
   }
 
-  readonly path = Controller.getAncestorBasePath(
-    this.constructor as typeof Controller,
-  );
+  protected klass = this.constructor as typeof Controller;
 
-  actions: ControllerActionType[] = Controller.getActions(this);
+  readonly path = Controller.getAncestorBasePath(this.klass);
 
   async handle(req: RequestType): Promise<false | ResponseType> {
-    for (const action of this.actions) {
+    for (const action of this.klass.actions) {
       if (!action.methods.includes(req.method)) continue;
 
       const reqPath = req.path.startsWith('/') ? req.path : `/${req.path}`;
@@ -98,11 +93,7 @@ export class Controller {
 
       if (matchResult === false) continue;
 
-      const actionFunc = this[action.name] as RequestHandleFunc;
-
-      if (!actionFunc) continue;
-
-      return actionFunc.call(this, {
+      return action.handler.call(this, {
         ...req,
         path: reqPath,
         pathParams: matchResult.params,
@@ -122,12 +113,15 @@ export const Options = Action.bind(null, ['OPTIONS']);
 export function Action(methods: string[], path: string) {
   return function (
     target: Controller,
-    propertyKey: string | symbol,
+    _propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<RequestHandleFunc>,
   ) {
-    const name = propertyKey.toString() as keyof Controller;
+    const klass = target.constructor as typeof Controller;
+    const handler = descriptor.value;
 
-    Controller.getActions(target).push({ methods, path, name });
+    if (!handler) return descriptor;
+
+    klass.actions.push({ methods, path, handler });
 
     return descriptor;
   };
