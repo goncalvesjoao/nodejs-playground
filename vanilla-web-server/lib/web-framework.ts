@@ -59,12 +59,7 @@ export class Controller {
       Object.getPrototypeOf(klass) as typeof Controller,
     );
 
-    return path.join(
-      parentPath,
-      klass.basePath.endsWith('/')
-        ? klass.basePath.slice(0, -1)
-        : klass.basePath,
-    );
+    return path.join(parentPath, klass.basePath.replace(/\/+$/g, ''));
   }
 
   static buildMiddleware(controller: Controller) {
