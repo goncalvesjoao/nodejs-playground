@@ -43,15 +43,14 @@ export class Middleware extends RequestHandler {
   }
 }
 
-type ControllerActionType = {
-  handler: RequestHandleFunc;
-  methods: string[];
-  path: string;
-};
-
 export class Controller {
   static basePath: string = '';
-  static actions: ControllerActionType[] = [];
+
+  static actions: Array<{
+    handler: RequestHandleFunc;
+    methods: string[];
+    path: string;
+  }> = [];
 
   static composePath(klass: typeof Controller): string {
     if (typeof klass.basePath !== 'string') return '/';
@@ -87,8 +86,9 @@ export class Controller {
       if (!action.methods.includes(req.method)) continue;
 
       const reqPath = req.path.startsWith('/') ? req.path : `/${req.path}`;
+      const route = `${this.path}${action.path}`.replace(/\/+/g, '/');
 
-      const matchResult = match(`${this.path}${action.path}`)(reqPath);
+      const matchResult = match(route)(reqPath);
 
       if (matchResult === false) continue;
 
