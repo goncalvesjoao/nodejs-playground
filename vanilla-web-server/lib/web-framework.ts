@@ -53,16 +53,15 @@ export class Controller {
   static basePath: string = '';
   static actions: ControllerActionType[] = [];
 
-  static getAncestorBasePath(klass: typeof Controller): string {
-    if (typeof klass.basePath !== 'string') return '';
+  static composePath(klass: typeof Controller): string {
+    if (typeof klass.basePath !== 'string') return '/';
 
-    const parentBasePath = Controller.getAncestorBasePath(
+    const parentPath = Controller.composePath(
       Object.getPrototypeOf(klass) as typeof Controller,
     );
 
     return path.join(
-      '/',
-      parentBasePath,
+      parentPath,
       klass.basePath.endsWith('/')
         ? klass.basePath.slice(0, -1)
         : klass.basePath,
@@ -81,7 +80,7 @@ export class Controller {
 
   protected klass = this.constructor as typeof Controller;
 
-  readonly path = Controller.getAncestorBasePath(this.klass);
+  readonly path = Controller.composePath(this.klass);
 
   async handle(req: RequestType): Promise<false | ResponseType> {
     for (const action of this.klass.actions) {
@@ -116,14 +115,15 @@ export function Action(methods: string[], path: string) {
     _propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<RequestHandleFunc>,
   ) {
+    if (!descriptor.value) return;
+
     const klass = target.constructor as typeof Controller;
-    const handler = descriptor.value;
 
-    if (!handler) return descriptor;
+    // static actions property will include parent class's actions,
+    // since we want each controller to only handle their own actions, we need to filter them out
+    if (!Object.hasOwn(klass, 'actions')) klass.actions = [];
 
-    klass.actions.push({ methods, path, handler });
-
-    return descriptor;
+    klass.actions.push({ methods, path, handler: descriptor.value });
   };
 }
 
