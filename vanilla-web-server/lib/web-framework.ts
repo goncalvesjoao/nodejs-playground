@@ -62,16 +62,6 @@ export class Controller {
     return path.join(parentPath, klass.basePath.replace(/\/+$/g, ''));
   }
 
-  static buildMiddleware(controller: Controller) {
-    return class extends Middleware {
-      async handle(req: RequestType): Promise<ResponseType> {
-        const result = await controller.handle(req);
-
-        return result === false ? this.nextHandler.handle(req) : result;
-      }
-    };
-  }
-
   protected klass = this.constructor as typeof Controller;
 
   readonly path = Controller.composePath(this.klass);
@@ -132,9 +122,7 @@ export class WebApp extends RequestHandler {
     return (this._handler ||= Middleware.compose(
       [
         ...this.middlewares,
-        ...this.controllers.map((controller) =>
-          Controller.buildMiddleware(controller),
-        ),
+        ...this.controllers.map(controllerMiddlewareBuilder),
       ],
       this.fallback.bind(this),
     ));
@@ -147,4 +135,14 @@ export class WebApp extends RequestHandler {
   async fallback(_req: RequestType): Promise<ResponseType> {
     return Promise.resolve({ status: 501 });
   }
+}
+
+function controllerMiddlewareBuilder(controller: Controller) {
+  return class extends Middleware {
+    async handle(req: RequestType): Promise<ResponseType> {
+      const result = await controller.handle(req);
+
+      return result === false ? this.nextHandler.handle(req) : result;
+    }
+  };
 }
