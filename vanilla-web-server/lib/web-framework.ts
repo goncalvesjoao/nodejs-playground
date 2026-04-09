@@ -11,10 +11,10 @@ export type RequestType = {
   queryParams: Record<string, string>;
 };
 
-export type ResponseType = {
+export type ResponseType<T = any> = {
   status: number;
   headers?: OutgoingHttpHeaders;
-  body?: any;
+  body?: T;
 };
 
 export type RequestHandleFunc = (req: RequestType) => Promise<ResponseType>;
