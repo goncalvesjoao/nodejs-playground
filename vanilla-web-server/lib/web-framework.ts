@@ -52,10 +52,10 @@ export class Controller {
     path: string;
   }> = [];
 
-  static composePath(klass: typeof Controller): string {
+  static path(klass: typeof Controller): string {
     if (typeof klass.basePath !== 'string') return '/';
 
-    const parentPath = Controller.composePath(
+    const parentPath = Controller.path(
       Object.getPrototypeOf(klass) as typeof Controller,
     );
 
@@ -64,7 +64,7 @@ export class Controller {
 
   protected klass = this.constructor as typeof Controller;
 
-  readonly path = Controller.composePath(this.klass);
+  readonly path = Controller.path(this.klass);
 
   async handle(req: RequestType): Promise<false | ResponseType> {
     for (const action of this.klass.actions) {
