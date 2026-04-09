@@ -14,7 +14,7 @@ import {
 import { WebApp } from '@lib/web-framework';
 
 export class App extends WebApp {
-  middleware = [CorsMiddleware, BodyParserMiddleware, ContentTypeMiddleware];
+  middlewares = [CorsMiddleware, BodyParserMiddleware, ContentTypeMiddleware];
 
   controllers = [
     new CountriesApiController(),
