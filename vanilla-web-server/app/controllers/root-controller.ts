@@ -8,7 +8,7 @@ import {
 export class RootController extends BaseController {
   static basePath = '';
 
-  @Get('{/}')
+  @Get('')
   async index(_req: RequestType): Promise<ResponseType> {
     const data = { title: 'Home Page' };
 

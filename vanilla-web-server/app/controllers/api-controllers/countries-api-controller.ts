@@ -7,9 +7,9 @@ import { ApiController } from '@app/controllers/api-controller';
 import CountryList from 'country-list';
 
 export class CountriesApiController extends ApiController {
-  static basePath = `${super.basePath}/countries`;
+  static basePath = 'countries';
 
-  @Get('{/}')
+  @Get('')
   findAll(_req: RequestType): Promise<ResponseType> {
     const results: CountryList.Country[] = CountryList.getData();
 

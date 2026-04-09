@@ -1,4 +1,4 @@
-import { WebServer } from '@lib/framework';
+import { WebServer } from '@lib/web-server';
 import { App } from '@app/index';
 import { env } from '@config/env';
 

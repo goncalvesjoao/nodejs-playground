@@ -11,7 +11,7 @@ import {
   RootController,
   AuthController,
 } from '@app/controllers';
-import { WebApp } from '@lib/framework';
+import { WebApp } from '@lib/web-framework';
 
 export class App extends WebApp {
   middleware = [CorsMiddleware, BodyParserMiddleware, ContentTypeMiddleware];

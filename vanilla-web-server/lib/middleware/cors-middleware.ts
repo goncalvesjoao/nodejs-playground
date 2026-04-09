@@ -1,10 +1,6 @@
-import {
-  ChainLinkRequestHandler,
-  RequestType,
-  ResponseType,
-} from '@lib/framework/request-handler';
+import { Middleware, RequestType, ResponseType } from '@lib/web-framework';
 
-export class CorsMiddleware extends ChainLinkRequestHandler {
+export class CorsMiddleware extends Middleware {
   async handle(req: RequestType): Promise<ResponseType> {
     if (req.method !== 'OPTIONS') {
       return await this.nextHandler.handle(req);

@@ -1,5 +1,5 @@
 import * as http from 'http';
-import { RequestHandler } from '@lib/framework';
+import { RequestHandler } from '@lib/web-framework';
 
 export class Logger {
   log(..._args: unknown[]) {}
@@ -48,7 +48,8 @@ export class WebServer {
             headers: req.headers,
             method: req.method ?? 'GET',
             path: url.pathname,
-            params: Object.fromEntries(url.searchParams),
+            pathParams: {},
+            queryParams: Object.fromEntries(url.searchParams),
           })
           .then(({ status, headers, body }) => {
             res.writeHead(status, headers);

@@ -1,7 +1,7 @@
 import { describe, test, mock } from 'node:test';
 import assert from 'node:assert/strict';
-import { WebServer } from '@lib/framework';
-import type { RequestType } from '@lib/framework';
+import { WebServer } from '@lib/web-server';
+import type { RequestType } from '@lib/web-framework';
 
 const mockedHandle = mock.fn(async (_req: RequestType) =>
   Promise.resolve({ status: 418, headers: {}, body: `I'm a teapot` }),
@@ -30,7 +30,7 @@ void describe('lib - framework - WebServer', () => {
 
     assert.strictEqual(receivedRequest.method, 'POST');
     assert.strictEqual(receivedRequest.path, '/posts');
-    assert.strictEqual(receivedRequest.params['timestamp'], '123');
+    assert.strictEqual(receivedRequest.queryParams['timestamp'], '123');
     assert.strictEqual(receivedRequest.headers.authorization, 'Bearer <token>');
 
     const bodyText = (await receivedRequest.body()).toString();

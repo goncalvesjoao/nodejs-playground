@@ -1,10 +1,6 @@
-import {
-  ChainLinkRequestHandler,
-  RequestType,
-  ResponseType,
-} from '@lib/framework/request-handler';
+import { Middleware, RequestType, ResponseType } from '@lib/web-framework';
 
-export class BodyParserMiddleware extends ChainLinkRequestHandler {
+export class BodyParserMiddleware extends Middleware {
   async handle(req: RequestType): Promise<ResponseType> {
     const response = await this.nextHandler.handle(req);
 

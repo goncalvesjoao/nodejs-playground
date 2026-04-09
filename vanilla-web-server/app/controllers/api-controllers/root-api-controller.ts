@@ -6,11 +6,11 @@ import {
 } from '@app/controllers/base-controller';
 
 export class RootApiController extends ApiController {
-  static basePath = super.basePath;
+  static basePath = '';
 
-  @Get('{*path}')
+  @Get('{/*path}')
   async index(req: RequestType): Promise<ResponseType> {
-    if (req.path === this.basePath || req.path === `${this.basePath}/`) {
+    if (req.path === this.path || req.path === `${this.path}/`) {
       return Promise.resolve({
         status: 200,
         body: { message: 'Welcome to the API!' },

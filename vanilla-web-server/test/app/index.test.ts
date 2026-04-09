@@ -2,23 +2,13 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { App } from '@app/index';
 import { readPublicFile } from '@app/utils';
+import { RequestBuilder } from '@test/support/utils';
 
 const app = new App();
 
-const defaultRequest = {
-  method: 'GET',
-  path: '/',
-  params: {},
-  headers: {},
-  body: () => Promise.resolve(Buffer.from('')),
-};
-
 void describe('app integration tests', () => {
   void test('OPTIONS / - should return a positive CORS response', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'OPTIONS',
-    });
+    const response = await app.handle(RequestBuilder({ method: 'OPTIONS' }));
 
     assert.equal(response.status, 204, 'Response status should be 204');
     assert.equal(
@@ -29,11 +19,7 @@ void describe('app integration tests', () => {
   });
 
   void test('GET / - should return the home page', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'GET',
-      path: '/',
-    });
+    const response = await app.handle(RequestBuilder({ path: '/' }));
 
     assert.equal(response.status, 200, 'Response status should be 200');
     assert.equal((response.headers || {})['Content-Type'], 'text/html');
@@ -44,11 +30,7 @@ void describe('app integration tests', () => {
   });
 
   void test('GET /unknown - should return a 404 page', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'GET',
-      path: '/unknown',
-    });
+    const response = await app.handle(RequestBuilder({ path: '/unknown' }));
 
     assert.equal(response.status, 404, 'Response status should be 404');
     assert.equal((response.headers || {})['Content-Type'], 'text/html');
@@ -59,11 +41,7 @@ void describe('app integration tests', () => {
   });
 
   void test('GET /api - should return a JSON response', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'GET',
-      path: '/api',
-    });
+    const response = await app.handle(RequestBuilder({ path: '/api' }));
 
     assert.equal(response.status, 200, 'Response status should be 200');
     assert.equal((response.headers || {})['Content-Type'], 'application/json');
@@ -75,11 +53,7 @@ void describe('app integration tests', () => {
   });
 
   void test('GET /api/unknown - should return a 501 JSON response', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'GET',
-      path: '/api/unknown',
-    });
+    const response = await app.handle(RequestBuilder({ path: '/api/unknown' }));
 
     assert.equal(response.status, 501, 'Response status should be 501');
     assert.equal((response.headers || {})['Content-Type'], 'application/json');
@@ -91,11 +65,9 @@ void describe('app integration tests', () => {
   });
 
   void test('GET /assets/chippy.jpg - should return a jpg image', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'GET',
-      path: '/assets/chippy.jpg',
-    });
+    const response = await app.handle(
+      RequestBuilder({ path: '/assets/chippy.jpg' }),
+    );
 
     assert.equal(response.status, 200, 'Response status should be 200');
     assert.equal((response.headers || {})['Content-Type'], 'image/jpg');
@@ -108,11 +80,9 @@ void describe('app integration tests', () => {
   });
 
   void test('GET /assets/unknown - should return a 404 response', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'GET',
-      path: '/assets/unknown',
-    });
+    const response = await app.handle(
+      RequestBuilder({ path: '/assets/unknown' }),
+    );
 
     assert.equal(response.status, 404, 'Response status should be 404');
     assert.equal((response.headers || {})['Content-Type'], 'text/html');
@@ -120,11 +90,7 @@ void describe('app integration tests', () => {
   });
 
   void test('GET /admin - returns Admin Home Page HTML', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'GET',
-      path: '/admin',
-    });
+    const response = await app.handle(RequestBuilder({ path: '/admin' }));
 
     assert.equal(response.status, 200, 'Response status should be 200');
     assert.equal((response.headers || {})['Content-Type'], 'text/html');
@@ -132,11 +98,9 @@ void describe('app integration tests', () => {
   });
 
   void test('GET /admin/unknown - should return a 404 response', async () => {
-    const response = await app.handle({
-      ...defaultRequest,
-      method: 'GET',
-      path: '/admin/unknown',
-    });
+    const response = await app.handle(
+      RequestBuilder({ path: '/admin/unknown' }),
+    );
 
     assert.equal(response.status, 404, 'Response status should be 404');
     assert.equal((response.headers || {})['Content-Type'], 'text/html');

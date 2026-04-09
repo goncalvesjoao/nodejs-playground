@@ -6,7 +6,7 @@ import {
 } from '@app/controllers/base-controller';
 
 export class AuthController extends BaseController {
-  static basePath = '/auth';
+  static basePath = 'auth';
 
   @Get('login')
   async showLogin(_req: RequestType): Promise<ResponseType> {

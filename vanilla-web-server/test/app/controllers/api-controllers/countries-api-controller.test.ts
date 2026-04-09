@@ -2,20 +2,14 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CountriesApiController } from '@app/controllers/api-controllers';
 import CountryList from 'country-list';
-
-const defaultRequest = {
-  method: 'GET',
-  path: '',
-  params: {},
-  headers: {},
-  body: () => Promise.resolve(Buffer.from('')),
-};
+import { RequestBuilder } from '@test/support/utils';
 
 void describe('app - controllers - CountriesApiController#handle', () => {
   void test('returns a list of countries when "/countries" request is made', async () => {
-    const req = { ...defaultRequest, path: '/api/countries' };
     const controller = new CountriesApiController();
-    const response = await controller.handle(req);
+    const response = await controller.handle(
+      RequestBuilder({ path: '/api/countries' }),
+    );
 
     assert.ok(response, 'Expected handle function to be returned');
 
@@ -26,9 +20,10 @@ void describe('app - controllers - CountriesApiController#handle', () => {
   });
 
   void test('returns a list of countries when "/countries/" request is made', async () => {
-    const req = { ...defaultRequest, path: '/api/countries/' };
     const controller = new CountriesApiController();
-    const response = await controller.handle(req);
+    const response = await controller.handle(
+      RequestBuilder({ path: '/api/countries/' }),
+    );
 
     assert.ok(response, 'Expected handle function to be returned');
 
@@ -36,13 +31,5 @@ void describe('app - controllers - CountriesApiController#handle', () => {
     assert.deepEqual(response.body, {
       results: CountryList.getData(),
     });
-  });
-
-  void test('returns false when an unknown path is requested', async () => {
-    const req = { ...defaultRequest, path: '/unknown' };
-    const controller = new CountriesApiController();
-    const response = await controller.handle(req);
-
-    assert.equal(response, false, 'Expected handle function to be returned');
   });
 });
