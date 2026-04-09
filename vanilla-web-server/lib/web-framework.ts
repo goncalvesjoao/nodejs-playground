@@ -55,7 +55,7 @@ export class Controller {
   static path(klass: typeof Controller): string {
     if (typeof klass.basePath !== 'string') return '/';
 
-    const parentPath = Controller.path(
+    const parentPath = this.path(
       Object.getPrototypeOf(klass) as typeof Controller,
     );
 
@@ -64,7 +64,7 @@ export class Controller {
 
   protected klass = this.constructor as typeof Controller;
 
-  readonly path = Controller.path(this.klass);
+  readonly path = this.klass.path(this.klass);
 
   async handle(req: RequestType): Promise<false | ResponseType> {
     for (const action of this.klass.actions) {
